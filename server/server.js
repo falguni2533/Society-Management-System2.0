@@ -55,6 +55,8 @@ app.get('/api/health', (req, res) => {
 // Mount Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
+app.use('/api/complaints', require('./routes/complaintRoutes'));
+app.use('/api/notices', require('./routes/noticeRoutes'));
 
 // 404 Route Handler
 app.use('*', (req, res) => {

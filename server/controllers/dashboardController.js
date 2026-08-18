@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const Flat = require('../models/Flat');
+const Complaint = require('../models/Complaint');
+const Notice = require('../models/Notice');
 
 // @desc    Get Resident Dashboard data
 // @route   GET /api/dashboard/resident
@@ -7,6 +9,12 @@ const Flat = require('../models/Flat');
 const getResidentDashboard = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).populate('flat');
+
+    const [activeComplaints, resolvedComplaints, totalNotices] = await Promise.all([
+      Complaint.countDocuments({ resident: req.user.id, status: { $ne: 'Resolved' } }),
+      Complaint.countDocuments({ resident: req.user.id, status: 'Resolved' }),
+      Notice.countDocuments(),
+    ]);
 
     res.status(200).json({
       success: true,
@@ -29,10 +37,12 @@ const getResidentDashboard = async (req, res, next) => {
             }
           : null,
         stats: {
-          pendingComplaints: 0,
+          activeComplaints,
+          resolvedComplaints,
+          totalComplaints: activeComplaints + resolvedComplaints,
+          totalNotices,
           pendingBills: 0,
           expectedVisitorsToday: 0,
-          unreadNotices: 0,
         },
         message: 'Welcome to your Resident Portal',
       },
@@ -54,6 +64,11 @@ const getAdminDashboard = async (req, res, next) => {
       totalFlats,
       occupiedFlats,
       vacantFlats,
+      totalComplaints,
+      openComplaints,
+      inProgressComplaints,
+      resolvedComplaints,
+      totalNotices,
     ] = await Promise.all([
       User.countDocuments({ role: 'resident' }),
       User.countDocuments({ role: 'security' }),
@@ -61,6 +76,11 @@ const getAdminDashboard = async (req, res, next) => {
       Flat.countDocuments(),
       Flat.countDocuments({ status: 'occupied' }),
       Flat.countDocuments({ status: 'vacant' }),
+      Complaint.countDocuments(),
+      Complaint.countDocuments({ status: 'Open' }),
+      Complaint.countDocuments({ status: 'In Progress' }),
+      Complaint.countDocuments({ status: 'Resolved' }),
+      Notice.countDocuments(),
     ]);
 
     res.status(200).json({
@@ -78,15 +98,16 @@ const getAdminDashboard = async (req, res, next) => {
           },
         },
         stats: {
-          totalComplaints: 0,
-          openComplaints: 0,
-          activeNotices: 0,
+          totalComplaints,
+          openComplaints,
+          inProgressComplaints,
+          resolvedComplaints,
+          totalNotices,
           pendingDues: 0,
         },
         systemStatus: {
           status: 'Operational',
           database: 'Connected',
-          phase: 'Phase 1 - Core Auth & Setup Complete',
         },
       },
     });
@@ -100,8 +121,11 @@ const getAdminDashboard = async (req, res, next) => {
 // @access  Private (Security, Admin)
 const getSecurityDashboard = async (req, res, next) => {
   try {
-    const totalFlats = await Flat.countDocuments();
-    const totalResidents = await User.countDocuments({ role: 'resident' });
+    const [totalFlats, totalResidents, totalNotices] = await Promise.all([
+      Flat.countDocuments(),
+      User.countDocuments({ role: 'resident' }),
+      Notice.countDocuments(),
+    ]);
 
     res.status(200).json({
       success: true,
@@ -118,6 +142,7 @@ const getSecurityDashboard = async (req, res, next) => {
           expectedVisitorsToday: 0,
           currentlyInside: 0,
           completedVisitsToday: 0,
+          totalNotices,
         },
         societyOverview: {
           totalFlats,
