@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import authService from '../services/authService';
 import {
@@ -7,13 +8,12 @@ import {
   CreditCard,
   Bell,
   Users,
-  Bot,
   CheckCircle2,
   Phone,
   Mail,
   Building,
   Loader2,
-  Calendar,
+  ArrowRight,
 } from 'lucide-react';
 
 const ResidentDashboard = () => {
@@ -48,6 +48,13 @@ const ResidentDashboard = () => {
   }
 
   const flatInfo = dashboardData?.flat || user?.flat;
+  const stats = dashboardData?.stats || {
+    activeComplaints: 0,
+    resolvedComplaints: 0,
+    totalNotices: 0,
+    pendingBills: 0,
+    expectedVisitorsToday: 0,
+  };
 
   return (
     <div className="space-y-6">
@@ -90,18 +97,45 @@ const ResidentDashboard = () => {
 
       {/* Overview Stat Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+        <Link
+          to="/resident/complaints"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition-all flex items-center justify-between group"
+        >
           <div>
             <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Complaints
+              My Complaints
             </p>
-            <p className="text-2xl font-bold text-slate-900 mt-1">0 Active</p>
-            <p className="text-xs text-slate-500 mt-1">No issues raised</p>
+            <p className="text-2xl font-bold text-slate-900 mt-1">
+              {stats.activeComplaints} Active
+            </p>
+            <p className="text-xs text-blue-600 font-medium mt-1 flex items-center gap-1">
+              View tickets <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </p>
           </div>
           <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
             <AlertCircle className="w-6 h-6" />
           </div>
-        </div>
+        </Link>
+
+        <Link
+          to="/resident/notices"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition-all flex items-center justify-between group"
+        >
+          <div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+              Society Notices
+            </p>
+            <p className="text-2xl font-bold text-slate-900 mt-1">
+              {stats.totalNotices} Available
+            </p>
+            <p className="text-xs text-blue-600 font-medium mt-1 flex items-center gap-1">
+              Read circulars <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </p>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <Bell className="w-6 h-6" />
+          </div>
+        </Link>
 
         <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
@@ -126,19 +160,6 @@ const ResidentDashboard = () => {
           </div>
           <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
             <Users className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Society Notices
-            </p>
-            <p className="text-2xl font-bold text-slate-900 mt-1">0 Unread</p>
-            <p className="text-xs text-slate-500 mt-1">Broadcast bulletin</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-            <Bell className="w-6 h-6" />
           </div>
         </div>
       </div>
@@ -190,55 +211,65 @@ const ResidentDashboard = () => {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <Building className="w-5 h-5 text-blue-600" />
-              Society Services & Guidelines
+              Society Services & Quick Links
             </h2>
             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-              Resident Quick Info
+              Resident Portal
             </span>
           </div>
 
           <p className="text-sm text-slate-600 mb-5">
-            Important resident services and security guidelines for SocietySphere residents:
+            Access society services directly from your dashboard:
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm">
-            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
-                1
+            <Link
+              to="/resident/complaints"
+              className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-blue-50/60 hover:border-blue-200 transition-all flex items-start gap-3 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                <AlertCircle className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-semibold text-slate-800">Visitor Entry Registration</div>
-                <div className="text-xs text-slate-500">Pre-approve guests for faster checkpoint entry at Main Gate.</div>
+                <div className="font-semibold text-slate-800 group-hover:text-blue-700">
+                  Maintenance Complaints
+                </div>
+                <div className="text-xs text-slate-500">Raise and track plumbing, electrical, or cleaning tickets.</div>
               </div>
-            </div>
+            </Link>
 
-            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
-                2
+            <Link
+              to="/resident/notices"
+              className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-blue-50/60 hover:border-blue-200 transition-all flex items-start gap-3 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                <Bell className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="font-semibold text-slate-800 group-hover:text-purple-700">
+                  Society Circulars
+                </div>
+                <div className="text-xs text-slate-500">Stay updated on society meetings, rules, and announcements.</div>
+              </div>
+            </Link>
+
+            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                <CreditCard className="w-4 h-4" />
               </div>
               <div>
                 <div className="font-semibold text-slate-800">Maintenance & Dues</div>
-                <div className="text-xs text-slate-500">Track monthly maintenance bills and payment history online.</div>
+                <div className="text-xs text-slate-500">View bill statements and payment status.</div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
-                3
+            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center shrink-0">
+                <Users className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-semibold text-slate-800">Complaints & Helpdesk</div>
-                <div className="text-xs text-slate-500">Raise maintenance or facility tickets directly to the administration.</div>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
-                4
-              </div>
-              <div>
-                <div className="font-semibold text-slate-800">Society Bulletins</div>
-                <div className="text-xs text-slate-500">Stay updated on AGM notices, maintenance drives, and community events.</div>
+                <div className="font-semibold text-slate-800">Visitor Pre-Approval</div>
+                <div className="text-xs text-slate-500">Register expected guests for gate clearance.</div>
               </div>
             </div>
           </div>
@@ -249,4 +280,3 @@ const ResidentDashboard = () => {
 };
 
 export default ResidentDashboard;
-

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import authService from '../services/authService';
 import {
@@ -7,6 +8,11 @@ import {
   Users,
   Activity,
   Loader2,
+  AlertCircle,
+  Bell,
+  ArrowRight,
+  CheckCircle2,
+  Clock,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -46,6 +52,14 @@ const AdminDashboard = () => {
     admins: 0,
     totalUsers: 0,
     flats: { total: 0, occupied: 0, vacant: 0 },
+  };
+
+  const stats = data?.stats || {
+    totalComplaints: 0,
+    openComplaints: 0,
+    inProgressComplaints: 0,
+    resolvedComplaints: 0,
+    totalNotices: 0,
   };
 
   return (
@@ -135,9 +149,86 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Complaints & Notices Operational Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Complaints Overview Card */}
+        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Complaints Summary</h2>
+                  <p className="text-xs text-slate-500">Maintenance & service tickets</p>
+                </div>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">
+                {stats.totalComplaints} Total
+              </span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 my-4">
+              <div className="p-3 rounded-lg bg-blue-50/70 border border-blue-100 text-center">
+                <div className="text-xl font-bold text-blue-700">{stats.openComplaints}</div>
+                <div className="text-[11px] font-medium text-blue-600 mt-0.5">Open</div>
+              </div>
+              <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-center">
+                <div className="text-xl font-bold text-amber-700">{stats.inProgressComplaints}</div>
+                <div className="text-[11px] font-medium text-amber-600 mt-0.5">In Progress</div>
+              </div>
+              <div className="p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-center">
+                <div className="text-xl font-bold text-emerald-700">{stats.resolvedComplaints}</div>
+                <div className="text-[11px] font-medium text-emerald-600 mt-0.5">Resolved</div>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            to="/admin/complaints"
+            className="inline-flex items-center justify-between p-3 rounded-lg bg-slate-50 hover:bg-purple-50/60 border border-slate-200 hover:border-purple-200 text-xs font-semibold text-purple-900 transition-all mt-2 group"
+          >
+            <span>Manage & resolve tickets</span>
+            <ArrowRight className="w-4 h-4 text-purple-700 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        {/* Notices Overview Card */}
+        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center">
+                  <Bell className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Notice Board</h2>
+                  <p className="text-xs text-slate-500">Official circulars & broadcasts</p>
+                </div>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">
+                {stats.totalNotices} Active
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed my-4">
+              Publish society maintenance announcements, meeting notices, rules, and circulars visible to all residents and security personnel.
+            </p>
+          </div>
+
+          <Link
+            to="/admin/notices"
+            className="inline-flex items-center justify-between p-3 rounded-lg bg-slate-50 hover:bg-purple-50/60 border border-slate-200 hover:border-purple-200 text-xs font-semibold text-purple-900 transition-all mt-2 group"
+          >
+            <span>Publish & manage notices</span>
+            <ArrowRight className="w-4 h-4 text-purple-700 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default AdminDashboard;
-
