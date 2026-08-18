@@ -59,25 +59,19 @@ const Navbar = () => {
       case 'admin':
         return [
           { name: 'Dashboard', path: '/admin', icon: Home },
-          { name: 'Residents & Flats', path: '/admin#flats', icon: Users },
-          { name: 'Complaints', path: '/admin#complaints', icon: AlertCircle },
-          { name: 'Notices', path: '/admin#notices', icon: FileText },
-          { name: 'Maintenance', path: '/admin#bills', icon: CreditCard },
+          { name: 'Complaints', path: '/admin/complaints', icon: AlertCircle },
+          { name: 'Notices', path: '/admin/notices', icon: FileText },
         ];
       case 'security':
         return [
           { name: 'Gate Checkpoint', path: '/security', icon: Shield },
-          { name: 'Expected Visitors', path: '/security#expected', icon: Users },
-          { name: 'Visitor Log', path: '/security#logs', icon: FileText },
         ];
       case 'resident':
       default:
         return [
           { name: 'Dashboard', path: '/resident', icon: Home },
-          { name: 'Complaints', path: '/resident#complaints', icon: AlertCircle },
-          { name: 'Maintenance Bills', path: '/resident#bills', icon: CreditCard },
-          { name: 'Notices', path: '/resident#notices', icon: FileText },
-          { name: 'AI Assistant', path: '/resident#ai', icon: Bot },
+          { name: 'Complaints', path: '/resident/complaints', icon: AlertCircle },
+          { name: 'Notices', path: '/resident/notices', icon: FileText },
         ];
     }
   };

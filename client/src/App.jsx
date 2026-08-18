@@ -5,7 +5,11 @@ import MainLayout from './layouts/MainLayout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ResidentDashboard from './pages/ResidentDashboard';
+import ResidentComplaintsPage from './pages/ResidentComplaintsPage';
+import ResidentNoticesPage from './pages/ResidentNoticesPage';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminComplaintsPage from './pages/AdminComplaintsPage';
+import AdminNoticesPage from './pages/AdminNoticesPage';
 import SecurityDashboard from './pages/SecurityDashboard';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -36,6 +40,7 @@ function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<RootRedirect />} />
 
+        {/* Resident Routes */}
         <Route
           path="/resident"
           element={
@@ -44,7 +49,24 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/resident/complaints"
+          element={
+            <ProtectedRoute allowedRoles={['resident', 'admin']}>
+              <ResidentComplaintsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resident/notices"
+          element={
+            <ProtectedRoute allowedRoles={['resident', 'admin']}>
+              <ResidentNoticesPage />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* Admin Routes */}
         <Route
           path="/admin"
           element={
@@ -53,7 +75,24 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/complaints"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminComplaintsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/notices"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminNoticesPage />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* Security Routes */}
         <Route
           path="/security"
           element={
