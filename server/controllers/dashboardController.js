@@ -2,19 +2,49 @@ const User = require('../models/User');
 const Flat = require('../models/Flat');
 const Complaint = require('../models/Complaint');
 const Notice = require('../models/Notice');
+const Bill = require('../models/Bill');
+const Visitor = require('../models/Visitor');
 
 // @desc    Get Resident Dashboard data
 // @route   GET /api/dashboard/resident
 // @access  Private (Resident, Admin)
 const getResidentDashboard = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).populate('flat');
+    const userId = req.user._id || req.user.id;
+    const user = (await User.findById(userId).populate('flat')) || req.user;
 
-    const [activeComplaints, resolvedComplaints, totalNotices] = await Promise.all([
-      Complaint.countDocuments({ resident: req.user.id, status: { $ne: 'Resolved' } }),
-      Complaint.countDocuments({ resident: req.user.id, status: 'Resolved' }),
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const [
+      activeComplaints,
+      resolvedComplaints,
+      totalNotices,
+      pendingBillsCount,
+      residentBills,
+      expectedVisitorsToday,
+    ] = await Promise.all([
+      Complaint.countDocuments({ resident: userId, status: { $ne: 'Resolved' } }),
+      Complaint.countDocuments({ resident: userId, status: 'Resolved' }),
       Notice.countDocuments(),
+      Bill.countDocuments({
+        resident: userId,
+        status: { $in: ['Pending', 'Overdue'] },
+      }),
+      Bill.find({
+        resident: userId,
+        status: { $in: ['Pending', 'Overdue'] },
+      }),
+      Visitor.countDocuments({
+        resident: userId,
+        expectedDate: { $gte: startOfToday, $lte: endOfToday },
+        status: 'Pre-Approved',
+      }),
     ]);
+
+    const totalPendingAmount = residentBills.reduce((sum, b) => sum + (b.amount || 0), 0);
 
     res.status(200).json({
       success: true,
@@ -41,8 +71,9 @@ const getResidentDashboard = async (req, res, next) => {
           resolvedComplaints,
           totalComplaints: activeComplaints + resolvedComplaints,
           totalNotices,
-          pendingBills: 0,
-          expectedVisitorsToday: 0,
+          pendingBills: pendingBillsCount,
+          totalPendingAmount,
+          expectedVisitorsToday,
         },
         message: 'Welcome to your Resident Portal',
       },
@@ -57,6 +88,11 @@ const getResidentDashboard = async (req, res, next) => {
 // @access  Private (Admin)
 const getAdminDashboard = async (req, res, next) => {
   try {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
     const [
       totalResidents,
       totalSecurity,
@@ -69,6 +105,11 @@ const getAdminDashboard = async (req, res, next) => {
       inProgressComplaints,
       resolvedComplaints,
       totalNotices,
+      totalBills,
+      allBills,
+      totalVisitors,
+      expectedVisitorsToday,
+      activeVisitorsInside,
     ] = await Promise.all([
       User.countDocuments({ role: 'resident' }),
       User.countDocuments({ role: 'security' }),
@@ -81,7 +122,21 @@ const getAdminDashboard = async (req, res, next) => {
       Complaint.countDocuments({ status: 'In Progress' }),
       Complaint.countDocuments({ status: 'Resolved' }),
       Notice.countDocuments(),
+      Bill.countDocuments(),
+      Bill.find({}),
+      Visitor.countDocuments(),
+      Visitor.countDocuments({
+        expectedDate: { $gte: startOfToday, $lte: endOfToday },
+        status: 'Pre-Approved',
+      }),
+      Visitor.countDocuments({ status: 'Checked In' }),
     ]);
+
+    const pendingBills = allBills.filter((b) => b.status === 'Pending' || b.status === 'Overdue');
+    const paidBills = allBills.filter((b) => b.status === 'Paid');
+
+    const totalPendingDues = pendingBills.reduce((sum, b) => sum + (b.amount || 0), 0);
+    const totalCollectedDues = paidBills.reduce((sum, b) => sum + (b.amount || 0), 0);
 
     res.status(200).json({
       success: true,
@@ -103,7 +158,21 @@ const getAdminDashboard = async (req, res, next) => {
           inProgressComplaints,
           resolvedComplaints,
           totalNotices,
-          pendingDues: 0,
+          billing: {
+            totalBills,
+            pendingBillsCount: pendingBills.length,
+            paidBillsCount: paidBills.length,
+            totalPendingDues,
+            totalCollectedDues,
+          },
+          pendingDues: totalPendingDues,
+          visitors: {
+            totalVisitors,
+            expectedToday: expectedVisitorsToday,
+            currentlyInside: activeVisitorsInside,
+          },
+          expectedVisitorsToday,
+          activeVisitorsInside,
         },
         systemStatus: {
           status: 'Operational',
@@ -121,10 +190,31 @@ const getAdminDashboard = async (req, res, next) => {
 // @access  Private (Security, Admin)
 const getSecurityDashboard = async (req, res, next) => {
   try {
-    const [totalFlats, totalResidents, totalNotices] = await Promise.all([
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const [
+      totalFlats,
+      totalResidents,
+      totalNotices,
+      expectedVisitorsToday,
+      currentlyInside,
+      completedVisitsToday,
+    ] = await Promise.all([
       Flat.countDocuments(),
       User.countDocuments({ role: 'resident' }),
       Notice.countDocuments(),
+      Visitor.countDocuments({
+        expectedDate: { $gte: startOfToday, $lte: endOfToday },
+        status: 'Pre-Approved',
+      }),
+      Visitor.countDocuments({ status: 'Checked In' }),
+      Visitor.countDocuments({
+        status: 'Checked Out',
+        checkOutTime: { $gte: startOfToday, $lte: endOfToday },
+      }),
     ]);
 
     res.status(200).json({
@@ -139,9 +229,9 @@ const getSecurityDashboard = async (req, res, next) => {
         gateCheckpoint: 'Main Gate 1',
         shift: 'Active Duty',
         stats: {
-          expectedVisitorsToday: 0,
-          currentlyInside: 0,
-          completedVisitsToday: 0,
+          expectedVisitorsToday,
+          currentlyInside,
+          completedVisitsToday,
           totalNotices,
         },
         societyOverview: {
