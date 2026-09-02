@@ -13,6 +13,7 @@ import {
   ArrowRight,
   CheckCircle2,
   Clock,
+  CreditCard,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -224,6 +225,92 @@ const AdminDashboard = () => {
           >
             <span>Publish & manage notices</span>
             <ArrowRight className="w-4 h-4 text-purple-700 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        {/* Maintenance Billing Overview Card */}
+        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Maintenance & Dues</h2>
+                  <p className="text-xs text-slate-500">Society financial collections</p>
+                </div>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                {stats.billing?.totalBills || 0} Invoices
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 my-4 text-center">
+              <div className="p-3 rounded-lg bg-emerald-50/70 border border-emerald-100">
+                <div className="text-lg font-extrabold text-emerald-700">
+                  ${stats.billing?.totalCollectedDues?.toFixed(2) || '0.00'}
+                </div>
+                <div className="text-[11px] font-medium text-emerald-600 mt-0.5">Collected</div>
+              </div>
+              <div className="p-3 rounded-lg bg-amber-50/70 border border-amber-100">
+                <div className="text-lg font-extrabold text-amber-700">
+                  ${stats.billing?.totalPendingDues?.toFixed(2) || stats.pendingDues?.toFixed(2) || '0.00'}
+                </div>
+                <div className="text-[11px] font-medium text-amber-600 mt-0.5">Outstanding Dues</div>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            to="/admin/bills"
+            className="inline-flex items-center justify-between p-3 rounded-lg bg-slate-50 hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-200 text-xs font-semibold text-emerald-900 transition-all mt-2 group"
+          >
+            <span>Manage society bills & invoices</span>
+            <ArrowRight className="w-4 h-4 text-emerald-700 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        {/* Visitor Operations Overview Card */}
+        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Gate & Visitors</h2>
+                  <p className="text-xs text-slate-500">Security checkpoint records</p>
+                </div>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">
+                {stats.visitors?.totalVisitors || 0} Total Visits
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 my-4 text-center">
+              <div className="p-3 rounded-lg bg-blue-50/70 border border-blue-100">
+                <div className="text-lg font-extrabold text-blue-700">
+                  {stats.visitors?.expectedToday || stats.expectedVisitorsToday || 0}
+                </div>
+                <div className="text-[11px] font-medium text-blue-600 mt-0.5">Expected Today</div>
+              </div>
+              <div className="p-3 rounded-lg bg-emerald-50/70 border border-emerald-100">
+                <div className="text-lg font-extrabold text-emerald-700">
+                  {stats.visitors?.currentlyInside || stats.activeVisitorsInside || 0}
+                </div>
+                <div className="text-[11px] font-medium text-emerald-600 mt-0.5">Currently Inside</div>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            to="/admin/visitors"
+            className="inline-flex items-center justify-between p-3 rounded-lg bg-slate-50 hover:bg-blue-50/60 border border-slate-200 hover:border-blue-200 text-xs font-semibold text-blue-900 transition-all mt-2 group"
+          >
+            <span>View gate logs & visitor registry</span>
+            <ArrowRight className="w-4 h-4 text-blue-700 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

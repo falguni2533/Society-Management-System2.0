@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 const http = require('http');
 const app = require('./server');
 
@@ -44,6 +45,8 @@ const makeRequest = (path, method = 'GET', body = null, token = null) => {
   });
 };
 
+const { setupTestDatabase, teardownTestDatabase } = require('./test-helper');
+
 async function runTests(serverInstance) {
   console.log('🧪 Starting Phase 1 Backend Authentication & RBAC Verification Tests...\n');
   let passed = 0;
@@ -60,6 +63,7 @@ async function runTests(serverInstance) {
   }
 
   try {
+    await setupTestDatabase();
     // 1. Health check
     const health = await makeRequest('/health');
     assert(health.status === 200 && health.body.success === true, 'Health Check API (/api/health)');
@@ -75,7 +79,6 @@ async function runTests(serverInstance) {
     );
     const adminToken = adminLogin.body?.token;
 
-    // 3. Login Resident
     const residentLogin = await makeRequest('/auth/login', 'POST', {
       email: 'resident@society.com',
       password: 'resident123',
@@ -168,6 +171,7 @@ async function runTests(serverInstance) {
 
     console.log(`\n📊 Test Summary: ${passed} Passed, ${failed} Failed\n`);
     serverInstance.close();
+    await teardownTestDatabase();
     if (failed === 0) {
       console.log('🎉 ALL BACKEND AUTH & RBAC TESTS PASSED SUCCESSFULLY!');
       process.exit(0);
@@ -177,6 +181,7 @@ async function runTests(serverInstance) {
   } catch (error) {
     console.error('❌ Test execution error:', error);
     serverInstance.close();
+    await teardownTestDatabase();
     process.exit(1);
   }
 }

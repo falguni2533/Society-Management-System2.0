@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import authService from '../services/authService';
 import {
@@ -10,6 +11,7 @@ import {
   AlertCircle,
   Loader2,
   Eye,
+  ArrowRight,
 } from 'lucide-react';
 
 const SecurityDashboard = () => {
@@ -72,31 +74,49 @@ const SecurityDashboard = () => {
 
       {/* Security Stat Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Expected Today
-            </p>
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Users className="w-5 h-5" />
+        <Link
+          to="/security/visitors"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all flex flex-col justify-between group"
+        >
+          <div>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                Expected Today
+              </p>
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
             </div>
+            <p className="text-3xl font-extrabold text-slate-900 mt-2">
+              {data?.stats?.expectedVisitorsToday || 0}
+            </p>
           </div>
-          <p className="text-3xl font-extrabold text-slate-900 mt-2">0</p>
-          <div className="text-xs text-slate-500 mt-1">Pre-registered by residents</div>
-        </div>
+          <div className="text-xs text-blue-600 font-semibold mt-2 flex items-center gap-1">
+            Open Gate Desk <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </div>
+        </Link>
 
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Currently Inside
-            </p>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
+        <Link
+          to="/security/visitors"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all flex flex-col justify-between group"
+        >
+          <div>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                Currently Inside
+              </p>
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
             </div>
+            <p className="text-3xl font-extrabold text-emerald-600 mt-2">
+              {data?.stats?.currentlyInside || 0}
+            </p>
           </div>
-          <p className="text-3xl font-extrabold text-emerald-600 mt-2">0</p>
-          <div className="text-xs text-emerald-600 font-medium mt-1">Active on premises</div>
-        </div>
+          <div className="text-xs text-emerald-600 font-semibold mt-2 flex items-center gap-1">
+            Active on premises <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </div>
+        </Link>
 
         <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
