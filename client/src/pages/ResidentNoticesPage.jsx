@@ -1,158 +1,736 @@
-import React, { useState, useEffect } from 'react';
-import noticeService from '../services/noticeService';
+import React, { useEffect, useState } from 'react';
+
 import {
+  Search,
+  CalendarDays,
+  ChevronRight,
+  Megaphone,
+  Info,
   Bell,
-  Calendar,
-  User,
-  X,
   Loader2,
-  FileText,
-  Pin,
 } from 'lucide-react';
 
+import noticeService from '../services/noticeService';
+
+import './ResidentNoticesPage.css';
+
+
 const ResidentNoticesPage = () => {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [search, setSearch] = useState('');
+
   const [notices, setNotices] = useState([]);
+
   const [loading, setLoading] = useState(true);
-  const [selectedNotice, setSelectedNotice] = useState(null);
+
+  const [error, setError] = useState('');
+
+
+  /*
+  ============================================================
+  LOAD REAL ADMIN-CREATED NOTICES
+  ============================================================
+  */
 
   const fetchNotices = async () => {
     try {
-      setLoading(true);
-      const res = await noticeService.getNotices();
-      if (res.success) {
-        setNotices(res.data);
+      setError('');
+
+      const response = await noticeService.getNotices();
+
+      if (response?.success) {
+        setNotices(response.data || []);
+      } else {
+        setNotices([]);
+
+        setError(
+          response?.message ||
+            'Unable to load society notices.'
+        );
       }
     } catch (err) {
-      console.error('Failed to load notices:', err);
+      console.error(
+        'Failed to load notices:',
+        err
+      );
+
+      setNotices([]);
+
+      setError(
+        err?.response?.data?.message ||
+          'Unable to connect to the notice service.'
+      );
     } finally {
       setLoading(false);
     }
   };
 
+
+  /*
+  ============================================================
+  INITIAL LOAD + REFRESH
+  ============================================================
+  */
+
   useEffect(() => {
     fetchNotices();
+
+    const handleFocus = () => {
+      fetchNotices();
+    };
+
+    window.addEventListener(
+      'focus',
+      handleFocus
+    );
+
+
+    const interval = setInterval(() => {
+      fetchNotices();
+    }, 15000);
+
+
+    return () => {
+      window.removeEventListener(
+        'focus',
+        handleFocus
+      );
+
+      clearInterval(interval);
+    };
   }, []);
 
+
+  /*
+  ============================================================
+  FILTER NOTICES
+  ============================================================
+  */
+
+  const filteredNotices = notices.filter(
+    (notice) => {
+      const searchText = search
+        .trim()
+        .toLowerCase();
+
+
+      const noticeText = `
+        ${notice?.title || ''}
+        ${notice?.content || ''}
+      `.toLowerCase();
+
+
+      const matchesSearch =
+        !searchText ||
+        noticeText.includes(searchText);
+
+
+      /*
+      ALL NOTICES
+      */
+
+      if (activeCategory === 'All') {
+        return matchesSearch;
+      }
+
+
+      /*
+      IMPORTANT
+
+      Uses the actual notice data created by
+      the admin.
+
+      No fake notices are generated.
+      */
+
+      if (activeCategory === 'Important') {
+        return (
+          notice?.important === true &&
+          matchesSearch
+        );
+      }
+
+
+      /*
+      EVENTS
+
+      Only notices whose real title/content
+      contains event-related words are shown.
+      */
+
+      if (activeCategory === 'Events') {
+        const eventKeywords = [
+          'event',
+          'festival',
+          'celebration',
+          'party',
+          'function',
+          'program',
+          'programme',
+          'diwali',
+          'holi',
+          'christmas',
+          'independence',
+        ];
+
+
+        const matchesEvent =
+          eventKeywords.some(
+            (keyword) =>
+              noticeText.includes(keyword)
+          );
+
+
+        return (
+          matchesEvent &&
+          matchesSearch
+        );
+      }
+
+
+      return matchesSearch;
+    }
+  );
+
+
+  /*
+  ============================================================
+  FEATURED NOTICE
+  ============================================================
+  */
+
+  const featuredNotice =
+    notices.length > 0
+      ? notices[0]
+      : null;
+
+
+  /*
+  ============================================================
+  DATE FORMAT
+  ============================================================
+  */
+
+  const getDateParts = (date) => {
+    const parsedDate = new Date(date);
+
+
+    if (
+      !date ||
+      Number.isNaN(parsedDate.getTime())
+    ) {
+      return {
+        day: '--',
+        month: 'DATE',
+      };
+    }
+
+
+    return {
+      day: parsedDate.getDate(),
+
+      month: parsedDate
+        .toLocaleDateString(
+          'en-US',
+          {
+            month: 'short',
+          }
+        )
+        .toUpperCase(),
+    };
+  };
+
+
+  /*
+  ============================================================
+  LOADING
+  ============================================================
+  */
+
+  if (loading) {
+    return (
+      <div className="sms-notices-page">
+
+        <div className="sms-notices-header">
+
+          <div>
+
+            <div className="sms-notices-kicker">
+              <span />
+              SOCIETY COMMUNICATION
+            </div>
+
+            <h1>
+              Society Notices
+            </h1>
+
+            <p>
+              Stay informed about everything
+              happening around your community.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div className="sms-notices-loading">
+
+          <Loader2
+            className="sms-notices-loading-icon"
+            size={30}
+          />
+
+          <h3>
+            Loading society notices...
+          </h3>
+
+          <p>
+            Checking for announcements
+            published by society management.
+          </p>
+
+        </div>
+
+      </div>
+    );
+  }
+
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2.5">
-          <Bell className="w-6 h-6 text-blue-600" />
-          Society Notices & Circulars
-        </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Official announcements, maintenance schedules, and society communications.
-        </p>
+    <div className="sms-notices-page">
+
+
+      {/* =====================================================
+          PAGE HEADER
+      ====================================================== */}
+
+      <div className="sms-notices-header">
+
+        <div>
+
+          <div className="sms-notices-kicker">
+            <span />
+            SOCIETY COMMUNICATION
+          </div>
+
+          <h1>
+            Society Notices
+          </h1>
+
+          <p>
+            Stay informed about everything
+            happening around your community.
+          </p>
+
+        </div>
+
+
+        {/* SEARCH */}
+
+        <div className="sms-notice-search">
+
+          <Search size={18} />
+
+          <input
+            type="text"
+            placeholder="Search notices..."
+            value={search}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
+          />
+
+        </div>
+
       </div>
 
-      {/* Notices List */}
-      {loading ? (
-        <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-slate-200">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin mb-3" />
-          <p className="text-slate-500 text-sm">Loading notices...</p>
-        </div>
-      ) : notices.length === 0 ? (
-        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
-            <Bell className="w-7 h-7" />
+
+      {/* =====================================================
+          ERROR
+      ====================================================== */}
+
+      {error && (
+
+        <div className="sms-notices-error">
+
+          <Info size={19} />
+
+          <div>
+
+            <strong>
+              Unable to load notices
+            </strong>
+
+            <p>
+              {error}
+            </p>
+
           </div>
-          <h3 className="text-base font-semibold text-slate-800">No notices published yet</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-            Society committee announcements and maintenance circulars will appear here.
-          </p>
+
+          <button
+            type="button"
+            onClick={fetchNotices}
+          >
+            Retry
+          </button>
+
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {notices.map((notice) => (
-            <div
-              key={notice._id}
-              onClick={() => setSelectedNotice(notice)}
-              className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
-            >
+
+      )}
+
+
+      {/* =====================================================
+          FEATURED REAL NOTICE
+      ====================================================== */}
+
+      {featuredNotice && (
+
+        <div className="sms-featured-notice">
+
+          <div className="sms-featured-content">
+
+            <div className="sms-featured-badge">
+
+              <Megaphone size={13} />
+
+              LATEST SOCIETY UPDATE
+
+            </div>
+
+
+            <h2>
+              {featuredNotice.title}
+            </h2>
+
+
+            <p>
+              {featuredNotice.content}
+            </p>
+
+
+            <div className="sms-featured-meta">
+
+              <span>
+
+                <CalendarDays size={14} />
+
+                {new Date(
+                  featuredNotice.createdAt
+                ).toLocaleDateString(
+                  'en-US',
+                  {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  }
+                )}
+
+              </span>
+
+
+              <span>
+
+                <Bell size={14} />
+
+                {featuredNotice.createdBy?.name ||
+                  'Society Management'}
+
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
+
+      {/* =====================================================
+          NO REAL NOTICES
+      ====================================================== */}
+
+      {!loading &&
+        notices.length === 0 &&
+        !error && (
+
+          <div className="sms-notices-real-empty">
+
+            <div className="sms-notices-real-empty-icon">
+
+              <Bell size={30} />
+
+            </div>
+
+            <h2>
+              No society notices yet
+            </h2>
+
+            <p>
+              There are currently no announcements
+              published by society management.
+            </p>
+
+            <span>
+              New notices published by the admin
+              will appear here automatically.
+            </span>
+
+          </div>
+
+        )}
+
+
+      {/* =====================================================
+          NOTICE CONTENT
+      ====================================================== */}
+
+      {notices.length > 0 && (
+
+        <div className="sms-notices-layout">
+
+
+          {/* =================================================
+              NOTICE LIST
+          ================================================== */}
+
+          <div className="sms-notices-panel">
+
+
+            {/* PANEL HEADER */}
+
+            <div className="sms-notices-panel-header">
+
               <div>
-                <div className="flex items-center justify-between gap-2 text-xs text-slate-400 mb-2.5">
-                  <span className="inline-flex items-center gap-1 text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded">
-                    <Pin className="w-3 h-3" /> Official Notice
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {new Date(notice.createdAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </span>
+
+                <h2>
+                  Latest Notices
+                </h2>
+
+                <p>
+                  Official announcements from
+                  society management
+                </p>
+
+              </div>
+
+
+              {/* TOP FILTERS */}
+
+              <div className="sms-notice-tabs">
+
+                <button
+                  type="button"
+                  className={`sms-notice-tab ${
+                    activeCategory === 'All'
+                      ? 'active'
+                      : ''
+                  }`}
+                  onClick={() =>
+                    setActiveCategory('All')
+                  }
+                >
+                  All
+                </button>
+
+
+                <button
+                  type="button"
+                  className={`sms-notice-tab ${
+                    activeCategory === 'Important'
+                      ? 'active'
+                      : ''
+                  }`}
+                  onClick={() =>
+                    setActiveCategory('Important')
+                  }
+                >
+                  Important
+                </button>
+
+
+                <button
+                  type="button"
+                  className={`sms-notice-tab ${
+                    activeCategory === 'Events'
+                      ? 'active'
+                      : ''
+                  }`}
+                  onClick={() =>
+                    setActiveCategory('Events')
+                  }
+                >
+                  Events
+                </button>
+
+              </div>
+
+            </div>
+
+
+            {/* =================================================
+                NOTICE RESULTS
+            ================================================== */}
+
+            {filteredNotices.length > 0 ? (
+
+              <div className="sms-notice-list">
+
+                {filteredNotices.map(
+                  (notice) => {
+
+                    const dateParts =
+                      getDateParts(
+                        notice.createdAt
+                      );
+
+
+                    return (
+
+                      <div
+                        className="sms-notice-card"
+                        key={notice._id}
+                      >
+
+
+                        {/* DATE */}
+
+                        <div className="sms-notice-date">
+
+                          <strong>
+                            {dateParts.day}
+                          </strong>
+
+                          <span>
+                            {dateParts.month}
+                          </span>
+
+                        </div>
+
+
+                        {/* NOTICE CONTENT */}
+
+                        <div className="sms-notice-main">
+
+                          <div className="sms-notice-top">
+
+                            <span className="sms-notice-title">
+                              {notice.title}
+                            </span>
+
+                            <span className="sms-notice-tag">
+                              Society Notice
+                            </span>
+
+                          </div>
+
+
+                          <p className="sms-notice-description">
+                            {notice.content}
+                          </p>
+
+
+                          <div className="sms-notice-bottom">
+
+                            <span>
+                              {notice.createdBy?.name ||
+                                'Society Management'}
+                            </span>
+
+                            <span>
+                              •
+                            </span>
+
+                            <span>
+                              Official Notice
+                            </span>
+
+                          </div>
+
+                        </div>
+
+
+                        <ChevronRight
+                          size={20}
+                          className="sms-notice-arrow"
+                        />
+
+                      </div>
+
+                    );
+                  }
+                )}
+
+              </div>
+
+            ) : (
+
+              <div className="sms-notices-empty">
+
+                <div className="sms-notices-empty-icon">
+
+                  <Search size={27} />
+
                 </div>
 
-                <h3 className="text-base font-bold text-slate-900 mb-2">{notice.title}</h3>
-                <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed whitespace-pre-wrap">
-                  {notice.content}
+
+                <h3>
+                  No matching notices
+                </h3>
+
+
+                <p>
+                  There are no published society
+                  notices matching your current
+                  search or filter.
                 </p>
+
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-slate-400" />
-                  By {notice.createdBy?.name || 'Society Admin'}
-                </span>
-                <span className="text-blue-600 font-semibold hover:underline">Read full notice →</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            )}
 
-      {/* Notice Detail Modal */}
-      {selectedNotice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full">
-                <Pin className="w-3 h-3" /> Society Bulletin
-              </span>
-              <button
-                onClick={() => setSelectedNotice(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <h2 className="text-xl font-bold text-slate-900">{selectedNotice.title}</h2>
-              <div className="flex items-center gap-4 text-xs text-slate-400 pb-2 border-b border-slate-100">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5" />
-                  {new Date(selectedNotice.createdAt).toLocaleString('en-US', {
-                    dateStyle: 'medium',
-                    timeStyle: 'short',
-                  })}
-                </span>
-                <span className="flex items-center gap-1">
-                  <User className="w-3.5 h-3.5" />
-                  {selectedNotice.createdBy?.name || 'Admin'}
-                </span>
-              </div>
-
-              <div className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap py-2">
-                {selectedNotice.content}
-              </div>
-            </div>
-
-            <div className="mt-6 pt-3 border-t border-slate-100 flex justify-end">
-              <button
-                onClick={() => setSelectedNotice(null)}
-                className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg"
-              >
-                Close
-              </button>
-            </div>
           </div>
+
+
+          {/* =================================================
+              RIGHT INFORMATION CARD
+          ================================================== */}
+
+          <div className="sms-notices-side">
+
+            <div className="sms-notice-info">
+
+              <div className="sms-notice-info-icon">
+
+                <Info size={19} />
+
+              </div>
+
+
+              <h3>
+                Stay connected
+              </h3>
+
+
+              <p>
+                Check this page regularly for
+                society meetings, maintenance
+                schedules, safety notices and
+                community announcements.
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+
       )}
+
     </div>
   );
 };
+
 
 export default ResidentNoticesPage;

@@ -1,154 +1,906 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import authService from '../services/authService';
+import React, {
+  useMemo,
+  useState,
+} from 'react';
+
 import {
   ShieldCheck,
   Users,
-  Building,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  Loader2,
-  Eye,
+  UserCheck,
+  Clock3,
+  Search,
+  ChevronRight,
+  LogIn,
+  LogOut,
+  Car,
+  CalendarDays,
+  AlertTriangle,
+  X,
+  Info,
 } from 'lucide-react';
 
+import './SecurityDashboard.css';
+
+
 const SecurityDashboard = () => {
-  const { user } = useAuth();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchSecurityData = async () => {
-      try {
-        const res = await authService.getSecurityDashboard();
-        if (res.success) {
-          setData(res.data);
+  const [search, setSearch] =
+    useState('');
+
+  const [activeFilter, setActiveFilter] =
+    useState('all');
+
+  const [activePanel, setActivePanel] =
+    useState(null);
+
+
+  /*
+  =========================================
+  REAL VISITOR DATA ONLY
+  =========================================
+
+  No fake visitor records are created.
+  */
+
+  const visitors = [];
+
+
+  const filteredVisitors =
+    useMemo(() => {
+
+      const query =
+        search
+          .trim()
+          .toLowerCase();
+
+
+      return visitors.filter(
+        (visitor) => {
+
+          const matchesSearch =
+            !query ||
+            `${visitor.name} ${visitor.flat} ${visitor.vehicle}`
+              .toLowerCase()
+              .includes(query);
+
+
+          const matchesFilter =
+            activeFilter === 'all' ||
+            visitor.status === activeFilter;
+
+
+          return (
+            matchesSearch &&
+            matchesFilter
+          );
+
         }
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch security dashboard');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSecurityData();
-  }, []);
+      );
 
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin mb-3" />
-        <p className="text-slate-600 text-sm">Loading gate checkpoint dashboard...</p>
-      </div>
-    );
-  }
+    }, [
+      search,
+      activeFilter,
+    ]);
+
+
+  const panels = {
+
+    visitors: {
+      title: 'Visitors',
+      icon: Users,
+      text:
+        'Visitor records will appear here when an entry is actually registered at the gate.',
+    },
+
+    expected: {
+      title: 'Expected Visitors',
+      icon: CalendarDays,
+      text:
+        'Expected visitor approvals will appear here when residents create visitor approvals.',
+    },
+
+    inside: {
+      title: 'Inside Society',
+      icon: UserCheck,
+      text:
+        'Currently active visitors will appear here after real gate-entry records are created.',
+    },
+
+    approvals: {
+      title: 'Pending Approvals',
+      icon: Clock3,
+      text:
+        'Resident visitor approvals will appear here when there are pending approvals.',
+    },
+
+    entry: {
+      title: 'Register Entry',
+      icon: LogIn,
+      text:
+        'Use the visitor registration workflow when a visitor arrives at the gate.',
+    },
+
+    exit: {
+      title: 'Register Exit',
+      icon: LogOut,
+      text:
+        'Use the visitor exit workflow when a visitor leaves the society.',
+    },
+
+    verify: {
+      title: 'Verify Visitor',
+      icon: UserCheck,
+      text:
+        'Verify an approval or visitor record before granting society access.',
+    },
+
+    vehicle: {
+      title: 'Vehicle Entry',
+      icon: Car,
+      text:
+        'Vehicle records will appear here when vehicle-entry activity is recorded.',
+    },
+
+    emergency: {
+      title: 'Emergency Contact',
+      icon: AlertTriangle,
+      text:
+        'For an emergency, follow the society security procedure and contact the responsible society authority.',
+    },
+
+  };
+
+
+  const active =
+    activePanel
+      ? panels[activePanel]
+      : null;
+
+
+  const PanelIcon =
+    active?.icon;
+
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 mb-3">
-              <ShieldCheck className="w-3.5 h-3.5" /> Main Gate Checkpoint
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              Security Operations Center
-            </h1>
-            <p className="text-teal-100 text-sm mt-1">
-              Officer On Duty: <span className="font-semibold text-white">{user?.name}</span> ({user?.phone})
-            </p>
-          </div>
 
-          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl border border-white/10">
-            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-            <div>
-              <div className="text-xs text-teal-200 font-medium">Shift Status</div>
-              <div className="text-sm font-bold text-white">Active Duty • Main Gate 1</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="security-dashboard-page">
 
-      {/* Security Stat Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Expected Today
-            </p>
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Users className="w-5 h-5" />
-            </div>
-          </div>
-          <p className="text-3xl font-extrabold text-slate-900 mt-2">0</p>
-          <div className="text-xs text-slate-500 mt-1">Pre-registered by residents</div>
-        </div>
 
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Currently Inside
-            </p>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-          </div>
-          <p className="text-3xl font-extrabold text-emerald-600 mt-2">0</p>
-          <div className="text-xs text-emerald-600 font-medium mt-1">Active on premises</div>
-        </div>
+      {/* =====================================
+          INTRO
+      ===================================== */}
 
-        <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Total Flats Registered
-            </p>
-            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
-              <Building className="w-5 h-5" />
-            </div>
-          </div>
-          <p className="text-3xl font-extrabold text-slate-900 mt-2">
-            {data?.societyOverview?.totalFlats || 10}
+      <section className="security-intro">
+
+        <div>
+
+          <span className="security-badge">
+
+            <ShieldCheck size={15} />
+
+            GATE SECURITY
+
+          </span>
+
+
+          <h1>
+            Security Dashboard
+          </h1>
+
+
+          <p>
+            Manage society entry, visitors
+            and gate activity from one place.
           </p>
-          <div className="text-xs text-slate-500 mt-1">Wings A, B, and C</div>
+
         </div>
-      </div>
 
-      {/* Security Scope & Privacy Compliance */}
-      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-        <h2 className="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-          Security Access Control & Data Isolation
-        </h2>
-        <p className="text-sm text-slate-600 mb-4">
-          In strict compliance with society security policies, security personnel have dedicated access to visitor verification and gate logs, with zero access to private resident financial records or bills.
-        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <div className="font-semibold text-slate-900 mb-1">✓ Visitor Management</div>
-            <div className="text-xs text-slate-500">
-              Verify pre-approved guests and record visitor check-ins & exits.
-            </div>
-          </div>
+        <div className="security-live-status">
 
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-            <div className="font-semibold text-slate-900 mb-1">✓ Society Directory</div>
-            <div className="text-xs text-slate-500">
-              Quick look up of wing and flat numbers for guest assistance.
-            </div>
-          </div>
+          <span />
 
-          <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 text-emerald-900">
-            <div className="font-semibold mb-1">🔒 RBAC Protected</div>
-            <div className="text-xs text-emerald-700">
-              Financial data and administrative controls are securely restricted.
-            </div>
-          </div>
+          Gate is active
+
         </div>
-      </div>
+
+      </section>
+
+
+      {/* =====================================
+          STATS
+      ===================================== */}
+
+      <section className="security-stats">
+
+
+        {/* TODAY'S VISITORS */}
+
+        <button
+          type="button"
+          className="security-stat-card"
+          onClick={() =>
+            setActivePanel('visitors')
+          }
+        >
+
+          <div className="security-stat-icon blue">
+
+            <Users size={22} />
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Today's Visitors
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <small>
+              No visitors recorded
+            </small>
+
+          </div>
+
+
+          <ChevronRight size={18} />
+
+        </button>
+
+
+        {/* EXPECTED VISITORS */}
+
+        <button
+          type="button"
+          className="security-stat-card"
+          onClick={() =>
+            setActivePanel('expected')
+          }
+        >
+
+          <div className="security-stat-icon purple">
+
+            <CalendarDays size={22} />
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Expected Visitors
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <small>
+              No upcoming visitors
+            </small>
+
+          </div>
+
+
+          <ChevronRight size={18} />
+
+        </button>
+
+
+        {/* INSIDE SOCIETY */}
+
+        <button
+          type="button"
+          className="security-stat-card"
+          onClick={() =>
+            setActivePanel('inside')
+          }
+        >
+
+          <div className="security-stat-icon green">
+
+            <UserCheck size={22} />
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Inside Society
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <small>
+              No active visitor records
+            </small>
+
+          </div>
+
+
+          <ChevronRight size={18} />
+
+        </button>
+
+
+        {/* PENDING APPROVALS */}
+
+        <button
+          type="button"
+          className="security-stat-card"
+          onClick={() =>
+            setActivePanel('approvals')
+          }
+        >
+
+          <div className="security-stat-icon amber">
+
+            <Clock3 size={22} />
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Pending Approvals
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <small>
+              No pending approvals
+            </small>
+
+          </div>
+
+
+          <ChevronRight size={18} />
+
+        </button>
+
+      </section>
+
+
+      {/* =====================================
+          GATE OPERATIONS
+      ===================================== */}
+
+      <section className="security-section">
+
+        <div className="security-section-heading">
+
+          <div>
+
+            <h2>
+              Gate Operations
+            </h2>
+
+            <p>
+              Quick access to everyday
+              security actions.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div className="security-actions">
+
+
+          {/* REGISTER ENTRY */}
+
+          <button
+            type="button"
+            className="security-action-card"
+            onClick={() =>
+              setActivePanel('entry')
+            }
+          >
+
+            <div className="security-action-icon blue">
+
+              <LogIn size={21} />
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Register Entry
+              </strong>
+
+              <span>
+                Record a visitor entering
+                the society.
+              </span>
+
+            </div>
+
+
+            <ChevronRight size={18} />
+
+          </button>
+
+
+          {/* REGISTER EXIT */}
+
+          <button
+            type="button"
+            className="security-action-card"
+            onClick={() =>
+              setActivePanel('exit')
+            }
+          >
+
+            <div className="security-action-icon green">
+
+              <LogOut size={21} />
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Register Exit
+              </strong>
+
+              <span>
+                Record a visitor leaving
+                the society.
+              </span>
+
+            </div>
+
+
+            <ChevronRight size={18} />
+
+          </button>
+
+
+          {/* VERIFY VISITOR */}
+
+          <button
+            type="button"
+            className="security-action-card"
+            onClick={() =>
+              setActivePanel('verify')
+            }
+          >
+
+            <div className="security-action-icon purple">
+
+              <UserCheck size={21} />
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Verify Visitor
+              </strong>
+
+              <span>
+                Check approval before entry.
+              </span>
+
+            </div>
+
+
+            <ChevronRight size={18} />
+
+          </button>
+
+
+          {/* EMERGENCY */}
+
+          <button
+            type="button"
+            className="security-action-card"
+            onClick={() =>
+              setActivePanel('emergency')
+            }
+          >
+
+            <div className="security-action-icon red">
+
+              <AlertTriangle size={21} />
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Emergency Contact
+              </strong>
+
+              <span>
+                Quick access to security
+                procedure.
+              </span>
+
+            </div>
+
+
+            <ChevronRight size={18} />
+
+          </button>
+
+        </div>
+
+      </section>
+
+
+      {/* =====================================
+          VISITOR AREA
+      ===================================== */}
+
+      <section className="security-content-grid">
+
+
+        {/* VISITOR ACTIVITY */}
+
+        <section className="security-panel">
+
+
+          <div className="security-panel-header">
+
+            <div>
+
+              <h2>
+                Visitor Activity
+              </h2>
+
+              <p>
+                Only recorded visitor activity
+                appears here.
+              </p>
+
+            </div>
+
+
+            <button
+              type="button"
+              className="security-view-button"
+              onClick={() =>
+                setActivePanel('visitors')
+              }
+            >
+
+              View all
+
+              <ChevronRight size={15} />
+
+            </button>
+
+          </div>
+
+
+          {/* SEARCH + FILTER */}
+
+          <div className="security-toolbar">
+
+            <label className="security-search">
+
+              <Search size={17} />
+
+              <input
+                value={search}
+                onChange={(event) =>
+                  setSearch(
+                    event.target.value
+                  )
+                }
+                placeholder="Search visitor, flat or vehicle..."
+              />
+
+            </label>
+
+
+            <div className="security-filters">
+
+              {[
+                'all',
+                'inside',
+                'exited',
+              ].map(
+                (filter) => (
+
+                  <button
+                    type="button"
+                    key={filter}
+                    className={
+                      activeFilter === filter
+                        ? 'active'
+                        : ''
+                    }
+                    onClick={() =>
+                      setActiveFilter(
+                        filter
+                      )
+                    }
+                  >
+
+                    {filter === 'all'
+                      ? 'All'
+                      : filter === 'inside'
+                        ? 'Inside'
+                        : 'Exited'}
+
+                  </button>
+
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+          {/* EMPTY STATE */}
+
+          {filteredVisitors.length === 0 ? (
+
+            <div className="security-empty">
+
+              <div className="security-empty-icon">
+
+                <Users size={25} />
+
+              </div>
+
+
+              <h3>
+                No visitor activity yet
+              </h3>
+
+
+              <p>
+                Visitor entries will appear
+                here when they are actually
+                recorded at the gate.
+              </p>
+
+
+              <button
+                type="button"
+                onClick={() =>
+                  setActivePanel('entry')
+                }
+              >
+
+                Register entry
+
+                <ChevronRight size={15} />
+
+              </button>
+
+            </div>
+
+          ) : (
+
+            <div className="security-visitor-list">
+
+              {filteredVisitors.map(
+                (visitor) => (
+
+                  <div
+                    className="security-visitor-row"
+                    key={visitor.id}
+                  >
+
+                    <div className="security-visitor-avatar">
+
+                      {visitor.name.charAt(0)}
+
+                    </div>
+
+
+                    <div>
+
+                      <strong>
+                        {visitor.name}
+                      </strong>
+
+                      <span>
+                        {visitor.flat}
+                        {' · '}
+                        {visitor.vehicle}
+                      </span>
+
+                    </div>
+
+
+                    <time>
+                      {visitor.time}
+                    </time>
+
+                  </div>
+
+                )
+              )}
+
+            </div>
+
+          )}
+
+        </section>
+
+
+        {/* SIDE STATUS */}
+
+        <aside className="security-side-panel">
+
+          <div className="security-panel-header">
+
+            <div>
+
+              <h2>
+                Gate Status
+              </h2>
+
+              <p>
+                Current security state.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="security-status-box">
+
+            <span className="status-dot" />
+
+            <div>
+
+              <strong>
+                Gate is active
+              </strong>
+
+              <span>
+                Security portal is ready.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div className="security-info-box">
+
+            <Info size={18} />
+
+            <p>
+              Always verify visitor approval
+              before granting society access.
+            </p>
+
+          </div>
+
+        </aside>
+
+      </section>
+
+
+      {/* =====================================
+          MODAL
+      ===================================== */}
+
+      {active && (
+
+        <div
+          className="security-modal-overlay"
+          onClick={() =>
+            setActivePanel(null)
+          }
+        >
+
+          <section
+            className="security-modal"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+
+            <button
+              type="button"
+              className="security-modal-close"
+              onClick={() =>
+                setActivePanel(null)
+              }
+            >
+
+              <X size={20} />
+
+            </button>
+
+
+            <div className="security-modal-icon">
+
+              <PanelIcon size={24} />
+
+            </div>
+
+
+            <span className="security-modal-label">
+
+              SECURITY PORTAL
+
+            </span>
+
+
+            <h2>
+              {active.title}
+            </h2>
+
+
+            <p>
+              {active.text}
+            </p>
+
+
+            {activePanel === 'visitors' && (
+
+              <div className="security-modal-note">
+
+                No visitor records are currently available.
+
+              </div>
+
+            )}
+
+
+            {activePanel === 'expected' && (
+
+              <div className="security-modal-note">
+
+                No resident-created visitor approvals
+                are currently available.
+
+              </div>
+
+            )}
+
+
+            <button
+              type="button"
+              className="security-modal-button"
+              onClick={() =>
+                setActivePanel(null)
+              }
+            >
+
+              Back to dashboard
+
+            </button>
+
+          </section>
+
+        </div>
+
+      )}
+
     </div>
+
   );
+
 };
+
 
 export default SecurityDashboard;

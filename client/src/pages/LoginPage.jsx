@@ -1,6 +1,24 @@
-import React, { useState, useEffect } from 'react';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import './LoginPage.css';
+
 import {
   Building2,
   Lock,
@@ -11,11 +29,13 @@ import {
   User,
   ShieldCheck,
   AlertCircle,
-  CheckCircle2,
+  Home,
+  Trees,
 } from 'lucide-react';
 
 const LoginPage = () => {
   const { login, isAuthenticated, user, getRedirectPath } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,206 +43,729 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [sessionExpiredNotice, setSessionExpiredNotice] = useState(false);
 
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem('sms-theme') === 'dark'
+  );
+
+  /* =========================
+     THEME
+  ========================= */
+
   useEffect(() => {
-    if (new URLSearchParams(location.search).get('expired') === 'true') {
+    localStorage.setItem(
+      'sms-theme',
+      darkMode ? 'dark' : 'light'
+    );
+
+    document.documentElement.classList.toggle(
+      'dark',
+      darkMode
+    );
+  }, [darkMode]);
+
+  /* =========================
+     SESSION EXPIRED
+  ========================= */
+
+  useEffect(() => {
+    const expired =
+      new URLSearchParams(location.search).get('expired');
+
+    if (expired === 'true') {
       setSessionExpiredNotice(true);
     }
   }, [location]);
 
+  /* =========================
+     REDIRECT IF ALREADY LOGIN
+  ========================= */
+
   useEffect(() => {
     if (isAuthenticated && user) {
-      navigate(getRedirectPath(user.role), { replace: true });
+      navigate(
+        getRedirectPath(user.role),
+        { replace: true }
+      );
     }
-  }, [isAuthenticated, user, navigate, getRedirectPath]);
+  }, [
+    isAuthenticated,
+    user,
+    navigate,
+    getRedirectPath,
+  ]);
+
+  /* =========================
+     INPUT CHANGE
+  ========================= */
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errorMessage) setErrorMessage('');
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+    if (errorMessage) {
+      setErrorMessage('');
+    }
   };
+
+  /* =========================
+     LOGIN
+  ========================= */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     setErrorMessage('');
 
     try {
-      const loggedInUser = await login(formData.email, formData.password);
+      const loggedInUser = await login(
+        formData.email,
+        formData.password
+      );
+
       const targetPath =
-        location.state?.from?.pathname || getRedirectPath(loggedInUser.role);
-      navigate(targetPath, { replace: true });
+        location.state?.from?.pathname ||
+        getRedirectPath(loggedInUser.role);
+
+      navigate(targetPath, {
+        replace: true,
+      });
+
     } catch (err) {
       setErrorMessage(
-        err.response?.data?.message || err.message || 'Login failed. Please verify your credentials.'
+        err.response?.data?.message ||
+        err.message ||
+        'Login failed. Please verify your credentials.'
       );
     } finally {
       setLoading(false);
     }
   };
 
+  /* =========================
+     DEMO LOGIN
+  ========================= */
+
   const handleDemoFill = (email, password) => {
-    setFormData({ email, password });
+    setFormData({
+      email,
+      password,
+    });
+
     setErrorMessage('');
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-500/25">
-            <Building2 className="w-8 h-8" />
-          </div>
+    <div
+      className={`sms-login-page ${
+        darkMode
+          ? 'sms-login-dark'
+          : 'sms-login-light'
+      }`}
+    >
+
+      {/* =====================================================
+          SOCIETY BACKGROUND SCENE
+          ===================================================== */}
+
+      <div
+        className="sms-login-scene"
+        aria-hidden="true"
+      >
+
+        {/* Sky glow */}
+        <div className="sms-sky-glow" />
+
+        {/* Moon */}
+        <div className="sms-moon" />
+
+        {/* Clouds */}
+        <div className="sms-cloud sms-cloud-one" />
+        <div className="sms-cloud sms-cloud-two" />
+
+        {/* Hills */}
+        <div className="sms-hill sms-hill-back" />
+        <div className="sms-hill sms-hill-front" />
+
+        {/* Trees */}
+        <div className="sms-tree sms-tree-one">
+          <i />
+          <b />
+          <em />
         </div>
-        <h1 className="mt-4 text-center text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-          SocietySphere
-        </h1>
-        <p className="mt-1 text-center text-sm text-slate-600">
-          Sign in to your society management account
-        </p>
+
+        <div className="sms-tree sms-tree-two">
+          <i />
+          <b />
+          <em />
+        </div>
+
+        <div className="sms-tree sms-tree-three">
+          <i />
+          <b />
+          <em />
+        </div>
+
+        <div className="sms-tree sms-tree-four">
+          <i />
+          <b />
+          <em />
+        </div>
+
+        {/* Road */}
+        <div className="sms-road" />
+
+        {/* =================================================
+            HOUSE
+            ================================================= */}
+
+        <div className="sms-house">
+
+          <div className="sms-house-roof" />
+
+          <div className="sms-house-body">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+
+          <div className="sms-house-door" />
+
+          <div className="sms-house-light" />
+
+        </div>
+
+        {/* =================================================
+            EXTRA PARK / SOCIETY DETAILS
+            ================================================= */}
+
+        <div className="society-scene">
+
+          {/* Distant buildings */}
+          <div className="scene-buildings">
+
+            <div className="building building-one">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+
+            <div className="building building-two">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+
+            <div className="building building-three">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+
+          </div>
+
+          {/* Park */}
+          <div className="scene-park">
+
+            <div className="park-tree tree-one">
+              <div className="tree-crown" />
+              <div className="tree-trunk" />
+            </div>
+
+            <div className="park-tree tree-two">
+              <div className="tree-crown" />
+              <div className="tree-trunk" />
+            </div>
+
+            <div className="park-tree tree-three">
+              <div className="tree-crown" />
+              <div className="tree-trunk" />
+            </div>
+
+            <div className="park-bench">
+              <span />
+              <span />
+            </div>
+
+          </div>
+
+          {/* House 1 */}
+          <div className="scene-house house-one">
+
+            <div className="house-roof" />
+
+            <div className="house-body">
+              <div className="house-window" />
+              <div className="house-window" />
+              <div className="house-door" />
+            </div>
+
+          </div>
+
+          {/* House 2 */}
+          <div className="scene-house house-two">
+
+            <div className="house-roof" />
+
+            <div className="house-body">
+              <div className="house-window" />
+              <div className="house-window" />
+              <div className="house-door" />
+            </div>
+
+          </div>
+
+          {/* Road */}
+          <div className="scene-road">
+
+            <div className="road-line line-one" />
+            <div className="road-line line-two" />
+            <div className="road-line line-three" />
+
+          </div>
+
+          {/* Society Gate */}
+          <div className="society-gate">
+
+            <div className="gate-post left-post" />
+            <div className="gate-post right-post" />
+
+            <div className="gate-bar">
+              <span>SOCIETY</span>
+            </div>
+
+          </div>
+
+          {/* Street lights */}
+          <div className="street-light light-one">
+            <div className="lamp" />
+            <div className="light-pole" />
+          </div>
+
+          <div className="street-light light-two">
+            <div className="lamp" />
+            <div className="light-pole" />
+          </div>
+
+        </div>
+
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div className="bg-white py-8 px-6 shadow-sm border border-slate-200 sm:rounded-2xl sm:px-10">
-          {sessionExpiredNotice && (
-            <div className="mb-5 p-3.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl text-sm flex items-start gap-2.5">
-              <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-              <span>Your previous session has expired. Please sign in again.</span>
-            </div>
-          )}
+      {/* =====================================================
+          TOP BAR
+          ===================================================== */}
 
-          {errorMessage && (
-            <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-800 rounded-xl text-sm flex items-start gap-2.5">
-              <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-              <span>{errorMessage}</span>
-            </div>
-          )}
+      <header className="sms-login-topbar">
 
-          <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+        <Link
+          to="/"
+          className="sms-login-brand"
+        >
+
+          <span className="sms-login-brand-icon">
+            <Building2 size={20} />
+          </span>
+
+          <span>
+            SocietySphere
+          </span>
+
+        </Link>
+
+        <button
+          type="button"
+          className="sms-login-theme-toggle"
+          onClick={() =>
+            setDarkMode((value) => !value)
+          }
+          aria-label="Toggle theme"
+        >
+          {darkMode ? '☀' : '☾'}
+        </button>
+
+      </header>
+
+      {/* =====================================================
+          MAIN CONTENT
+          ===================================================== */}
+
+      <main className="sms-login-main">
+
+        {/* =================================================
+            LEFT INTRODUCTION
+            ================================================= */}
+
+        <section className="sms-login-intro">
+
+          <div className="sms-login-intro-badge">
+
+            <Home size={16} />
+
+            <span>
+              Smart Society Living
+            </span>
+
+          </div>
+
+          <h1>
+            Welcome to
+            <br />
+
+            <span>
+              your community.
+            </span>
+          </h1>
+
+          <p>
+            A secure digital home for residents,
+            administrators and security teams —
+            keeping everyday society life connected,
+            simple and organized.
+          </p>
+
+          {/* Features */}
+
+          <div className="sms-login-features">
+
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-700"
-              >
-                Email Address
-              </label>
-              <div className="mt-1.5 relative rounded-lg shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="username"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="name@example.com"
-                  className="block w-full pl-10 pr-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
-                />
+
+              <span>
+                <ShieldCheck size={17} />
+              </span>
+
+              <div>
+                <strong>
+                  Secure access
+                </strong>
+
+                <small>
+                  Role-based society management
+                </small>
               </div>
+
             </div>
 
             <div>
-              <div className="flex justify-between items-center">
-                <label
-                  htmlFor="current-password"
-                  className="block text-sm font-medium text-slate-700"
-                >
+
+              <span>
+                <Trees size={17} />
+              </span>
+
+              <div>
+                <strong>
+                  One community hub
+                </strong>
+
+                <small>
+                  Notices, complaints and updates
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =================================================
+            LOGIN CARD
+            ================================================= */}
+
+        <section className="sms-login-wrapper">
+
+          <div className="sms-login-card">
+
+            {/* Header */}
+
+            <div className="sms-login-card-header">
+
+              <div className="sms-login-icon">
+                <Building2 size={25} />
+              </div>
+
+              <div>
+
+                <h2>
+                  Welcome back
+                </h2>
+
+                <p>
+                  Sign in to your society account
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* Session expired */}
+
+            {sessionExpiredNotice && (
+              <div className="sms-login-alert sms-login-warning">
+
+                <AlertCircle size={17} />
+
+                <span>
+                  Your previous session has expired.
+                  Please sign in again.
+                </span>
+
+              </div>
+            )}
+
+            {/* Error */}
+
+            {errorMessage && (
+              <div className="sms-login-alert sms-login-error">
+
+                <AlertCircle size={17} />
+
+                <span>
+                  {errorMessage}
+                </span>
+
+              </div>
+            )}
+
+            {/* =================================================
+                LOGIN FORM
+                ================================================= */}
+
+            <form
+              className="sms-login-form"
+              onSubmit={handleSubmit}
+              noValidate
+            >
+
+              {/* Email */}
+
+              <div className="sms-login-field">
+
+                <label htmlFor="email">
+                  Email address
+                </label>
+
+                <div className="sms-login-input-wrap">
+
+                  <Mail size={17} />
+
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="name@example.com"
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Password */}
+
+              <div className="sms-login-field">
+
+                <label htmlFor="current-password">
                   Password
                 </label>
-              </div>
-              <div className="mt-1.5 relative rounded-lg shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Lock className="w-4 h-4" />
+
+                <div className="sms-login-input-wrap">
+
+                  <Lock size={17} />
+
+                  <input
+                    id="current-password"
+                    name="password"
+                    type={
+                      showPassword
+                        ? 'text'
+                        : 'password'
+                    }
+                    autoComplete="current-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                  />
+
+                  <button
+                    type="button"
+                    className="sms-password-toggle"
+                    onClick={() =>
+                      setShowPassword(
+                        (value) => !value
+                      )
+                    }
+                    aria-label={
+                      showPassword
+                        ? 'Hide password'
+                        : 'Show password'
+                    }
+                  >
+
+                    {showPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+
+                  </button>
+
                 </div>
-                <input
-                  id="current-password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="block w-full pl-10 pr-10 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
-                />
+
+              </div>
+
+              {/* Submit */}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="sms-login-submit"
+              >
+                {loading
+                  ? 'Authenticating...'
+                  : 'Sign in'}
+              </button>
+
+            </form>
+
+            {/* =================================================
+                DEMO ACCOUNTS
+                ================================================= */}
+
+            <div className="sms-demo-section">
+
+              <div className="sms-demo-heading">
+
+                <span />
+
+                <p>
+                  Quick demo access
+                </p>
+
+                <span />
+
+              </div>
+
+              <div className="sms-demo-grid">
+
+                {/* Admin */}
+
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600"
+                  onClick={() =>
+                    handleDemoFill(
+                      'admin@society.com',
+                      'admin123'
+                    )
+                  }
+                  className="sms-demo-card"
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+
+                  <Shield size={17} />
+
+                  <span>
+                    Admin
+                  </span>
+
                 </button>
+
+                {/* Resident */}
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleDemoFill(
+                      'resident@society.com',
+                      'resident123'
+                    )
+                  }
+                  className="sms-demo-card"
+                >
+
+                  <User size={17} />
+
+                  <span>
+                    Resident
+                  </span>
+
+                </button>
+
+                {/* Security */}
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleDemoFill(
+                      'security@society.com',
+                      'security123'
+                    )
+                  }
+                  className="sms-demo-card"
+                >
+
+                  <ShieldCheck size={17} />
+
+                  <span>
+                    Security
+                  </span>
+
+                </button>
+
               </div>
+
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              {loading ? 'Authenticating...' : 'Sign In'}
-            </button>
-          </form>
+            {/* Register */}
 
-          {/* Quick Demo Logins for Fast Phase 1 Testing */}
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center mb-3">
-              1-Click Demo Accounts
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoFill('admin@society.com', 'admin123')}
-                className="flex flex-col items-center justify-center p-2 rounded-lg border border-purple-200 bg-purple-50/60 hover:bg-purple-100 text-purple-900 text-xs font-medium transition-all"
-              >
-                <Shield className="w-4 h-4 text-purple-600 mb-1" />
-                <span>Admin</span>
-              </button>
+            <div className="sms-login-register">
 
-              <button
-                type="button"
-                onClick={() => handleDemoFill('resident@society.com', 'resident123')}
-                className="flex flex-col items-center justify-center p-2 rounded-lg border border-blue-200 bg-blue-50/60 hover:bg-blue-100 text-blue-900 text-xs font-medium transition-all"
-              >
-                <User className="w-4 h-4 text-blue-600 mb-1" />
-                <span>Resident</span>
-              </button>
+              <span>
+                New resident?
+              </span>
 
-              <button
-                type="button"
-                onClick={() => handleDemoFill('security@society.com', 'security123')}
-                className="flex flex-col items-center justify-center p-2 rounded-lg border border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100 text-emerald-900 text-xs font-medium transition-all"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-600 mb-1" />
-                <span>Security</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-xs text-slate-600">
-              New resident in the society?{' '}
-              <Link
-                to="/register"
-                className="font-semibold text-blue-600 hover:text-blue-700 underline"
-              >
+              <Link to="/register">
                 Register your flat
               </Link>
-            </p>
+
+            </div>
+
           </div>
-        </div>
-      </div>
+
+        </section>
+
+      </main>
+
+      {/* =====================================================
+          FOOTER
+          ===================================================== */}
+
+      <footer className="sms-login-footer">
+
+        <span>
+          © {new Date().getFullYear()} SocietySphere
+        </span>
+
+        <span>
+          Built for better community living
+        </span>
+
+      </footer>
+
     </div>
   );
 };

@@ -1,0 +1,2461 @@
+/* =========================================================
+   SOCIETY MANAGEMENT SYSTEM
+   Premium Public Landing Page
+   ========================================================= */
+
+.sms-page {
+  --sms-bg: #f5f7fb;
+  --sms-surface: #ffffff;
+  --sms-surface-2: #eef2f7;
+  --sms-text: #0b1220;
+  --sms-muted: #667085;
+  --sms-border: rgba(15, 23, 42, 0.09);
+  --sms-primary: #1769ff;
+  --sms-primary-dark: #0d47c9;
+  --sms-cyan: #22c7d8;
+  --sms-green: #19b67a;
+  --sms-orange: #f59e0b;
+  --sms-shadow: 0 25px 70px rgba(15, 23, 42, 0.12);
+
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--sms-bg);
+  color: var(--sms-text);
+  transition:
+    background 0.45s ease,
+    color 0.45s ease;
+}
+
+.sms-page.sms-dark {
+  --sms-bg: #070b13;
+  --sms-surface: #0d1421;
+  --sms-surface-2: #111b2b;
+  --sms-text: #f7f9fc;
+  --sms-muted: #9aa8bc;
+  --sms-border: rgba(255, 255, 255, 0.09);
+  --sms-primary: #4d8dff;
+  --sms-primary-dark: #2e6ee5;
+  --sms-cyan: #28d5e6;
+  --sms-green: #32d397;
+  --sms-orange: #ffb52e;
+  --sms-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.sms-page *,
+.sms-page *::before,
+.sms-page *::after {
+  box-sizing: border-box;
+}
+
+.sms-page button,
+.sms-page a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sms-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.sms-nav-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 20px;
+}
+
+.sms-navbar {
+  width: min(1180px, 100%);
+  margin: auto;
+  min-height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 10px 12px 10px 18px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 20px;
+
+  background: color-mix(
+    in srgb,
+    var(--sms-surface) 84%,
+    transparent
+  );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 10px 40px rgba(15, 23, 42, 0.07);
+
+  transition:
+    background 0.4s ease,
+    border 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.sms-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--sms-text);
+}
+
+.sms-brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+
+  display: grid;
+  place-items: center;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2477ff,
+      #1052ce
+    );
+
+  color: white;
+
+  box-shadow:
+    0 8px 24px rgba(23, 105, 255, 0.3);
+}
+
+.sms-brand-mark::after {
+  content: "";
+  position: absolute;
+  width: 70px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.18);
+  transform: rotate(-35deg);
+  left: -40px;
+  top: 2px;
+  animation: smsShine 5s ease-in-out infinite;
+}
+
+@keyframes smsShine {
+  0%,
+  55% {
+    left: -60px;
+  }
+
+  75%,
+  100% {
+    left: 70px;
+  }
+}
+
+.sms-brand-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.sms-brand-name {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.sms-brand-sub {
+  margin-top: 5px;
+  color: var(--sms-muted);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.sms-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sms-nav-link {
+  border: 0;
+  background: transparent;
+  color: var(--sms-muted);
+
+  padding: 10px 13px;
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.sms-nav-link:hover {
+  color: var(--sms-text);
+  background: var(--sms-surface-2);
+}
+
+.sms-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sms-theme-btn {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 11px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--sms-surface);
+  color: var(--sms-text);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.sms-theme-btn:hover {
+  transform: rotate(12deg) scale(1.05);
+}
+
+.sms-login-btn {
+  border: 1px solid var(--sms-border);
+  background: var(--sms-surface);
+  color: var(--sms-text);
+
+  padding: 10px 15px;
+  border-radius: 11px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sms-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.1);
+}
+
+.sms-nav-cta {
+  border: 0;
+  background: var(--sms-text);
+  color: var(--sms-bg);
+
+  padding: 11px 16px;
+  border-radius: 11px;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sms-nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
+}
+
+.sms-mobile-toggle {
+  display: none;
+
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 11px;
+
+  background: var(--sms-surface);
+  color: var(--sms-text);
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.sms-hero {
+  min-height: 880px;
+  padding-top: 150px;
+  padding-bottom: 90px;
+
+  position: relative;
+  isolation: isolate;
+
+  overflow: hidden;
+}
+
+.sms-hero::before {
+  content: "";
+  position: absolute;
+
+  width: 700px;
+  height: 700px;
+
+  top: -300px;
+  left: -250px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(23, 105, 255, 0.16),
+      transparent 68%
+    );
+
+  z-index: -2;
+}
+
+.sms-hero::after {
+  content: "";
+  position: absolute;
+
+  width: 650px;
+  height: 650px;
+
+  right: -250px;
+  top: 100px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 199, 216, 0.12),
+      transparent 68%
+    );
+
+  z-index: -2;
+}
+
+.sms-hero-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.sms-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(23, 105, 255, 0.16);
+  border-radius: 100px;
+
+  background: rgba(23, 105, 255, 0.07);
+
+  color: var(--sms-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.sms-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sms-green);
+
+  box-shadow:
+    0 0 0 5px rgba(25, 182, 122, 0.1);
+
+  animation: smsPulse 2s infinite;
+}
+
+@keyframes smsPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 3px rgba(25, 182, 122, 0.1);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 7px rgba(25, 182, 122, 0.02);
+  }
+}
+
+.sms-hero-title {
+  margin: 22px 0 0;
+
+  font-size: clamp(46px, 6vw, 78px);
+  line-height: 0.98;
+
+  letter-spacing: -0.065em;
+  font-weight: 850;
+}
+
+.sms-gradient-text {
+  display: block;
+
+  background:
+    linear-gradient(
+      100deg,
+      var(--sms-primary),
+      var(--sms-cyan)
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.sms-hero-description {
+  max-width: 570px;
+  margin-top: 27px;
+
+  color: var(--sms-muted);
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.sms-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 34px;
+}
+
+.sms-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 0;
+  border-radius: 13px;
+
+  padding: 14px 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--sms-primary),
+      var(--sms-primary-dark)
+    );
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 13px 30px rgba(23, 105, 255, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.sms-primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 38px rgba(23, 105, 255, 0.34);
+}
+
+.sms-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 13px;
+
+  padding: 13px 18px;
+
+  background: var(--sms-surface);
+  color: var(--sms-text);
+
+  font-size: 13px;
+  font-weight: 750;
+
+  cursor: pointer;
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.sms-secondary-btn:hover {
+  transform: translateY(-3px);
+  background: var(--sms-surface-2);
+}
+
+.sms-trust-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 17px;
+
+  margin-top: 27px;
+
+  color: var(--sms-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sms-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sms-trust-item svg {
+  color: var(--sms-green);
+}
+
+/* =========================================================
+   3D SOCIETY VISUAL
+   ========================================================= */
+
+.sms-visual {
+  min-height: 570px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  perspective: 1200px;
+}
+
+.sms-orbit {
+  position: absolute;
+
+  width: 470px;
+  height: 470px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 50%;
+
+  transform: rotateX(67deg) rotateZ(-12deg);
+
+  opacity: 0.8;
+
+  animation: smsOrbit 16s linear infinite;
+}
+
+.sms-orbit::before,
+.sms-orbit::after {
+  content: "";
+  position: absolute;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+}
+
+.sms-orbit::before {
+  top: 15px;
+  left: 80px;
+
+  background: var(--sms-primary);
+
+  box-shadow:
+    0 0 25px var(--sms-primary);
+}
+
+.sms-orbit::after {
+  right: 45px;
+  bottom: 50px;
+
+  background: var(--sms-cyan);
+
+  box-shadow:
+    0 0 25px var(--sms-cyan);
+}
+
+@keyframes smsOrbit {
+  to {
+    transform: rotateX(67deg) rotateZ(348deg);
+  }
+}
+
+.sms-building {
+  width: min(440px, 90%);
+  height: 420px;
+
+  position: relative;
+
+  transform:
+    rotateY(-11deg)
+    rotateX(4deg)
+    rotateZ(1deg);
+
+  transform-style: preserve-3d;
+
+  animation: smsFloat 6s ease-in-out infinite;
+}
+
+@keyframes smsFloat {
+  0%,
+  100% {
+    transform:
+      rotateY(-11deg)
+      rotateX(4deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotateY(-11deg)
+      rotateX(4deg)
+      translateY(-10px);
+  }
+}
+
+.sms-building-shadow {
+  position: absolute;
+
+  width: 82%;
+  height: 50px;
+
+  left: 9%;
+  bottom: -5px;
+
+  border-radius: 50%;
+
+  background: rgba(15, 23, 42, 0.2);
+
+  filter: blur(22px);
+}
+
+.sms-tower {
+  position: absolute;
+
+  left: 50%;
+  top: 30px;
+
+  width: 250px;
+  height: 350px;
+
+  transform:
+    translateX(-50%)
+    translateZ(40px);
+
+  border-radius: 8px 8px 3px 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #172338,
+      #263650 48%,
+      #132034
+    );
+
+  box-shadow:
+    25px 35px 50px rgba(5, 12, 24, 0.32);
+
+  overflow: hidden;
+}
+
+.sms-tower-top {
+  position: absolute;
+
+  left: 50%;
+  top: -16px;
+
+  transform: translateX(-50%);
+
+  width: 190px;
+  height: 28px;
+
+  border-radius: 8px 8px 2px 2px;
+
+  background: #0e1829;
+}
+
+.sms-tower-top::before {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 5px;
+
+  left: 50%;
+  top: -15px;
+
+  transform: translateX(-50%);
+
+  border-radius: 100px;
+
+  background: var(--sms-primary);
+
+  box-shadow:
+    0 0 20px rgba(23, 105, 255, 0.6);
+}
+
+.sms-windows {
+  position: absolute;
+
+  inset: 28px 18px 22px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  grid-auto-rows: 24px;
+
+  gap: 11px;
+}
+
+.sms-window {
+  border-radius: 4px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(107, 203, 255, 0.8),
+      rgba(23, 105, 255, 0.22)
+    );
+
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.1),
+    0 0 7px rgba(23, 105, 255, 0.13);
+
+  opacity: 0.9;
+
+  animation: smsWindow 4s ease-in-out infinite;
+}
+
+.sms-window:nth-child(3n) {
+  animation-delay: 1.2s;
+}
+
+.sms-window:nth-child(5n) {
+  animation-delay: 2s;
+}
+
+@keyframes smsWindow {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.sms-building-side {
+  position: absolute;
+
+  right: 0;
+  top: 48px;
+
+  width: 80px;
+  height: 330px;
+
+  transform:
+    translateZ(-20px)
+    skewY(-27deg);
+
+  transform-origin: left top;
+
+  background: #101b2e;
+}
+
+.sms-building-base {
+  position: absolute;
+
+  left: 50%;
+  bottom: 15px;
+
+  transform: translateX(-50%);
+
+  width: 340px;
+  height: 55px;
+
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1e2c42,
+      #0f1a2c
+    );
+
+  box-shadow:
+    0 20px 35px rgba(0, 0, 0, 0.25);
+}
+
+.sms-entrance {
+  position: absolute;
+
+  left: 50%;
+  bottom: 18px;
+
+  transform: translateX(-50%);
+
+  width: 65px;
+  height: 55px;
+
+  border-radius: 9px 9px 0 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0c1422,
+      #2e4667,
+      #0c1422
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sms-entrance-light {
+  position: absolute;
+
+  width: 30px;
+  height: 5px;
+
+  left: 50%;
+  top: 9px;
+
+  transform: translateX(-50%);
+
+  border-radius: 100px;
+
+  background: var(--sms-green);
+
+  box-shadow:
+    0 0 15px rgba(25, 182, 122, 0.7);
+}
+
+/* Floating information cards */
+
+.sms-float-card {
+  position: absolute;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 14px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--sms-surface) 88%,
+      transparent
+    );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: var(--sms-shadow);
+
+  z-index: 5;
+
+  animation: smsCardFloat 5s ease-in-out infinite;
+}
+
+.sms-float-card.card-one {
+  left: 0;
+  top: 100px;
+}
+
+.sms-float-card.card-two {
+  right: -5px;
+  top: 190px;
+  animation-delay: 1.2s;
+}
+
+.sms-float-card.card-three {
+  left: 45px;
+  bottom: 40px;
+  animation-delay: 2s;
+}
+
+@keyframes smsCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.sms-card-label {
+  color: var(--sms-muted);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sms-card-value {
+  margin-top: 3px;
+
+  color: var(--sms-text);
+
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.sms-card-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 5px;
+
+  color: var(--sms-green);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SECTION COMMON
+   ========================================================= */
+
+.sms-section {
+  padding: 105px 0;
+  position: relative;
+}
+
+.sms-section-header {
+  max-width: 650px;
+  margin-bottom: 50px;
+}
+
+.sms-section-kicker {
+  color: var(--sms-primary);
+
+  font-size: 11px;
+  font-weight: 850;
+
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.sms-section-title {
+  margin-top: 10px;
+
+  font-size: clamp(32px, 4vw, 48px);
+
+  line-height: 1.08;
+
+  letter-spacing: -0.045em;
+
+  font-weight: 850;
+}
+
+.sms-section-description {
+  margin-top: 15px;
+
+  color: var(--sms-muted);
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   LIVE STATS
+   ========================================================= */
+
+.sms-stats-section {
+  padding: 24px 0 85px;
+}
+
+.sms-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  border: 1px solid var(--sms-border);
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  background: var(--sms-surface);
+
+  box-shadow: var(--sms-shadow);
+}
+
+.sms-stat {
+  padding: 27px;
+
+  border-right: 1px solid var(--sms-border);
+
+  position: relative;
+}
+
+.sms-stat:last-child {
+  border-right: 0;
+}
+
+.sms-stat::before {
+  content: "";
+
+  position: absolute;
+
+  width: 70px;
+  height: 70px;
+
+  right: -20px;
+  top: -25px;
+
+  border-radius: 50%;
+
+  background: rgba(23, 105, 255, 0.06);
+}
+
+.sms-stat-number {
+  font-size: 30px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.sms-stat-label {
+  margin-top: 4px;
+
+  color: var(--sms-muted);
+
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.sms-stat-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 12px;
+
+  color: var(--sms-green);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   FEATURE CARDS
+   ========================================================= */
+
+.sms-feature-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+}
+
+.sms-feature {
+  position: relative;
+
+  min-height: 245px;
+
+  padding: 27px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 20px;
+
+  background: var(--sms-surface);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border 0.35s ease;
+}
+
+.sms-feature:hover {
+  transform: translateY(-7px);
+
+  border-color:
+    rgba(23, 105, 255, 0.25);
+
+  box-shadow:
+    0 22px 50px rgba(15, 23, 42, 0.1);
+}
+
+.sms-feature::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -60px;
+  bottom: -70px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(23, 105, 255, 0.12),
+      transparent 68%
+    );
+
+  transition: transform 0.5s ease;
+}
+
+.sms-feature:hover::after {
+  transform: scale(1.4);
+}
+
+.sms-feature-icon {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(23, 105, 255, 0.13),
+      rgba(34, 199, 216, 0.08)
+    );
+
+  color: var(--sms-primary);
+
+  transition:
+    transform 0.35s ease,
+    background 0.35s ease;
+}
+
+.sms-feature:hover .sms-feature-icon {
+  transform: rotate(-5deg) scale(1.08);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--sms-primary),
+      var(--sms-primary-dark)
+    );
+
+  color: white;
+}
+
+.sms-feature-title {
+  margin-top: 21px;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.sms-feature-description {
+  margin-top: 9px;
+
+  color: var(--sms-muted);
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   ROLE EXPERIENCE
+   ========================================================= */
+
+.sms-role-layout {
+  display: grid;
+
+  grid-template-columns: 0.85fr 1.15fr;
+
+  gap: 55px;
+
+  align-items: center;
+}
+
+.sms-role-panel {
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #101a2b,
+      #0a111d
+    );
+
+  color: white;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 30px 70px rgba(5, 12, 24, 0.25);
+}
+
+.sms-role-panel::before {
+  content: "";
+
+  position: absolute;
+
+  width: 300px;
+  height: 300px;
+
+  right: -130px;
+  top: -140px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(23, 105, 255, 0.35),
+      transparent 68%
+    );
+}
+
+.sms-role-panel-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sms-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 9px;
+
+  border-radius: 100px;
+
+  background: rgba(25, 182, 122, 0.1);
+
+  color: #5be4ac;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sms-role-profile {
+  position: relative;
+
+  margin-top: 27px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.sms-avatar {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2477ff,
+      #15b7cb
+    );
+
+  font-weight: 850;
+}
+
+.sms-role-name {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.sms-role-flat {
+  margin-top: 3px;
+
+  color: #8f9db1;
+
+  font-size: 10px;
+}
+
+.sms-role-activity {
+  position: relative;
+
+  margin-top: 25px;
+
+  display: grid;
+
+  gap: 9px;
+}
+
+.sms-mini-activity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.sms-mini-icon {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.sms-mini-text {
+  flex: 1;
+
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.sms-mini-time {
+  color: #7f8ca0;
+
+  font-size: 8px;
+}
+
+.sms-role-list {
+  display: grid;
+  gap: 14px;
+}
+
+.sms-role-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  padding: 18px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 17px;
+
+  background: var(--sms-surface);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.sms-role-item:hover {
+  transform: translateX(6px);
+
+  box-shadow:
+    0 15px 35px rgba(15, 23, 42, 0.08);
+}
+
+.sms-role-item-icon {
+  flex: 0 0 auto;
+
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: var(--sms-surface-2);
+
+  color: var(--sms-primary);
+}
+
+.sms-role-item-title {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.sms-role-item-text {
+  margin-top: 4px;
+
+  color: var(--sms-muted);
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   COMMUNITY CTA
+   ========================================================= */
+
+.sms-cta {
+  padding: 95px 0;
+}
+
+.sms-cta-box {
+  position: relative;
+
+  padding: 70px 45px;
+
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      120deg,
+      #0d3fa8,
+      #1769ff 45%,
+      #0c93aa
+    );
+
+  color: white;
+
+  box-shadow:
+    0 30px 80px rgba(23, 105, 255, 0.23);
+
+  text-align: center;
+}
+
+.sms-cta-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  left: -160px;
+  top: -220px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  box-shadow:
+    0 0 0 70px rgba(255, 255, 255, 0.025),
+    0 0 0 140px rgba(255, 255, 255, 0.018);
+}
+
+.sms-cta-box::after {
+  content: "";
+
+  position: absolute;
+
+  width: 300px;
+  height: 300px;
+
+  right: -130px;
+  bottom: -170px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.sms-cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+.sms-cta-title {
+  font-size: clamp(32px, 4vw, 50px);
+
+  font-weight: 850;
+
+  letter-spacing: -0.045em;
+}
+
+.sms-cta-description {
+  max-width: 590px;
+
+  margin: 15px auto 0;
+
+  color: rgba(255, 255, 255, 0.76);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.sms-cta-btn {
+  margin-top: 26px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 0;
+  border-radius: 12px;
+
+  padding: 13px 20px;
+
+  background: white;
+  color: #1052ce;
+
+  font-size: 13px;
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.sms-cta-btn:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.sms-footer {
+  padding: 30px 0;
+
+  border-top: 1px solid var(--sms-border);
+}
+
+.sms-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sms-footer-copy {
+  color: var(--sms-muted);
+
+  font-size: 10px;
+}
+
+.sms-footer-links {
+  display: flex;
+  gap: 17px;
+}
+
+.sms-footer-link {
+  color: var(--sms-muted);
+
+  border: 0;
+  background: transparent;
+
+  font-size: 10px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.sms-footer-link:hover {
+  color: var(--sms-text);
+}
+
+/* =========================================================
+   REVEAL ANIMATION
+   ========================================================= */
+
+.sms-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+
+  animation:
+    smsReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+.sms-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.sms-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.sms-delay-3 {
+  animation-delay: 0.3s;
+}
+
+.sms-delay-4 {
+  animation-delay: 0.4s;
+}
+
+@keyframes smsReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+
+.sms-mobile-menu {
+  display: none;
+
+  position: absolute;
+
+  top: calc(100% + 8px);
+  left: 20px;
+  right: 20px;
+
+  padding: 12px;
+
+  border: 1px solid var(--sms-border);
+  border-radius: 17px;
+
+  background: var(--sms-surface);
+
+  box-shadow: var(--sms-shadow);
+}
+
+.sms-mobile-menu.open {
+  display: grid;
+  gap: 5px;
+}
+
+.sms-mobile-link {
+  padding: 12px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: var(--sms-text);
+
+  text-align: left;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .sms-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-hero {
+    padding-top: 140px;
+  }
+
+  .sms-hero-content {
+    max-width: 720px;
+  }
+
+  .sms-visual {
+    min-height: 520px;
+  }
+
+  .sms-role-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 850px) {
+  .sms-nav-links,
+  .sms-login-btn {
+    display: none;
+  }
+
+  .sms-mobile-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .sms-nav-actions {
+    margin-left: auto;
+  }
+
+  .sms-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sms-stat:nth-child(2) {
+    border-right: 0;
+  }
+
+  .sms-stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--sms-border);
+  }
+
+  .sms-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .sms-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .sms-nav-wrap {
+    padding: 10px 10px;
+  }
+
+  .sms-navbar {
+    min-height: 60px;
+    border-radius: 16px;
+    padding-left: 11px;
+  }
+
+  .sms-brand-mark {
+    width: 37px;
+    height: 37px;
+  }
+
+  .sms-brand-name {
+    font-size: 14px;
+  }
+
+  .sms-brand-sub {
+    font-size: 7px;
+  }
+
+  .sms-nav-cta {
+    display: none;
+  }
+
+  .sms-hero {
+    min-height: auto;
+    padding-top: 115px;
+    padding-bottom: 65px;
+  }
+
+  .sms-hero-title {
+    font-size: clamp(42px, 14vw, 60px);
+  }
+
+  .sms-hero-description {
+    font-size: 14px;
+  }
+
+  .sms-hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sms-primary-btn,
+  .sms-secondary-btn {
+    width: 100%;
+  }
+
+  .sms-trust-row {
+    gap: 10px;
+  }
+
+  .sms-visual {
+    min-height: 430px;
+    margin-top: 10px;
+  }
+
+  .sms-building {
+    width: 330px;
+    height: 340px;
+  }
+
+  .sms-tower {
+    width: 190px;
+    height: 285px;
+  }
+
+  .sms-building-base {
+    width: 280px;
+  }
+
+  .sms-building-side {
+    height: 270px;
+    width: 60px;
+  }
+
+  .sms-windows {
+    grid-auto-rows: 18px;
+    gap: 7px;
+  }
+
+  .sms-orbit {
+    width: 350px;
+    height: 350px;
+  }
+
+  .sms-float-card {
+    padding: 9px 11px;
+  }
+
+  .sms-float-card.card-one {
+    left: 0;
+    top: 80px;
+  }
+
+  .sms-float-card.card-two {
+    right: 0;
+    top: 155px;
+  }
+
+  .sms-float-card.card-three {
+    left: 10px;
+    bottom: 15px;
+  }
+
+  .sms-section {
+    padding: 75px 0;
+  }
+
+  .sms-stats-section {
+    padding-bottom: 65px;
+  }
+
+  .sms-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sms-stat {
+    padding: 20px 15px;
+  }
+
+  .sms-stat-number {
+    font-size: 24px;
+  }
+
+  .sms-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-feature {
+    min-height: auto;
+  }
+
+  .sms-role-panel {
+    padding: 22px;
+  }
+
+  .sms-cta {
+    padding: 65px 0;
+  }
+
+  .sms-cta-box {
+    padding: 55px 22px;
+    border-radius: 24px;
+  }
+
+  .sms-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sms-page *,
+  .sms-page *::before,
+  .sms-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ============================================================
+   SOCIETYSPHERE LANDING PAGE
+   FRAMER-INSPIRED DARK THEME
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   ROOT DARK PAGE
+   ------------------------------------------------------------ */
+
+.sms-dark {
+
+  --landing-bg:
+    #0b0b0c;
+
+  --landing-surface:
+    #111113;
+
+  --landing-surface-raised:
+    #18181a;
+
+  --landing-border:
+    rgba(255, 255, 255, 0.10);
+
+  --landing-border-hover:
+    rgba(255, 255, 255, 0.17);
+
+  --landing-text:
+    #f5f5f5;
+
+  --landing-text-secondary:
+    #a6a6aa;
+
+  --landing-text-tertiary:
+    #707075;
+
+  --landing-tint:
+    #f5f5f5;
+
+  background:
+    var(--landing-bg) !important;
+
+  color:
+    var(--landing-text);
+
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+
+/* ------------------------------------------------------------
+   MAIN BACKGROUND
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-page {
+
+  background:
+    var(--landing-bg) !important;
+
+  color:
+    var(--landing-text);
+}
+
+
+/* ------------------------------------------------------------
+   REMOVE OLD COLORED DARK-MODE EFFECTS
+   ------------------------------------------------------------ */
+
+.sms-dark::before,
+.sms-dark::after {
+
+  background:
+    none !important;
+
+  box-shadow:
+    none !important;
+}
+
+
+/* ------------------------------------------------------------
+   NAVIGATION
+   ------------------------------------------------------------ */
+
+.sms-dark nav,
+.sms-dark header {
+
+  background:
+    rgba(11, 11, 12, 0.88);
+
+  border-color:
+    var(--landing-border);
+
+  color:
+    var(--landing-text);
+
+  backdrop-filter:
+    blur(18px);
+}
+
+
+.sms-dark nav a,
+.sms-dark header a {
+
+  color:
+    var(--landing-text-secondary);
+}
+
+
+.sms-dark nav a:hover,
+.sms-dark header a:hover {
+
+  color:
+    var(--landing-text);
+}
+
+
+/* ------------------------------------------------------------
+   HEADINGS
+   ------------------------------------------------------------ */
+
+.sms-dark h1,
+.sms-dark h2,
+.sms-dark h3,
+.sms-dark h4,
+.sms-dark h5,
+.sms-dark h6 {
+
+  color:
+    var(--landing-text);
+}
+
+
+/* ------------------------------------------------------------
+   BODY TEXT
+   ------------------------------------------------------------ */
+
+.sms-dark p {
+
+  color:
+    var(--landing-text-secondary);
+}
+
+
+/* ------------------------------------------------------------
+   SECONDARY TEXT
+   ------------------------------------------------------------ */
+
+.sms-dark .secondary,
+.sms-dark .muted,
+.sms-dark .subtitle {
+
+  color:
+    var(--landing-text-tertiary);
+}
+
+
+/* ------------------------------------------------------------
+   CARDS
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-card {
+
+  background:
+    var(--landing-surface);
+
+  border:
+    1px solid var(--landing-border);
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.22);
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.sms-dark .sms-card:hover {
+
+  background:
+    var(--landing-surface-raised);
+
+  border-color:
+    var(--landing-border-hover);
+
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.28);
+}
+
+
+/* ------------------------------------------------------------
+   FEATURE CARDS
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-feature {
+
+  background:
+    var(--landing-surface);
+
+  border:
+    1px solid var(--landing-border);
+
+  color:
+    var(--landing-text);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+
+.sms-dark .sms-feature:hover {
+
+  background:
+    var(--landing-surface-raised);
+
+  border-color:
+    var(--landing-border-hover);
+
+  transform:
+    translateY(-3px);
+}
+
+
+/* ------------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-primary-btn {
+
+  background:
+    var(--landing-tint) !important;
+
+  color:
+    #0b0b0c !important;
+
+  border:
+    none !important;
+
+  box-shadow:
+    none !important;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+
+.sms-dark .sms-primary-btn:hover {
+
+  background:
+    #ffffff !important;
+
+  color:
+    #0b0b0c !important;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.28) !important;
+}
+
+
+/* ------------------------------------------------------------
+   SECONDARY BUTTON
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-secondary-btn {
+
+  background:
+    transparent !important;
+
+  color:
+    var(--landing-text) !important;
+
+  border:
+    1px solid var(--landing-border) !important;
+}
+
+
+.sms-dark .sms-secondary-btn:hover {
+
+  background:
+    var(--landing-surface-raised) !important;
+
+  border-color:
+    var(--landing-border-hover) !important;
+}
+
+
+/* ------------------------------------------------------------
+   THEME TOGGLE
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-theme-btn {
+
+  background:
+    var(--landing-surface);
+
+  color:
+    var(--landing-text);
+
+  border:
+    1px solid var(--landing-border);
+
+  box-shadow:
+    none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.sms-dark .sms-theme-btn:hover {
+
+  background:
+    var(--landing-surface-raised);
+
+  border-color:
+    var(--landing-border-hover);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* ------------------------------------------------------------
+   LOGO
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-logo {
+
+  background:
+    var(--landing-tint);
+
+  color:
+    #0b0b0c;
+
+  box-shadow:
+    none;
+}
+
+
+/* ------------------------------------------------------------
+   ICON CONTAINERS
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-icon {
+
+  background:
+    var(--landing-surface-raised);
+
+  color:
+    var(--landing-text);
+
+  border:
+    1px solid var(--landing-border);
+}
+
+
+/* ------------------------------------------------------------
+   DIVIDERS
+   ------------------------------------------------------------ */
+
+.sms-dark hr,
+.sms-dark .sms-divider {
+
+  border-color:
+    var(--landing-border);
+}
+
+
+/* ------------------------------------------------------------
+   INPUTS
+   ------------------------------------------------------------ */
+
+.sms-dark input,
+.sms-dark textarea,
+.sms-dark select {
+
+  background:
+    var(--landing-surface) !important;
+
+  color:
+    var(--landing-text) !important;
+
+  border:
+    1px solid var(--landing-border) !important;
+
+  box-shadow:
+    none !important;
+}
+
+
+.sms-dark input::placeholder,
+.sms-dark textarea::placeholder {
+
+  color:
+    var(--landing-text-tertiary) !important;
+}
+
+
+.sms-dark input:focus,
+.sms-dark textarea:focus,
+.sms-dark select:focus {
+
+  border-color:
+    rgba(255, 255, 255, 0.28) !important;
+
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.055) !important;
+
+  outline:
+    none !important;
+}
+
+
+/* ------------------------------------------------------------
+   HERO ILLUSTRATION
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-building {
+
+  filter:
+    drop-shadow(
+      0 25px 40px rgba(0, 0, 0, 0.40)
+    );
+}
+
+
+/* Remove previous green/teal/purple glow */
+
+.sms-dark .sms-building-glow {
+
+  background:
+    transparent !important;
+
+  box-shadow:
+    none !important;
+
+  filter:
+    none !important;
+}
+
+
+/* ------------------------------------------------------------
+   FLOATING ELEMENTS
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-floating-card {
+
+  background:
+    var(--landing-surface);
+
+  border:
+    1px solid var(--landing-border);
+
+  color:
+    var(--landing-text);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.30);
+
+  backdrop-filter:
+    blur(10px);
+}
+
+
+/* ------------------------------------------------------------
+   BADGES
+   ------------------------------------------------------------ */
+
+.sms-dark .sms-badge {
+
+  background:
+    var(--landing-surface);
+
+  color:
+    var(--landing-text-secondary);
+
+  border:
+    1px solid var(--landing-border);
+}
+
+
+/* ------------------------------------------------------------
+   DARK SCROLLBAR
+   ------------------------------------------------------------ */
+
+.sms-dark::-webkit-scrollbar {
+
+  width:
+    8px;
+}
+
+
+.sms-dark::-webkit-scrollbar-track {
+
+  background:
+    var(--landing-bg);
+}
+
+
+.sms-dark::-webkit-scrollbar-thumb {
+
+  background:
+    #29292c;
+
+  border-radius:
+    999px;
+}
+
+
+.sms-dark::-webkit-scrollbar-thumb:hover {
+
+  background:
+    #3a3a3d;
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+
+  .sms-dark .sms-card,
+  .sms-dark .sms-feature,
+  .sms-dark .sms-floating-card {
+
+    box-shadow:
+      0 12px 30px rgba(0, 0, 0, 0.22);
+  }
+}
