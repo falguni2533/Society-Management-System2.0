@@ -594,6 +594,7 @@ const ResidentDashboard = () => {
 
         </Link>
 
+<<<<<<< HEAD
 
         <button
           type="button"
@@ -680,6 +681,51 @@ const ResidentDashboard = () => {
 
         </button>
 
+=======
+        <Link
+          to="/resident/bills"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition-all flex items-center justify-between group"
+        >
+          <div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+              Maintenance Due
+            </p>
+            <p className="text-2xl font-bold text-slate-900 mt-1">
+              ${stats.totalPendingAmount?.toFixed(2) || '0.00'}
+            </p>
+            <p className="text-xs font-medium mt-1 flex items-center gap-1">
+              {stats.pendingBills > 0 ? (
+                <span className="text-amber-600 font-semibold">{stats.pendingBills} Pending Invoice(s)</span>
+              ) : (
+                <span className="text-emerald-600">All Dues Cleared</span>
+              )}
+            </p>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <CreditCard className="w-6 h-6" />
+          </div>
+        </Link>
+
+        <Link
+          to="/resident/visitors"
+          className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition-all flex items-center justify-between group"
+        >
+          <div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+              Expected Visitors
+            </p>
+            <p className="text-2xl font-bold text-slate-900 mt-1">
+              {stats.expectedVisitorsToday || 0} Scheduled
+            </p>
+            <p className="text-xs text-blue-600 font-medium mt-1 flex items-center gap-1">
+              Gate pre-approval <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </p>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+            <Users className="w-6 h-6" />
+          </div>
+        </Link>
+>>>>>>> origin/main
       </div>
 
 
@@ -898,6 +944,7 @@ const ResidentDashboard = () => {
 
             </Link>
 
+<<<<<<< HEAD
 
             <button
               type="button"
@@ -915,10 +962,32 @@ const ResidentDashboard = () => {
                   size={18}
                 />
 
+=======
+            <Link
+              to="/resident/bills"
+              className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-emerald-50/60 hover:border-emerald-200 transition-all flex items-start gap-3 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                <CreditCard className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="font-semibold text-slate-800 group-hover:text-emerald-700">Maintenance & Dues</div>
+                <div className="text-xs text-slate-500">View bill statements and payment status.</div>
+              </div>
+            </Link>
+
+            <Link
+              to="/resident/visitors"
+              className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-teal-50/60 hover:border-teal-200 transition-all flex items-start gap-3 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center shrink-0">
+                <Users className="w-4 h-4" />
+>>>>>>> origin/main
               </div>
 
 
               <div>
+<<<<<<< HEAD
 
                 <strong>
                   Maintenance & Dues
@@ -986,6 +1055,12 @@ const ResidentDashboard = () => {
 
             </button>
 
+=======
+                <div className="font-semibold text-slate-800 group-hover:text-teal-700">Visitor Pre-Approval</div>
+                <div className="text-xs text-slate-500">Register expected guests for gate clearance.</div>
+              </div>
+            </Link>
+>>>>>>> origin/main
           </div>
 
         </div>

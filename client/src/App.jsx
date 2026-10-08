@@ -17,6 +17,7 @@ import LandingPage from './pages/LandingPage';
 import ResidentDashboard from './pages/ResidentDashboard';
 import ResidentComplaintsPage from './pages/ResidentComplaintsPage';
 import ResidentNoticesPage from './pages/ResidentNoticesPage';
+<<<<<<< HEAD
 
 import AdminDashboard from './pages/AdminDashboard';
 import AdminComplaintsPage from './pages/AdminComplaintsPage';
@@ -25,6 +26,17 @@ import AdminSecurityPage from './pages/AdminSecurityPage';
 
 import SecurityDashboard from './pages/SecurityDashboard';
 
+=======
+import ResidentBillsPage from './pages/ResidentBillsPage';
+import ResidentVisitorsPage from './pages/ResidentVisitorsPage';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminComplaintsPage from './pages/AdminComplaintsPage';
+import AdminNoticesPage from './pages/AdminNoticesPage';
+import AdminBillsPage from './pages/AdminBillsPage';
+import AdminVisitorsPage from './pages/AdminVisitorsPage';
+import SecurityDashboard from './pages/SecurityDashboard';
+import SecurityVisitorsPage from './pages/SecurityVisitorsPage';
+>>>>>>> origin/main
 import UnauthorizedPage from './pages/UnauthorizedPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -147,6 +159,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/resident/bills"
+          element={
+            <ProtectedRoute allowedRoles={['resident', 'admin']}>
+              <ResidentBillsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resident/visitors"
+          element={
+            <ProtectedRoute allowedRoles={['resident', 'admin']}>
+              <ResidentVisitorsPage />
+            </ProtectedRoute>
+          }
+        />
 
 
         {/* =========================
@@ -187,6 +215,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/bills"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminBillsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/visitors"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminVisitorsPage />
+            </ProtectedRoute>
+          }
+        />
 
 
         {/* =========================
@@ -222,7 +266,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+<<<<<<< HEAD
 
+=======
+        <Route
+          path="/security/visitors"
+          element={
+            <ProtectedRoute allowedRoles={['security', 'admin']}>
+              <SecurityVisitorsPage />
+            </ProtectedRoute>
+          }
+        />
+>>>>>>> origin/main
       </Route>
 
 
