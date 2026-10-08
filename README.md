@@ -65,3 +65,6 @@ To re-run the Phase 1 backend verification test suite at any time:
 cd server
 node test-auth.js
 ```
+## Contributors
+
+- Manya - Project Development and Documentation
