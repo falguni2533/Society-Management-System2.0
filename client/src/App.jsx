@@ -17,26 +17,19 @@ import LandingPage from './pages/LandingPage';
 import ResidentDashboard from './pages/ResidentDashboard';
 import ResidentComplaintsPage from './pages/ResidentComplaintsPage';
 import ResidentNoticesPage from './pages/ResidentNoticesPage';
-<<<<<<< HEAD
-
-import AdminDashboard from './pages/AdminDashboard';
-import AdminComplaintsPage from './pages/AdminComplaintsPage';
-import AdminNoticesPage from './pages/AdminNoticesPage';
-import AdminSecurityPage from './pages/AdminSecurityPage';
-
-import SecurityDashboard from './pages/SecurityDashboard';
-
-=======
 import ResidentBillsPage from './pages/ResidentBillsPage';
 import ResidentVisitorsPage from './pages/ResidentVisitorsPage';
+
 import AdminDashboard from './pages/AdminDashboard';
 import AdminComplaintsPage from './pages/AdminComplaintsPage';
 import AdminNoticesPage from './pages/AdminNoticesPage';
 import AdminBillsPage from './pages/AdminBillsPage';
 import AdminVisitorsPage from './pages/AdminVisitorsPage';
+import AdminSecurityPage from './pages/AdminSecurityPage';
+
 import SecurityDashboard from './pages/SecurityDashboard';
 import SecurityVisitorsPage from './pages/SecurityVisitorsPage';
->>>>>>> origin/main
+
 import UnauthorizedPage from './pages/UnauthorizedPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -266,10 +259,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-<<<<<<< HEAD
 
-=======
-        <Route
+
+               <Route
           path="/security/visitors"
           element={
             <ProtectedRoute allowedRoles={['security', 'admin']}>
@@ -277,7 +269,6 @@ function App() {
             </ProtectedRoute>
           }
         />
->>>>>>> origin/main
       </Route>
 
 
