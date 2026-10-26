@@ -202,6 +202,7 @@ const getSecurityDashboard = async (req, res, next) => {
       expectedVisitorsToday,
       currentlyInside,
       completedVisitsToday,
+      checkInsToday,
     ] = await Promise.all([
       Flat.countDocuments(),
       User.countDocuments({ role: 'resident' }),
@@ -214,6 +215,9 @@ const getSecurityDashboard = async (req, res, next) => {
       Visitor.countDocuments({
         status: 'Checked Out',
         checkOutTime: { $gte: startOfToday, $lte: endOfToday },
+      }),
+      Visitor.countDocuments({
+        checkInTime: { $gte: startOfToday, $lte: endOfToday },
       }),
     ]);
 
@@ -230,6 +234,8 @@ const getSecurityDashboard = async (req, res, next) => {
         shift: 'Active Duty',
         stats: {
           expectedVisitorsToday,
+          checkInsToday,
+          todayCheckIns: checkInsToday,
           currentlyInside,
           completedVisitsToday,
           totalNotices,

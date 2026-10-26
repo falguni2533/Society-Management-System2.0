@@ -17,7 +17,7 @@ const { protect, authorize } = require('../middleware/auth');
 router.use(protect);
 
 // Resident pre-approves visitor (or Admin)
-router.post('/', authorize('resident', 'admin'), createVisitor);
+router.post('/', authorize('resident', 'admin', 'security'), createVisitor);
 
 // Resident views their own visitor history
 router.get('/my', authorize('resident'), getMyVisitors);
