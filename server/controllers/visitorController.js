@@ -71,6 +71,13 @@ const createVisitor = async (req, res, next) => {
         targetResidentId = flat.owner;
       } else if (flat.residents && flat.residents.length > 0) {
         targetResidentId = flat.residents[0];
+      } else if (req.body.resident) {
+        targetResidentId = req.body.resident;
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: 'Selected flat has no registered resident yet. Please select an occupied flat.',
+        });
       }
     }
 
@@ -88,6 +95,10 @@ const createVisitor = async (req, res, next) => {
     const resolvedPurpose =
       purpose && validPurposes.includes(purpose) ? purpose : 'Guest / Family';
 
+    const isImmediateCheckIn =
+      (req.user.role === 'security' || req.user.role === 'admin') &&
+      (req.body.checkInNow === true || req.body.status === 'Checked In');
+
     const visitor = await Visitor.create({
       visitorName: visitorName.trim(),
       phone: phone.trim(),
@@ -99,7 +110,9 @@ const createVisitor = async (req, res, next) => {
       vehicleNumber: vehicleNumber ? vehicleNumber.trim().toUpperCase() : '',
       notes: notes ? notes.trim() : '',
       passCode,
-      status: 'Pre-Approved',
+      status: isImmediateCheckIn ? 'Checked In' : 'Pre-Approved',
+      checkInTime: isImmediateCheckIn ? new Date() : null,
+      securityGuard: isImmediateCheckIn ? req.user._id : null,
     });
 
     const populatedVisitor = await Visitor.findById(visitor._id)
@@ -108,7 +121,9 @@ const createVisitor = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: 'Visitor pre-approved successfully',
+      message: isImmediateCheckIn
+        ? `Visitor ${visitor.visitorName} registered and checked in successfully`
+        : 'Visitor pre-approved successfully',
       data: populatedVisitor,
     });
   } catch (error) {
@@ -162,7 +177,7 @@ const getTodayVisitors = async (req, res, next) => {
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
-    // Fetch visitors expected today OR currently checked in
+    // Fetch visitors expected today OR currently checked in OR activity today
     const visitors = await Visitor.find({
       $or: [
         {
@@ -174,6 +189,9 @@ const getTodayVisitors = async (req, res, next) => {
         {
           checkInTime: { $gte: startOfToday, $lte: endOfToday },
         },
+        {
+          checkOutTime: { $gte: startOfToday, $lte: endOfToday },
+        },
       ],
     })
       .populate('flat', 'wing flatNumber floor type')
@@ -183,15 +201,23 @@ const getTodayVisitors = async (req, res, next) => {
 
     const expectedCount = visitors.filter((v) => v.status === 'Pre-Approved').length;
     const checkedInCount = visitors.filter((v) => v.status === 'Checked In').length;
-    const checkedOutTodayCount = visitors.filter((v) => v.status === 'Checked Out').length;
+    const todayCheckIns = visitors.filter(
+      (v) => (v.status === 'Checked In' || v.status === 'Checked Out') && v.checkInTime && new Date(v.checkInTime) >= startOfToday && new Date(v.checkInTime) <= endOfToday
+    ).length;
+    const checkedOutTodayCount = visitors.filter(
+      (v) => v.status === 'Checked Out' && v.checkOutTime && new Date(v.checkOutTime) >= startOfToday && new Date(v.checkOutTime) <= endOfToday
+    ).length;
 
     res.status(200).json({
       success: true,
       count: visitors.length,
       stats: {
         expectedToday: expectedCount,
+        todayCheckIns: todayCheckIns,
+        checkInsToday: todayCheckIns,
         currentlyInside: checkedInCount,
         completedToday: checkedOutTodayCount,
+        checkOutsToday: checkedOutTodayCount,
       },
       data: visitors,
     });

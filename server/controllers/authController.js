@@ -164,7 +164,9 @@ const getMe = async (req, res, next) => {
 // @access  Public
 const getFlatsForRegistration = async (req, res, next) => {
   try {
-    const flats = await Flat.find().sort({ wing: 1, flatNumber: 1 });
+    const flats = await Flat.find()
+      .populate('owner', 'name email phone')
+      .sort({ wing: 1, flatNumber: 1 });
     res.status(200).json({
       success: true,
       count: flats.length,
