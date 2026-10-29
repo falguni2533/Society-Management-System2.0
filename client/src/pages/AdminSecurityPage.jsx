@@ -11,9 +11,15 @@ import {
   CheckCircle2,
   RefreshCw,
   AlertTriangle,
+  Search,
+  Check,
+  LogIn,
+  LogOut,
+  Car,
 } from 'lucide-react';
 
 import authService from '../services/authService';
+import visitorService from '../services/visitorService';
 
 import './AdminSecurityPage.css';
 
@@ -21,81 +27,122 @@ import './AdminSecurityPage.css';
 const AdminSecurityPage = () => {
 
   const [dashboard, setDashboard] = useState(null);
+  const [visitors, setVisitors] = useState([]);
+  const [visitorStats, setVisitorStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [actionLoading, setActionLoading] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
 
 
   const loadSecurityData = async () => {
 
     try {
-
       setLoading(true);
       setError('');
 
-      /*
-       * The current backend does not provide a
-       * visitor/security-record API.
-       *
-       * Therefore we only use the existing
-       * admin dashboard API and do NOT create
-       * fake visitor records.
-       */
+      const [dashRes, visRes] = await Promise.allSettled([
+        authService.getAdminDashboard(),
+        visitorService.getTodayVisitors(),
+      ]);
 
-      const response =
-        await authService.getAdminDashboard();
+      if (dashRes.status === 'fulfilled' && dashRes.value?.success) {
+        setDashboard(dashRes.value.data || {});
+      }
 
-      if (response?.success) {
-
-        setDashboard(
-          response.data || {}
-        );
-
-      } else {
-
-        setDashboard(
-          response?.data || {}
-        );
-
+      if (visRes.status === 'fulfilled' && visRes.value?.success) {
+        setVisitors(visRes.value.data || []);
+        setVisitorStats(visRes.value.stats || {});
+      } else if (visRes.status === 'fulfilled' && Array.isArray(visRes.value?.data)) {
+        setVisitors(visRes.value.data);
       }
 
     } catch (err) {
-
-      console.error(
-        'Admin security data error:',
-        err
-      );
-
+      console.error('Admin security data error:', err);
       setError(
         err.response?.data?.message ||
         'Unable to load security information.'
       );
-
     } finally {
-
       setLoading(false);
-
     }
 
   };
 
 
   useEffect(() => {
-
     loadSecurityData();
-
   }, []);
 
 
-  /*
-   * The backend currently exposes
-   * expectedVisitorsToday through the
-   * dashboard response.
-   *
-   * No visitor records are invented here.
-   */
+  const handleCheckIn = async (id) => {
+    try {
+      setActionLoading(id);
+      setError('');
+      const res = await visitorService.checkInVisitor(id);
+      if (res?.success) {
+        setSuccessMessage('Visitor successfully checked in.');
+        setTimeout(() => setSuccessMessage(''), 4000);
+        await loadSecurityData();
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to check in visitor.');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+
+  const handleCheckOut = async (id) => {
+    try {
+      setActionLoading(id);
+      setError('');
+      const res = await visitorService.checkOutVisitor(id);
+      if (res?.success) {
+        setSuccessMessage('Visitor successfully checked out.');
+        setTimeout(() => setSuccessMessage(''), 4000);
+        await loadSecurityData();
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to check out visitor.');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
 
   const expectedVisitors =
-    dashboard?.expectedVisitorsToday ?? 0;
+    visitorStats.expectedToday ??
+    dashboard?.expectedVisitorsToday ??
+    visitors.filter((v) => v.status === 'Pre-Approved').length;
+
+  const insideVisitors =
+    visitorStats.currentlyInside ??
+    visitors.filter((v) => v.status === 'Checked In').length;
+
+  const completedVisitors =
+    visitorStats.completedToday ??
+    visitors.filter((v) => v.status === 'Checked Out').length;
+
+  const totalVisitorsCount = visitors.length;
+
+
+  const filteredVisitors = visitors.filter((v) => {
+    if (filterStatus !== 'ALL' && v.status !== filterStatus) {
+      return false;
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const name = v.visitorName?.toLowerCase() || '';
+      const phone = v.phone?.toLowerCase() || '';
+      const pass = v.passCode?.toLowerCase() || '';
+      const flatStr = v.flat ? `${v.flat.wing}-${v.flat.flatNumber}`.toLowerCase() : '';
+      return name.includes(q) || phone.includes(q) || pass.includes(q) || flatStr.includes(q);
+    }
+    return true;
+  });
 
 
   return (
@@ -126,9 +173,8 @@ const AdminSecurityPage = () => {
 
 
           <p>
-            Monitor society security status
-            and available visitor information
-            from the existing system.
+            Monitor society gate activity, review real visitor logs,
+            and perform security checkpoint actions.
           </p>
 
         </div>
@@ -159,8 +205,28 @@ const AdminSecurityPage = () => {
 
 
       {/* =========================
-          ERROR
+          SUCCESS / ERROR ALERTS
       ========================== */}
+
+      {successMessage && (
+        <div
+          style={{
+            marginBottom: '14px',
+            padding: '12px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '10px',
+            color: '#16a34a',
+            background: 'rgba(34, 197, 94, 0.1)',
+            border: '1px solid rgba(34, 197, 94, 0.25)',
+            fontSize: '13px',
+          }}
+        >
+          <Check size={17} />
+          <span>{successMessage}</span>
+        </div>
+      )}
 
       {error && (
 
@@ -197,12 +263,11 @@ const AdminSecurityPage = () => {
           </span>
 
           <strong>
-            Security system connected
+            Security checkpoint operational
           </strong>
 
           <p>
-            Admin security monitoring is
-            connected to the existing system.
+            Connected to real visitor checkpoint records and database passes.
           </p>
 
         </div>
@@ -237,16 +302,15 @@ const AdminSecurityPage = () => {
           </div>
 
           <span>
-            Visitor records
+            Today's visits
           </span>
 
           <strong>
-            —
+            {loading ? '—' : totalVisitorsCount}
           </strong>
 
           <small>
-            Detailed visitor records are
-            not available in the current backend
+            Total visitors logged today
           </small>
 
         </div>
@@ -267,14 +331,11 @@ const AdminSecurityPage = () => {
           </span>
 
           <strong>
-            {loading
-              ? '—'
-              : expectedVisitors}
+            {loading ? '—' : expectedVisitors}
           </strong>
 
           <small>
-            Expected visitors reported
-            by the existing dashboard API
+            Pre-approved passes for today
           </small>
 
         </div>
@@ -295,12 +356,11 @@ const AdminSecurityPage = () => {
           </span>
 
           <strong>
-            —
+            {loading ? '—' : insideVisitors}
           </strong>
 
           <small>
-            Live gate-entry records are
-            not available in the current backend
+            Checked in at gate checkpoint
           </small>
 
         </div>
@@ -321,12 +381,11 @@ const AdminSecurityPage = () => {
           </span>
 
           <strong>
-            —
+            {loading ? '—' : completedVisitors}
           </strong>
 
           <small>
-            Checkout records are not available
-            in the current backend
+            Checked out today
           </small>
 
         </div>
@@ -350,8 +409,63 @@ const AdminSecurityPage = () => {
             </span>
 
             <h2>
-              Visitor activity
+              Visitor activity ({filteredVisitors.length})
             </h2>
+
+          </div>
+
+
+          <div className="security-header-actions">
+
+            <div className="security-filter-pills">
+
+              <button
+                type="button"
+                className={filterStatus === 'ALL' ? 'active' : ''}
+                onClick={() => setFilterStatus('ALL')}
+              >
+                All ({visitors.length})
+              </button>
+
+              <button
+                type="button"
+                className={filterStatus === 'Pre-Approved' ? 'active' : ''}
+                onClick={() => setFilterStatus('Pre-Approved')}
+              >
+                Expected ({expectedVisitors})
+              </button>
+
+              <button
+                type="button"
+                className={filterStatus === 'Checked In' ? 'active' : ''}
+                onClick={() => setFilterStatus('Checked In')}
+              >
+                Inside ({insideVisitors})
+              </button>
+
+              <button
+                type="button"
+                className={filterStatus === 'Checked Out' ? 'active' : ''}
+                onClick={() => setFilterStatus('Checked Out')}
+              >
+                Completed ({completedVisitors})
+              </button>
+
+            </div>
+
+
+            <div className="security-search">
+
+              <Search size={15} />
+
+              <input
+                type="text"
+                placeholder="Search visitor, phone, flat..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+
+            </div>
 
           </div>
 
@@ -365,12 +479,12 @@ const AdminSecurityPage = () => {
             <div className="admin-spinner" />
 
             <p>
-              Loading security information...
+              Loading visitor records...
             </p>
 
           </div>
 
-        ) : (
+        ) : filteredVisitors.length === 0 ? (
 
           <div className="security-empty">
 
@@ -382,30 +496,161 @@ const AdminSecurityPage = () => {
 
 
             <h3>
-              No visitor log available
+              No visitor records found
             </h3>
 
 
             <p>
-              The current backend does not provide
-              detailed visitor or gate-entry records.
-              No placeholder visitor data has been
-              generated.
+              {visitors.length === 0
+                ? 'No visitors have been registered for today yet.'
+                : 'No visitor matches the selected filter or search query.'}
             </p>
 
+          </div>
 
-            <div className="security-empty-note">
+        ) : (
 
-              <AlertTriangle size={16} />
+          <div className="security-record-list">
 
-              <span>
-                This section will automatically
-                support real visitor records when
-                a visitor management API is added
-                to the backend.
-              </span>
+            {filteredVisitors.map((item) => {
 
-            </div>
+              const isActionRunning = actionLoading === item._id;
+
+              return (
+
+                <div
+                  key={item._id}
+                  className="security-record-row"
+                  style={{ cursor: 'default' }}
+                >
+
+                  <div className="visitor-avatar">
+                    {item.visitorName ? item.visitorName.charAt(0).toUpperCase() : 'V'}
+                  </div>
+
+
+                  <div className="visitor-main">
+
+                    <strong>
+                      {item.visitorName}
+                    </strong>
+
+                    <span>
+                      {item.phone} · Pass: <b>{item.passCode}</b>
+                    </span>
+
+                  </div>
+
+
+                  <div className="visitor-resident">
+
+                    <span>
+                      {item.flat ? `Flat ${item.flat.wing}-${item.flat.flatNumber}` : 'Flat N/A'}
+                    </span>
+
+                    <small>
+                      {item.resident?.name ? `Host: ${item.resident.name}` : item.purpose}
+                    </small>
+
+                  </div>
+
+
+                  <div className="visitor-vehicle">
+
+                    {item.vehicleNumber ? (
+                      <>
+                        <Car size={14} />
+                        <span>{item.vehicleNumber}</span>
+                      </>
+                    ) : (
+                      <span style={{ color: 'var(--admin-faint)' }}>{item.purpose || 'No vehicle'}</span>
+                    )}
+
+                  </div>
+
+
+                  <div>
+
+                    <span
+                      className={`visitor-status ${item.status ? item.status.toLowerCase().replace(' ', '-') : 'pre-approved'}`}
+                    >
+                      {item.status}
+                    </span>
+
+                  </div>
+
+
+                  <div>
+
+                    {item.status === 'Pre-Approved' && (
+                      <button
+                        type="button"
+                        className="admin-primary-button"
+                        style={{
+                          height: '32px',
+                          minHeight: '32px',
+                          padding: '0 12px',
+                          fontSize: '11px',
+                          gap: '4px',
+                        }}
+                        disabled={isActionRunning}
+                        onClick={() => handleCheckIn(item._id)}
+                      >
+                        <LogIn size={13} />
+                        {isActionRunning ? '...' : 'Check In'}
+                      </button>
+                    )}
+
+                    {item.status === 'Checked In' && (
+                      <button
+                        type="button"
+                        className="admin-outline-button"
+                        style={{
+                          height: '32px',
+                          minHeight: '32px',
+                          padding: '0 12px',
+                          fontSize: '11px',
+                          color: '#ef4444',
+                          borderColor: '#ef4444',
+                          gap: '4px',
+                        }}
+                        disabled={isActionRunning}
+                        onClick={() => handleCheckOut(item._id)}
+                      >
+                        <LogOut size={13} />
+                        {isActionRunning ? '...' : 'Check Out'}
+                      </button>
+                    )}
+
+                    {item.status === 'Checked Out' && (
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          color: 'var(--admin-muted)',
+                        }}
+                      >
+                        Departed
+                      </span>
+                    )}
+
+                    {item.status === 'Cancelled' && (
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          color: '#ef4444',
+                        }}
+                      >
+                        Cancelled
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+              );
+
+            })}
 
           </div>
 
@@ -434,15 +679,12 @@ const AdminSecurityPage = () => {
           </span>
 
           <h3>
-            Security portal is ready
+            Security portal active
           </h3>
 
           <p>
-            This admin view intentionally shows
-            only information available from the
-            existing backend. It does not create
-            fake visitors, fake gate entries,
-            or placeholder security records.
+            Gate entry passes, check-ins, and security records are stored
+            directly in MongoDB and kept in sync between Administrators and the Security Guard desk.
           </p>
 
         </div>

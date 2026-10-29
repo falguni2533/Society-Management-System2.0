@@ -110,6 +110,8 @@ const getAdminDashboard = async (req, res, next) => {
       totalVisitors,
       expectedVisitorsToday,
       activeVisitorsInside,
+      allUsers,
+      allFlats,
     ] = await Promise.all([
       User.countDocuments({ role: 'resident' }),
       User.countDocuments({ role: 'security' }),
@@ -130,6 +132,8 @@ const getAdminDashboard = async (req, res, next) => {
         status: 'Pre-Approved',
       }),
       Visitor.countDocuments({ status: 'Checked In' }),
+      User.find({}).populate('flat', 'wing flatNumber type status').select('-password').sort({ role: 1, name: 1 }),
+      Flat.find({}).populate('owner', 'name email phone').populate('residents', 'name email phone').sort({ wing: 1, flatNumber: 1 }),
     ]);
 
     const pendingBills = allBills.filter((b) => b.status === 'Pending' || b.status === 'Overdue');
@@ -152,6 +156,8 @@ const getAdminDashboard = async (req, res, next) => {
             vacant: vacantFlats,
           },
         },
+        users: allUsers,
+        flats: allFlats,
         stats: {
           totalComplaints,
           openComplaints,

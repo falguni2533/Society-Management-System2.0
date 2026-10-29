@@ -24,6 +24,8 @@ import {
   UserCheck,
   Home,
   CreditCard,
+  X,
+  Search,
 } from 'lucide-react';
 
 import './AdminDashboard.css';
@@ -42,6 +44,10 @@ const AdminDashboard = () => {
 
   const [error, setError] =
     useState('');
+
+  const [showDirectory, setShowDirectory] = useState(false);
+  const [directoryTab, setDirectoryTab] = useState('users');
+  const [searchQuery, setSearchQuery] = useState('');
 
 
   useEffect(() => {
@@ -118,6 +124,7 @@ const AdminDashboard = () => {
       detail:
         `${counts.flats?.occupied ?? 0} occupied flats`,
       icon: Users,
+      action: 'directory',
       path: '/admin',
       tone: 'green',
     },
@@ -278,9 +285,13 @@ const AdminDashboard = () => {
               className={
                 `admin-stat-card ${card.tone}`
               }
-              onClick={() =>
-                navigate(card.path)
-              }
+              onClick={() => {
+                if (card.action === 'directory') {
+                  setShowDirectory(true);
+                } else {
+                  navigate(card.path);
+                }
+              }}
             >
 
               <div className="admin-stat-icon">
@@ -435,7 +446,7 @@ const AdminDashboard = () => {
 
             <button
               onClick={() =>
-                navigate('/admin')
+                setShowDirectory(true)
               }
             >
 
@@ -444,14 +455,13 @@ const AdminDashboard = () => {
               <div>
 
                 <strong>
-                  Society overview
+                  Society directory
                 </strong>
 
                 <span>
                   {counts.totalUsers ?? 0}
                   {' '}
-                  registered users across
-                  the system.
+                  registered users · View flats & members.
                 </span>
 
               </div>
@@ -771,6 +781,299 @@ const AdminDashboard = () => {
         </div>
 
       </div>
+
+
+      {/* SOCIETY DIRECTORY MODAL */}
+      {showDirectory && (
+        <div
+          className="complaint-modal-backdrop"
+          onClick={() => setShowDirectory(false)}
+        >
+          <section
+            className="complaint-modal"
+            style={{
+              maxWidth: '820px',
+              width: '100%',
+              maxHeight: '88vh',
+              overflowY: 'auto',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="complaint-modal-close"
+              onClick={() => setShowDirectory(false)}
+              aria-label="Close directory"
+            >
+              <X size={20} />
+            </button>
+
+            <span className="admin-subpage-kicker">
+              <Building2 size={14} />
+              SOCIETY DIRECTORY
+            </span>
+
+            <h2>Society Members & Flats</h2>
+            <p className="complaint-modal-ref">
+              Real MongoDB database records · {data?.users?.length || 0} registered users · {data?.flats?.length || 0} flats
+            </p>
+
+            {/* TAB CONTROLS */}
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+              <button
+                type="button"
+                className={directoryTab === 'users' ? 'admin-primary-button' : 'admin-outline-button'}
+                style={{ padding: '8px 16px', fontSize: '13px' }}
+                onClick={() => setDirectoryTab('users')}
+              >
+                Users & Roles ({data?.users?.length || 0})
+              </button>
+              <button
+                type="button"
+                className={directoryTab === 'flats' ? 'admin-primary-button' : 'admin-outline-button'}
+                style={{ padding: '8px 16px', fontSize: '13px' }}
+                onClick={() => setDirectoryTab('flats')}
+              >
+                Flats & Occupancy ({data?.flats?.length || 0})
+              </button>
+            </div>
+
+            {/* SEARCH FILTER */}
+            <div style={{ marginBottom: '16px' }}>
+              <input
+                type="text"
+                placeholder={directoryTab === 'users' ? "Search users by name, email, phone, role..." : "Search flats by wing, flat number, owner..."}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid var(--admin-border)',
+                  background: 'var(--admin-surface-2)',
+                  color: 'var(--admin-text)',
+                  fontSize: '13px',
+                }}
+              />
+            </div>
+
+            {/* USERS TAB CONTENT */}
+            {directoryTab === 'users' && (
+              <div style={{ display: 'grid', gap: '10px' }}>
+                {(data?.users || [])
+                  .filter((u) => {
+                    if (!searchQuery) return true;
+                    const q = searchQuery.toLowerCase();
+                    return (
+                      u.name?.toLowerCase().includes(q) ||
+                      u.email?.toLowerCase().includes(q) ||
+                      u.phone?.toLowerCase().includes(q) ||
+                      u.role?.toLowerCase().includes(q) ||
+                      (u.flat && `${u.flat.wing}-${u.flat.flatNumber}`.toLowerCase().includes(q))
+                    );
+                  })
+                  .map((u) => (
+                    <div
+                      key={u._id}
+                      style={{
+                        padding: '12px 14px',
+                        borderRadius: '12px',
+                        border: '1px solid var(--admin-border)',
+                        background: 'var(--admin-surface-2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div
+                          style={{
+                            width: '38px',
+                            height: '38px',
+                            borderRadius: '10px',
+                            background: 'var(--admin-blue-soft, rgba(37,99,235,0.1))',
+                            color: 'var(--admin-blue, #2563eb)',
+                            display: 'grid',
+                            placeItems: 'center',
+                            fontWeight: 700,
+                            fontSize: '14px',
+                          }}
+                        >
+                          {u.name ? u.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--admin-text)' }}>
+                            {u.name}
+                          </div>
+                          <div style={{ fontSize: '12px', color: 'var(--admin-muted)', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                            <span>{u.email}</span>
+                            {u.phone && <span>· {u.phone}</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {u.flat && (
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              background: 'var(--admin-surface)',
+                              border: '1px solid var(--admin-border)',
+                              color: 'var(--admin-text)',
+                            }}
+                          >
+                            Flat {u.flat.wing}-{u.flat.flatNumber}
+                          </span>
+                        )}
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            padding: '4px 8px',
+                            borderRadius: '6px',
+                            background:
+                              u.role === 'admin'
+                                ? 'rgba(239, 68, 68, 0.12)'
+                                : u.role === 'security'
+                                ? 'rgba(245, 158, 11, 0.12)'
+                                : 'rgba(34, 197, 94, 0.12)',
+                            color:
+                              u.role === 'admin'
+                                ? '#ef4444'
+                                : u.role === 'security'
+                                ? '#f59e0b'
+                                : '#22c55e',
+                          }}
+                        >
+                          {u.role}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                {(data?.users || []).length === 0 && (
+                  <div style={{ textAlign: 'center', padding: '24px', color: 'var(--admin-muted)' }}>
+                    No user records found.
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* FLATS TAB CONTENT */}
+            {directoryTab === 'flats' && (
+              <div style={{ display: 'grid', gap: '10px' }}>
+                {(data?.flats || [])
+                  .filter((f) => {
+                    if (!searchQuery) return true;
+                    const q = searchQuery.toLowerCase();
+                    return (
+                      f.wing?.toLowerCase().includes(q) ||
+                      f.flatNumber?.toLowerCase().includes(q) ||
+                      f.status?.toLowerCase().includes(q) ||
+                      f.owner?.name?.toLowerCase().includes(q)
+                    );
+                  })
+                  .map((f) => (
+                    <div
+                      key={f._id}
+                      style={{
+                        padding: '12px 14px',
+                        borderRadius: '12px',
+                        border: '1px solid var(--admin-border)',
+                        background: 'var(--admin-surface-2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div
+                          style={{
+                            width: '38px',
+                            height: '38px',
+                            borderRadius: '10px',
+                            background: 'var(--admin-blue-soft, rgba(37,99,235,0.1))',
+                            color: 'var(--admin-blue, #2563eb)',
+                            display: 'grid',
+                            placeItems: 'center',
+                          }}
+                        >
+                          <Building2 size={18} />
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--admin-text)' }}>
+                            Wing {f.wing} - Flat {f.flatNumber}
+                          </div>
+                          <div style={{ fontSize: '12px', color: 'var(--admin-muted)' }}>
+                            Floor {f.floor || 1} · {f.type || 'Standard'}
+                            {f.owner?.name && <span> · Owner: {f.owner.name}</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            padding: '4px 8px',
+                            borderRadius: '6px',
+                            background:
+                              f.status === 'occupied'
+                                ? 'rgba(34, 197, 94, 0.12)'
+                                : 'rgba(100, 116, 139, 0.12)',
+                            color:
+                              f.status === 'occupied'
+                                ? '#22c55e'
+                                : '#64748b',
+                          }}
+                        >
+                          {f.status || 'Vacant'}
+                        </span>
+                        {f.residents && f.residents.length > 0 && (
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              background: 'var(--admin-surface)',
+                              border: '1px solid var(--admin-border)',
+                              color: 'var(--admin-text)',
+                            }}
+                          >
+                            {f.residents.length} {f.residents.length === 1 ? 'Resident' : 'Residents'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                {(data?.flats || []).length === 0 && (
+                  <div style={{ textAlign: 'center', padding: '24px', color: 'var(--admin-muted)' }}>
+                    No flat records found.
+                  </div>
+                )}
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="admin-primary-button"
+              style={{ marginTop: '20px', width: '100%' }}
+              onClick={() => setShowDirectory(false)}
+            >
+              Close Directory
+            </button>
+          </section>
+        </div>
+      )}
 
 
     </div>

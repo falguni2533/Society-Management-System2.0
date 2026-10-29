@@ -253,7 +253,7 @@ function App() {
           path="/security"
           element={
             <ProtectedRoute
-              allowedRoles={['security']}
+              allowedRoles={['security', 'admin']}
             >
               <SecurityDashboard />
             </ProtectedRoute>

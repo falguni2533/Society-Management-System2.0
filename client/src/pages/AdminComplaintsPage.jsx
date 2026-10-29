@@ -793,7 +793,7 @@ const AdminComplaintsPage = () => {
             <button
               className="admin-primary-button"
               onClick={() =>
-                navigate('/admin/complaints')
+                setSelectedComplaint(null)
               }
             >
               Back to complaints

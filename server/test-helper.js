@@ -83,29 +83,53 @@ const populateItem = (item, populatePath, store) => {
 
     let targetCollection = null;
     if (field === 'flat') targetCollection = store.flats;
-    if (field === 'resident' || field === 'owner' || field === 'securityGuard' || field === 'author' || field === 'createdBy') {
+    if (field === 'resident' || field === 'residents' || field === 'owner' || field === 'securityGuard' || field === 'author' || field === 'createdBy') {
       targetCollection = store.users;
     }
 
     if (targetCollection && clone[field]) {
-      const rawVal = clone[field];
-      const targetId = rawVal && rawVal._id ? rawVal._id.toString() : rawVal ? rawVal.toString() : null;
-      let matched = targetCollection.find((t) => (t._id ? t._id.toString() : '') === targetId);
+      if (Array.isArray(clone[field])) {
+        clone[field] = clone[field].map((rawVal) => {
+          const targetId = rawVal && rawVal._id ? rawVal._id.toString() : rawVal ? rawVal.toString() : null;
+          let matched = targetCollection.find((t) => (t._id ? t._id.toString() : '') === targetId);
+          if (matched) {
+            let populatedDoc = { ...matched };
+            if (subPop) {
+              populatedDoc = populateItem(populatedDoc, subPop, store);
+            }
+            if (select) {
+              const selectFields = select.split(' ');
+              const filtered = { _id: populatedDoc._id };
+              selectFields.forEach((f) => {
+                if (f && populatedDoc[f] !== undefined) filtered[f] = populatedDoc[f];
+              });
+              return createDocInstance(filtered, targetCollection, store);
+            } else {
+              return createDocInstance(populatedDoc, targetCollection, store);
+            }
+          }
+          return rawVal;
+        });
+      } else {
+        const rawVal = clone[field];
+        const targetId = rawVal && rawVal._id ? rawVal._id.toString() : rawVal ? rawVal.toString() : null;
+        let matched = targetCollection.find((t) => (t._id ? t._id.toString() : '') === targetId);
 
-      if (matched) {
-        let populatedDoc = { ...matched };
-        if (subPop) {
-          populatedDoc = populateItem(populatedDoc, subPop, store);
-        }
-        if (select) {
-          const selectFields = select.split(' ');
-          const filtered = { _id: populatedDoc._id };
-          selectFields.forEach((f) => {
-            if (f && populatedDoc[f] !== undefined) filtered[f] = populatedDoc[f];
-          });
-          clone[field] = createDocInstance(filtered, targetCollection, store);
-        } else {
-          clone[field] = createDocInstance(populatedDoc, targetCollection, store);
+        if (matched) {
+          let populatedDoc = { ...matched };
+          if (subPop) {
+            populatedDoc = populateItem(populatedDoc, subPop, store);
+          }
+          if (select) {
+            const selectFields = select.split(' ');
+            const filtered = { _id: populatedDoc._id };
+            selectFields.forEach((f) => {
+              if (f && populatedDoc[f] !== undefined) filtered[f] = populatedDoc[f];
+            });
+            clone[field] = createDocInstance(filtered, targetCollection, store);
+          } else {
+            clone[field] = createDocInstance(populatedDoc, targetCollection, store);
+          }
         }
       }
     }

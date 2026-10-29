@@ -728,7 +728,7 @@
 
   inset: 0;
 
-  z-index: 3000;
+  z-index: 9999;
 
   display: grid;
 
@@ -737,10 +737,10 @@
   padding: 20px;
 
   background:
-    rgba(2,6,12,.58);
+    rgba(2,6,12,.72);
 
   backdrop-filter:
-    blur(6px);
+    blur(8px);
 }
 
 .complaint-modal {

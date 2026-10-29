@@ -23,6 +23,8 @@ import {
   Moon,
   ChevronRight,
   CircleHelp,
+  CreditCard,
+  UserCheck,
 } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -78,8 +80,10 @@ const MainLayout = () => {
 
     if (darkMode) {
       root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
     } else {
       root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
     }
 
     window.dispatchEvent(
@@ -132,181 +136,141 @@ const MainLayout = () => {
   ============================================================ */
 
   const navigation = [
-
     {
       label: 'Overview',
       type: 'section',
-      roles: ['admin', 'security'],
+      roles: ['admin', 'resident', 'security'],
     },
-
     {
       name: 'Dashboard',
-
-      path:
-        role === 'admin'
-          ? '/admin'
-          : '/security',
-
+      path: '/admin',
       icon: LayoutDashboard,
-
-      roles: ['admin', 'security'],
+      roles: ['admin'],
+      end: true,
     },
-
-
+    {
+      name: 'My Home',
+      path: '/resident',
+      icon: Home,
+      roles: ['resident'],
+      end: true,
+    },
+    {
+      name: 'Gate Checkpoint',
+      path: '/security',
+      icon: LayoutDashboard,
+      roles: ['security'],
+      end: true,
+    },
     {
       label: 'Society',
       type: 'section',
-      roles: ['resident', 'admin'],
+      roles: ['admin', 'resident', 'security'],
     },
-
-
-    {
-      name: 'My Home',
-
-      path: '/resident',
-
-      icon: Home,
-
-      roles: ['resident'],
-    },
-
-
     {
       name: 'Complaints',
-
-      path:
-        role === 'admin'
-          ? '/admin/complaints'
-          : '/resident/complaints',
-
-      icon: MessageSquare,
-
-      roles: ['resident', 'admin'],
-    },
-
-
-    {
-      name: 'Notices',
-
-      path:
-        role === 'admin'
-          ? '/admin/notices'
-          : '/resident/notices',
-
-      icon: Bell,
-
-      roles: ['resident', 'admin'],
-    },
-
-
-    {
-      name: 'Community',
-
-      path: '/resident',
-
-      icon: Users,
-
-      roles: ['resident'],
-    },
-
-
-    {
-      label: 'Management',
-
-      type: 'section',
-
-      roles: ['admin', 'security'],
-    },
-
-
-    {
-      name: 'Complaints',
-
       path: '/admin/complaints',
-
       icon: MessageSquare,
-
       roles: ['admin'],
     },
-
-
     {
       name: 'Notices',
-
       path: '/admin/notices',
-
       icon: Bell,
-
       roles: ['admin'],
     },
-
-
     {
-      name: 'Security',
-
-      path: '/security',
-
-      icon: ShieldCheck,
-
-      roles: ['security', 'admin'],
+      name: 'Maintenance Bills',
+      path: '/admin/bills',
+      icon: CreditCard,
+      roles: ['admin'],
     },
-
+    {
+      name: 'Visitors',
+      path: '/admin/visitors',
+      icon: UserCheck,
+      roles: ['admin'],
+    },
+    {
+      name: 'Gate Security',
+      path: '/admin/security',
+      icon: ShieldCheck,
+      roles: ['admin'],
+    },
+    {
+      name: 'Complaints',
+      path: '/resident/complaints',
+      icon: MessageSquare,
+      roles: ['resident'],
+    },
+    {
+      name: 'Notices',
+      path: '/resident/notices',
+      icon: Bell,
+      roles: ['resident'],
+    },
+    {
+      name: 'My Bills',
+      path: '/resident/bills',
+      icon: CreditCard,
+      roles: ['resident'],
+    },
+    {
+      name: 'Visitors',
+      path: '/resident/visitors',
+      icon: UserCheck,
+      roles: ['resident'],
+    },
+    {
+      name: 'Visitor Desk',
+      path: '/security/visitors',
+      icon: UserCheck,
+      roles: ['security'],
+    },
+    {
+      name: 'Gate Status',
+      path: '/admin/security',
+      icon: ShieldCheck,
+      roles: ['security'],
+    },
   ];
 
-
-  const visibleNavigation =
-    navigation.filter((item) => {
-
-      if (!item.roles) {
-        return true;
-      }
-
-      return item.roles.includes(role);
-
-    });
-
+  const visibleNavigation = navigation.filter((item) => {
+    if (!item.roles) {
+      return true;
+    }
+    return item.roles.includes(role);
+  });
 
   /* ============================================================
      PAGE NAME
   ============================================================ */
 
   const getPageName = () => {
-
-    if (
-      location.pathname.includes('complaints')
-    ) {
+    if (location.pathname.includes('complaints')) {
       return 'Complaints';
     }
-
-
-    if (
-      location.pathname.includes('notices')
-    ) {
+    if (location.pathname.includes('notices')) {
       return 'Notices';
     }
-
-
-    if (
-      location.pathname.includes('security')
-    ) {
-      return 'Security';
+    if (location.pathname.includes('bills')) {
+      return 'Maintenance Bills';
     }
-
-
-    if (
-      location.pathname === '/resident'
-    ) {
+    if (location.pathname.includes('visitors')) {
+      return 'Visitors';
+    }
+    if (location.pathname.includes('security')) {
+      return 'Gate Security';
+    }
+    if (location.pathname === '/resident') {
       return 'My Home';
     }
-
-
-    if (
-      location.pathname === '/admin'
-    ) {
+    if (location.pathname === '/admin') {
       return 'Dashboard';
     }
-
-
+    if (location.pathname === '/security') {
+      return 'Gate Checkpoint';
+    }
     return 'Dashboard';
   };
 
@@ -1094,6 +1058,7 @@ const MainLayout = () => {
                 <NavLink
                   key={`${item.name}-${item.path}-${index}`}
                   to={item.path}
+                  end={Boolean(item.end || item.path === '/admin' || item.path === '/security' || item.path === '/resident')}
                   className={({ isActive }) =>
                     `sms-nav-link ${
                       isActive
