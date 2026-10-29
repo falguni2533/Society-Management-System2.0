@@ -1,0 +1,1226 @@
+/* =========================================================
+   SOCIETY NOTICES PAGE
+   ========================================================= */
+
+.sms-notices-page {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+  padding: 4px 0 40px;
+
+  color: #e5e7eb;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.sms-notices-header {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  margin-bottom: 28px;
+}
+
+
+.sms-notices-kicker {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 7px;
+
+  color: #60a5fa;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+}
+
+
+.sms-notices-kicker span {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #8b5cf6;
+
+  box-shadow:
+    0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+
+.sms-notices-header h1 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 32px;
+  line-height: 1.15;
+
+  font-weight: 700;
+
+  letter-spacing: -0.7px;
+}
+
+
+.sms-notices-header p {
+  margin: 7px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.sms-notice-search {
+  width: 230px;
+  min-width: 210px;
+
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 13px;
+
+  border: 1px solid #26364a;
+
+  border-radius: 10px;
+
+  background: #0c1521;
+
+  color: #64748b;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.sms-notice-search:focus-within {
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+
+.sms-notice-search input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #f8fafc;
+
+  font-family: inherit;
+
+  font-size: 13px;
+}
+
+
+.sms-notice-search input::placeholder {
+  color: #64748b;
+}
+
+
+/* =========================================================
+   FEATURED NOTICE
+   ========================================================= */
+
+.sms-featured-notice {
+  width: 100%;
+
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(96, 165, 250, 0.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      120deg,
+      #242d73 0%,
+      #373aa3 48%,
+      #4f46c8 100%
+    );
+
+  border: 1px solid rgba(129, 140, 248, 0.28);
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.18);
+}
+
+
+.sms-featured-content {
+  padding: 28px 30px;
+}
+
+
+.sms-featured-badge {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 6px 10px;
+
+  margin-bottom: 14px;
+
+  border-radius: 999px;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  background: rgba(255, 255, 255, 0.1);
+
+  color: #dbeafe;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+}
+
+
+.sms-featured-content h2 {
+  margin: 0;
+
+  max-width: 850px;
+
+  color: #ffffff;
+
+  font-size: 22px;
+
+  line-height: 1.35;
+
+  font-weight: 700;
+}
+
+
+.sms-featured-content p {
+  max-width: 850px;
+
+  margin: 9px 0 16px;
+
+  color: #dbeafe;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+
+.sms-featured-meta {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 18px;
+
+  color: #c7d2fe;
+
+  font-size: 12px;
+}
+
+
+.sms-featured-meta span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.sms-notices-layout {
+  width: 100%;
+
+  display: grid;
+
+  /*
+     Notice list + small information card.
+     Browse by category has been removed.
+  */
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    250px;
+
+  gap: 16px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   NOTICE PANEL
+   ========================================================= */
+
+.sms-notices-panel {
+  min-width: 0;
+
+  border: 1px solid #26364a;
+
+  border-radius: 16px;
+
+  background: #0c1521;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+.sms-notices-panel-header {
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 16px 18px;
+
+  border-bottom: 1px solid #26364a;
+}
+
+
+.sms-notices-panel-header h2 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+.sms-notices-panel-header p {
+  margin: 4px 0 0;
+
+  color: #718096;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TOP FILTERS
+   ========================================================= */
+
+.sms-notice-tabs {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 3px;
+
+  border-radius: 9px;
+
+  background: #101c2b;
+}
+
+
+.sms-notice-tab {
+  border: none;
+
+  padding: 7px 11px;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #7f91a8;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.sms-notice-tab:hover {
+  color: #dbeafe;
+}
+
+
+.sms-notice-tab.active {
+  background: #22204f;
+
+  color: #60a5fa;
+}
+
+
+/* =========================================================
+   NOTICE LIST
+   ========================================================= */
+
+.sms-notice-list {
+  width: 100%;
+}
+
+
+.sms-notice-card {
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    48px
+    minmax(0, 1fr)
+    22px;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  border-bottom: 1px solid #1d2b3d;
+
+  transition:
+    background 0.2s ease;
+}
+
+
+.sms-notice-card:last-child {
+  border-bottom: none;
+}
+
+
+.sms-notice-card:hover {
+  background: rgba(59, 130, 246, 0.035);
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.sms-notice-date {
+  width: 45px;
+  height: 49px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: #201b47;
+
+  border: 1px solid #302969;
+
+  color: #a78bfa;
+}
+
+
+.sms-notice-date strong {
+  font-size: 17px;
+
+  line-height: 1;
+
+  font-weight: 700;
+}
+
+
+.sms-notice-date span {
+  margin-top: 4px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.6px;
+}
+
+
+/* =========================================================
+   NOTICE MAIN
+   ========================================================= */
+
+.sms-notice-main {
+  min-width: 0;
+}
+
+
+.sms-notice-top {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+
+.sms-notice-title {
+  color: #f8fafc;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+
+.sms-notice-tag {
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.1);
+
+  color: #60a5fa;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  text-transform: uppercase;
+}
+
+
+.sms-notice-description {
+  margin: 6px 0 8px;
+
+  color: #91a2b7;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+  word-break: break-word;
+}
+
+
+.sms-notice-bottom {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+
+.sms-notice-arrow {
+  color: #52657b;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.sms-notice-card:hover .sms-notice-arrow {
+  color: #60a5fa;
+
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   RIGHT INFORMATION CARD
+   ========================================================= */
+
+.sms-notices-side {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.sms-notice-info {
+  border: 1px solid #26364a;
+
+  border-radius: 16px;
+
+  background: #0c1521;
+
+  padding: 18px;
+}
+
+
+.sms-notice-info-icon {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+
+  background: #241d4d;
+
+  color: #a78bfa;
+}
+
+
+.sms-notice-info h3 {
+  margin: 0 0 7px;
+
+  color: #f8fafc;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+.sms-notice-info p {
+  margin: 0;
+
+  color: #8191a6;
+
+  font-size: 11px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   EMPTY SEARCH / FILTER RESULT
+   ========================================================= */
+
+.sms-notices-empty {
+  min-height: 280px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px 25px;
+
+  text-align: center;
+}
+
+
+.sms-notices-empty-icon {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 14px;
+
+  border-radius: 15px;
+
+  background: rgba(59, 130, 246, 0.1);
+
+  color: #60a5fa;
+}
+
+
+.sms-notices-empty h3 {
+  margin: 0 0 7px;
+
+  color: #f8fafc;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+
+.sms-notices-empty p {
+  max-width: 430px;
+
+  margin: 0;
+
+  color: #8191a6;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   NO REAL NOTICES
+   ========================================================= */
+
+.sms-notices-real-empty {
+  min-height: 330px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 45px 25px;
+
+  border: 1px solid #26364a;
+
+  border-radius: 17px;
+
+  background: #0c1521;
+
+  text-align: center;
+}
+
+
+.sms-notices-real-empty-icon {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 18px;
+
+  background: rgba(59, 130, 246, 0.1);
+
+  color: #60a5fa;
+}
+
+
+.sms-notices-real-empty h2 {
+  margin: 0 0 8px;
+
+  color: #f8fafc;
+
+  font-size: 21px;
+
+  font-weight: 700;
+}
+
+
+.sms-notices-real-empty p {
+  max-width: 500px;
+
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+.sms-notices-real-empty span {
+  margin-top: 8px;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.sms-notices-error {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+
+  padding: 14px 16px;
+
+  border: 1px solid rgba(239, 68, 68, 0.25);
+
+  border-radius: 12px;
+
+  background: rgba(127, 29, 29, 0.18);
+
+  color: #fca5a5;
+}
+
+
+.sms-notices-error > svg {
+  flex: 0 0 auto;
+}
+
+
+.sms-notices-error div {
+  flex: 1;
+}
+
+
+.sms-notices-error strong {
+  display: block;
+
+  color: #fecaca;
+
+  font-size: 13px;
+}
+
+
+.sms-notices-error p {
+  margin: 3px 0 0;
+
+  color: #fca5a5;
+
+  font-size: 11px;
+}
+
+
+.sms-notices-error button {
+  padding: 7px 12px;
+
+  border: 1px solid rgba(248, 113, 113, 0.35);
+
+  border-radius: 8px;
+
+  background: rgba(127, 29, 29, 0.35);
+
+  color: #fecaca;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.sms-notices-error button:hover {
+  background: rgba(127, 29, 29, 0.55);
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.sms-notices-loading {
+  min-height: 330px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  border: 1px solid #26364a;
+
+  border-radius: 17px;
+
+  background: #0c1521;
+
+  text-align: center;
+}
+
+
+.sms-notices-loading-icon {
+  margin-bottom: 14px;
+
+  color: #3b82f6;
+
+  animation:
+    sms-notices-spin 1s linear infinite;
+}
+
+
+.sms-notices-loading h3 {
+  margin: 0 0 6px;
+
+  color: #f8fafc;
+
+  font-size: 18px;
+}
+
+
+.sms-notices-loading p {
+  margin: 0;
+
+  color: #8191a6;
+
+  font-size: 13px;
+}
+
+
+@keyframes sms-notices-spin {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   LIGHT THEME
+   ========================================================= */
+
+.sms-light .sms-notices-page,
+.sms-app.sms-light .sms-notices-page {
+  color: #172033;
+}
+
+
+.sms-light .sms-notices-header h1,
+.sms-app.sms-light .sms-notices-header h1 {
+  color: #111827;
+}
+
+
+.sms-light .sms-notices-header p,
+.sms-app.sms-light .sms-notices-header p {
+  color: #64748b;
+}
+
+
+.sms-light .sms-notice-search,
+.sms-app.sms-light .sms-notice-search,
+
+.sms-light .sms-notices-panel,
+.sms-app.sms-light .sms-notices-panel,
+
+.sms-light .sms-notice-info,
+.sms-app.sms-light .sms-notice-info,
+
+.sms-light .sms-notices-real-empty,
+.sms-app.sms-light .sms-notices-real-empty,
+
+.sms-light .sms-notices-loading,
+.sms-app.sms-light .sms-notices-loading {
+  background: #ffffff;
+
+  border-color: #dbe3ee;
+}
+
+
+.sms-light .sms-notice-search input,
+.sms-app.sms-light .sms-notice-search input {
+  color: #111827;
+}
+
+
+.sms-light .sms-notice-search input::placeholder,
+.sms-app.sms-light .sms-notice-search input::placeholder {
+  color: #94a3b8;
+}
+
+
+.sms-light .sms-notices-panel-header,
+.sms-app.sms-light .sms-notices-panel-header {
+  border-bottom-color: #e2e8f0;
+}
+
+
+.sms-light .sms-notices-panel-header h2,
+.sms-app.sms-light .sms-notices-panel-header h2,
+
+.sms-light .sms-notice-info h3,
+.sms-app.sms-light .sms-notice-info h3,
+
+.sms-light .sms-notices-real-empty h2,
+.sms-app.sms-light .sms-notices-real-empty h2,
+
+.sms-light .sms-notices-loading h3,
+.sms-app.sms-light .sms-notices-loading h3 {
+  color: #172033;
+}
+
+
+.sms-light .sms-notices-panel-header p,
+.sms-app.sms-light .sms-notices-panel-header p,
+
+.sms-light .sms-notice-info p,
+.sms-app.sms-light .sms-notice-info p,
+
+.sms-light .sms-notices-real-empty p,
+.sms-app.sms-light .sms-notices-real-empty p,
+
+.sms-light .sms-notices-loading p,
+.sms-app.sms-light .sms-notices-loading p {
+  color: #64748b;
+}
+
+
+.sms-light .sms-notice-tabs,
+.sms-app.sms-light .sms-notice-tabs {
+  background: #f1f5f9;
+}
+
+
+.sms-light .sms-notice-tab,
+.sms-app.sms-light .sms-notice-tab {
+  color: #64748b;
+}
+
+
+.sms-light .sms-notice-tab.active,
+.sms-app.sms-light .sms-notice-tab.active {
+  background: #e0e7ff;
+
+  color: #4f46e5;
+}
+
+
+.sms-light .sms-notice-card,
+.sms-app.sms-light .sms-notice-card {
+  border-bottom-color: #e5eaf1;
+}
+
+
+.sms-light .sms-notice-card:hover,
+.sms-app.sms-light .sms-notice-card:hover {
+  background: #f8fbff;
+}
+
+
+.sms-light .sms-notice-title,
+.sms-app.sms-light .sms-notice-title {
+  color: #172033;
+}
+
+
+.sms-light .sms-notice-description,
+.sms-app.sms-light .sms-notice-description {
+  color: #64748b;
+}
+
+
+.sms-light .sms-notice-bottom,
+.sms-app.sms-light .sms-notice-bottom {
+  color: #94a3b8;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .sms-notices-page {
+    max-width: 100%;
+  }
+
+}
+
+
+@media (max-width: 850px) {
+
+  .sms-notices-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .sms-notice-search {
+    width: 100%;
+
+    max-width: none;
+  }
+
+
+  .sms-notices-layout {
+    grid-template-columns: 1fr;
+  }
+
+
+  .sms-notices-side {
+    display: block;
+  }
+
+
+  .sms-notice-info {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .sms-notices-page {
+    padding-bottom: 25px;
+  }
+
+
+  .sms-notices-header h1 {
+    font-size: 28px;
+  }
+
+
+  .sms-featured-content {
+    padding: 22px;
+  }
+
+
+  .sms-featured-content h2 {
+    font-size: 19px;
+  }
+
+
+  .sms-notices-panel-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .sms-notice-tabs {
+    width: 100%;
+  }
+
+
+  .sms-notice-tab {
+    flex: 1;
+  }
+
+
+  .sms-notice-card {
+    grid-template-columns:
+      43px
+      minmax(0, 1fr)
+      18px;
+
+    gap: 10px;
+
+    padding: 15px;
+  }
+
+
+  .sms-notice-date {
+    width: 42px;
+    height: 46px;
+  }
+
+
+  .sms-notice-title {
+    font-size: 13px;
+  }
+
+
+  .sms-notice-description {
+    font-size: 11px;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .sms-notices-header h1 {
+    font-size: 25px;
+  }
+
+
+  .sms-featured-content {
+    padding: 19px;
+  }
+
+
+  .sms-featured-content p {
+    font-size: 13px;
+  }
+
+
+  .sms-notice-card {
+    grid-template-columns:
+      40px
+      minmax(0, 1fr)
+      16px;
+  }
+
+
+  .sms-notice-date {
+    width: 39px;
+    height: 44px;
+  }
+
+
+  .sms-notice-date strong {
+    font-size: 15px;
+  }
+
+
+  .sms-notice-date span {
+    font-size: 8px;
+  }
+
+}

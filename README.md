@@ -58,6 +58,46 @@ npm run dev
 | `GET /api/dashboard/security` | ❌ (403) | ✅ | ✅ | ❌ (401) |
 
 ---
+## 🔐 JWT Authentication & Authorization
+
+The application implements secure JWT-based authentication and authorization to protect user accounts, APIs, and role-specific resources.
+
+### Authentication
+
+* Users can register and log in using their credentials.
+* Passwords are securely hashed before being stored in the database.
+* After successful login, the server generates a JSON Web Token (JWT).
+* The JWT is used to verify the identity of the authenticated user.
+* Protected routes require a valid JWT for access.
+* Invalid, missing, or expired tokens are rejected with an appropriate unauthorized response.
+
+### Authorization
+
+* The authenticated user's role is included in the authentication flow.
+* Role-based access control restricts access to resources according to user permissions.
+* Residents, Administrators, and Security Staff can access only the routes permitted for their respective roles.
+* Unauthorized users receive an appropriate `403 Forbidden` response when attempting to access restricted resources.
+
+### Security Flow
+
+```text
+User Login
+    ↓
+Credentials Verified
+    ↓
+JWT Generated
+    ↓
+JWT Sent with Protected Requests
+    ↓
+Token Verified
+    ↓
+User Identity & Role Identified
+    ↓
+Authorization Check
+    ↓
+Access Granted / Access Denied
+```
+
 
 ## 🧪 Automated Verification Suite
 To re-run the Phase 1 backend verification test suite at any time:

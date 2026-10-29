@@ -2,14 +2,732 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================
+   SOCIETYSPHERE — GLOBAL BASE
+   Light mode remains clean and unchanged.
+   Dark mode gets a premium midnight / teal / amber identity.
+   ========================================================= */
+
 @layer base {
   body {
     @apply bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white min-h-screen;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-/* Smooth transitions */
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+/* Main page */
+html.dark body {
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(13, 148, 136, 0.10),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(245, 158, 11, 0.07),
+      transparent 25%
+    ),
+    linear-gradient(
+      135deg,
+      #07111a 0%,
+      #0a1620 48%,
+      #0c1720 100%
+    );
+
+  color: #e8f0f3;
+
+  selection-color: #07111a;
+}
+
+/* =========================================================
+   PAGE SURFACES
+   ========================================================= */
+
+html.dark .bg-slate-50 {
+  background: transparent !important;
+}
+
+html.dark .bg-white {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 32, 42, 0.94),
+      rgba(12, 25, 34, 0.96)
+    ) !important;
+
+  border-color: rgba(120, 160, 170, 0.16) !important;
+}
+
+/* Slightly darker slate surfaces */
+html.dark .bg-slate-100 {
+  background: rgba(25, 42, 51, 0.72) !important;
+}
+
+html.dark .bg-slate-200 {
+  background: rgba(39, 59, 68, 0.72) !important;
+}
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+html.dark .text-slate-900 {
+  color: #f1f7f8 !important;
+}
+
+html.dark .text-slate-800 {
+  color: #e5eef1 !important;
+}
+
+html.dark .text-slate-700 {
+  color: #c8d7dc !important;
+}
+
+html.dark .text-slate-600 {
+  color: #a9bec5 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #89a0a8 !important;
+}
+
+html.dark .text-slate-400 {
+  color: #718991 !important;
+}
+
+html.dark .text-slate-300 {
+  color: #9bb0b7 !important;
+}
+
+/* =========================================================
+   BORDERS
+   ========================================================= */
+
+html.dark .border-slate-200 {
+  border-color: rgba(120, 160, 170, 0.16) !important;
+}
+
+html.dark .border-slate-300 {
+  border-color: rgba(135, 175, 185, 0.22) !important;
+}
+
+html.dark .border-slate-100 {
+  border-color: rgba(120, 160, 170, 0.10) !important;
+}
+
+/* =========================================================
+   NAVBAR / HEADER
+   ========================================================= */
+
+html.dark header {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 23, 32, 0.97),
+      rgba(8, 20, 29, 0.94)
+    ) !important;
+
+  border-color: rgba(110, 170, 175, 0.17) !important;
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(94, 234, 212, 0.04);
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+html.dark .hover\:bg-slate-100:hover {
+  background: rgba(58, 87, 96, 0.38) !important;
+}
+
+html.dark .hover\:text-slate-900:hover {
+  color: #f5fbfc !important;
+}
+
+/* Active navigation */
+html.dark .bg-blue-50 {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13, 148, 136, 0.20),
+      rgba(15, 118, 110, 0.10)
+    ) !important;
+
+  color: #5eead4 !important;
+
+  border: 1px solid rgba(94, 234, 212, 0.13);
+}
+
+/* =========================================================
+   BRAND / PRIMARY BLUE → TEAL IN DARK MODE
+   ========================================================= */
+
+html.dark .bg-blue-600 {
+  background:
+    linear-gradient(
+      135deg,
+      #0f766e,
+      #0d9488
+    ) !important;
+
+  box-shadow:
+    0 8px 25px rgba(13, 148, 136, 0.25);
+}
+
+html.dark .text-blue-600 {
+  color: #5eead4 !important;
+}
+
+html.dark .text-blue-700 {
+  color: #5eead4 !important;
+}
+
+html.dark .text-blue-800 {
+  color: #99f6e4 !important;
+}
+
+/* =========================================================
+   TEAL ACCENTS
+   ========================================================= */
+
+html.dark .bg-emerald-50 {
+  background: rgba(16, 185, 129, 0.10) !important;
+}
+
+html.dark .bg-emerald-100 {
+  background: rgba(16, 185, 129, 0.13) !important;
+}
+
+html.dark .text-emerald-600 {
+  color: #5eead4 !important;
+}
+
+html.dark .text-emerald-700 {
+  color: #6ee7b7 !important;
+}
+
+html.dark .text-emerald-800 {
+  color: #a7f3d0 !important;
+}
+
+/* =========================================================
+   PURPLE — CHANGE TO A MORE SOPHISTICATED VIOLET
+   ========================================================= */
+
+html.dark .bg-purple-50 {
+  background: rgba(139, 92, 246, 0.10) !important;
+}
+
+html.dark .bg-purple-100 {
+  background: rgba(139, 92, 246, 0.13) !important;
+}
+
+html.dark .text-purple-600 {
+  color: #c4b5fd !important;
+}
+
+html.dark .text-purple-700 {
+  color: #c4b5fd !important;
+}
+
+html.dark .text-purple-800 {
+  color: #ddd6fe !important;
+}
+
+/* =========================================================
+   AMBER / GOLD ACCENT
+   Gives the UI a residential premium feel.
+   ========================================================= */
+
+html.dark .text-amber-500 {
+  color: #fbbf24 !important;
+}
+
+html.dark .text-amber-600 {
+  color: #fbbf24 !important;
+}
+
+html.dark .bg-amber-50 {
+  background: rgba(245, 158, 11, 0.08) !important;
+}
+
+html.dark .bg-amber-100 {
+  background: rgba(245, 158, 11, 0.12) !important;
+}
+
+/* =========================================================
+   RED / ALERT STATES
+   ========================================================= */
+
+html.dark .bg-red-50 {
+  background: rgba(239, 68, 68, 0.10) !important;
+}
+
+html.dark .bg-red-100 {
+  background: rgba(239, 68, 68, 0.13) !important;
+}
+
+html.dark .text-red-500 {
+  color: #fb7185 !important;
+}
+
+html.dark .text-red-600 {
+  color: #fb7185 !important;
+}
+
+html.dark .text-red-700 {
+  color: #fda4af !important;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background:
+    rgba(8, 21, 30, 0.82) !important;
+
+  color: #edf7f8 !important;
+
+  border-color:
+    rgba(119, 162, 172, 0.22) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.015);
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #6f858d !important;
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #2dd4bf !important;
+
+  box-shadow:
+    0 0 0 3px rgba(45, 212, 191, 0.10),
+    0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Disabled inputs */
+html.dark input:disabled,
+html.dark textarea:disabled,
+html.dark select:disabled {
+  background: rgba(18, 32, 42, 0.55) !important;
+  color: #64777e !important;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+html.dark .rounded-xl,
+html.dark .rounded-2xl {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+/* Give normal cards a premium glass surface */
+html.dark .shadow-sm {
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.16) !important;
+}
+
+html.dark .shadow-md {
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.20) !important;
+}
+
+html.dark .shadow-lg {
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark .shadow-xl {
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* =========================================================
+   DASHBOARD GRADIENTS
+   ========================================================= */
+
+/* Admin hero */
+html.dark .from-slate-900 {
+  --tw-gradient-from: #07151d var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(7, 21, 29, 0) var(--tw-gradient-to-position) !important;
+}
+
+html.dark .via-purple-950 {
+  --tw-gradient-to: rgba(17, 39, 43, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops:
+    var(--tw-gradient-from),
+    #12383a var(--tw-gradient-via-position),
+    var(--tw-gradient-to) !important;
+}
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+html.dark .bg-slate-900\/40 {
+  background-color: rgba(1, 10, 15, 0.72) !important;
+}
+
+/* Modal surfaces */
+html.dark .fixed .bg-white {
+  background:
+    linear-gradient(
+      145deg,
+      #12232d,
+      #0d1b24
+    ) !important;
+
+  border:
+    1px solid rgba(119, 162, 172, 0.18);
+}
+
+/* =========================================================
+   STATUS / BADGES
+   ========================================================= */
+
+html.dark .border-purple-200 {
+  border-color: rgba(167, 139, 250, 0.20) !important;
+}
+
+html.dark .border-emerald-200 {
+  border-color: rgba(52, 211, 153, 0.20) !important;
+}
+
+html.dark .border-blue-200 {
+  border-color: rgba(45, 212, 191, 0.20) !important;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+html.dark footer {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 20, 29, 0.88),
+      rgba(6, 16, 23, 0.98)
+    ) !important;
+
+  border-color:
+    rgba(110, 170, 175, 0.14) !important;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+html.dark ::-webkit-scrollbar {
+  width: 9px;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: #071118;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(
+      180deg,
+      #155e63,
+      #0f766e
+    );
+
+  border-radius: 999px;
+
+  border: 2px solid #071118;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #2dd4bf,
+      #0d9488
+    );
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+html.dark ::selection {
+  background: #2dd4bf;
+  color: #061015;
+}
+
+/* =========================================================
+   SUBTLE HOVER EFFECT FOR CARDS
+   ========================================================= */
+
+html.dark .hover\:shadow-md:hover {
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(45, 212, 191, 0.05) !important;
+}
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+html.dark .sm\:hidden.bg-white,
+html.dark .bg-white.px-4 {
+  background:
+    rgba(9, 23, 32, 0.98) !important;
+}
+
+/* =========================================================
+   SMOOTH TRANSITIONS
+   ========================================================= */
+
 .transition-standard {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ============================================================
+   SOCIETYSPHERE — GLOBAL DARK THEME
+   Framer-inspired neutral interface system
+   ============================================================ */
+
+:root {
+  --sms-bg: #ffffff;
+  --sms-bg-secondary: #f7f7f8;
+  --sms-bg-tertiary: #eeeeef;
+
+  --sms-text: #111113;
+  --sms-text-secondary: #66666b;
+  --sms-text-tertiary: #929297;
+
+  --sms-divider: rgba(17, 17, 19, 0.10);
+
+  --sms-tint: #111113;
+  --sms-tint-hover: #242427;
+}
+
+
+/* ============================================================
+   DARK THEME TOKENS
+   ============================================================ */
+
+html[data-theme="dark"] {
+
+  --sms-bg: #0b0b0c;
+
+  --sms-bg-secondary: #111113;
+
+  --sms-bg-tertiary: #18181a;
+
+  --sms-text: #f5f5f5;
+
+  --sms-text-secondary: #a6a6aa;
+
+  --sms-text-tertiary: #707075;
+
+  --sms-divider: rgba(255, 255, 255, 0.10);
+
+  --sms-tint: #f5f5f5;
+
+  --sms-tint-hover: #ffffff;
+
+}
+
+
+/* ============================================================
+   GLOBAL DARK PAGE
+   ============================================================ */
+
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+html[data-theme="dark"] #root {
+
+  background:
+    var(--sms-bg);
+
+  color:
+    var(--sms-text);
+}
+
+
+/* ============================================================
+   SMOOTH THEME TRANSITION
+   ============================================================ */
+
+html,
+body,
+#root {
+
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+
+/* ============================================================
+   DARK MODE — COMMON TEXT
+   ============================================================ */
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+
+  color:
+    var(--sms-text);
+}
+
+
+html[data-theme="dark"] p {
+
+  color:
+    var(--sms-text-secondary);
+}
+
+
+/* ============================================================
+   DARK MODE — SELECTION
+   ============================================================ */
+
+html[data-theme="dark"] ::selection {
+
+  background:
+    rgba(255, 255, 255, 0.16);
+
+  color:
+    #ffffff;
+}
+
+
+/* ============================================================
+   DARK MODE — SCROLLBAR
+   ============================================================ */
+
+html[data-theme="dark"] ::-webkit-scrollbar {
+
+  width:
+    8px;
+
+  height:
+    8px;
+}
+
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+
+  background:
+    var(--sms-bg);
+}
+
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+
+  background:
+    #29292c;
+
+  border-radius:
+    999px;
+}
+
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+
+  background:
+    #3a3a3d;
+}
+
+
+/* ============================================================
+   DARK MODE — INPUTS
+   ============================================================ */
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+
+  background:
+    var(--sms-bg-secondary);
+
+  color:
+    var(--sms-text);
+
+  border-color:
+    var(--sms-divider);
+}
+
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+
+  color:
+    var(--sms-text-tertiary);
+}
+
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] textarea:focus,
+html[data-theme="dark"] select:focus {
+
+  border-color:
+    rgba(255, 255, 255, 0.28);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(255, 255, 255, 0.055);
+
+  outline:
+    none;
+}
+
+
+/* ============================================================
+   DARK MODE — GENERIC CARDS
+   ============================================================ */
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] [class*="card"] {
+
+  border-color:
+    var(--sms-divider);
+}
+
+
+/* ============================================================
+   DARK MODE — LINKS
+   ============================================================ */
+
+html[data-theme="dark"] a {
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
 }

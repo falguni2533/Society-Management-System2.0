@@ -1,0 +1,1412 @@
+/* =========================================================
+   SOCIETYSPHERE — RESIDENT COMPLAINTS
+   ========================================================= */
+
+.sms-complaints-page {
+  width: 100%;
+  color: #172033;
+  animation: complaintsPageIn 0.45s ease both;
+}
+
+@keyframes complaintsPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.sms-complaints-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 245px;
+  border-radius: 24px;
+  padding: 30px 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background:
+    radial-gradient(circle at 85% 20%, rgba(71, 196, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 70% 100%, rgba(104, 84, 255, 0.20), transparent 35%),
+    linear-gradient(135deg, #10234d, #1d2d70 52%, #273c9a);
+
+  color: white;
+  box-shadow: 0 18px 45px rgba(23, 47, 115, 0.20);
+}
+
+.sms-complaints-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.sms-complaints-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: 999px;
+
+  color: #cfe7ff;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.sms-complaints-hero h2 {
+  margin: 15px 0 8px;
+  font-size: clamp(30px, 4vw, 43px);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+
+.sms-complaints-hero h2 span {
+  color: #70e6ff;
+}
+
+.sms-complaints-hero p {
+  margin: 0;
+  max-width: 590px;
+  color: #c9d7f1;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.sms-complaints-resident {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sms-resident-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  color: white;
+  font-weight: 800;
+}
+
+.sms-complaints-resident div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.sms-complaints-resident span {
+  color: #91a7c8;
+  font-size: 10px;
+}
+
+.sms-complaints-resident strong {
+  font-size: 12px;
+  color: #fff;
+}
+
+
+/* Hero visual */
+
+.sms-complaints-hero-art {
+  position: relative;
+  width: 270px;
+  height: 180px;
+  flex-shrink: 0;
+}
+
+.sms-art-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.circle-one {
+  width: 150px;
+  height: 150px;
+  right: 35px;
+  top: 8px;
+  background: rgba(96, 220, 255, 0.09);
+  border: 1px solid rgba(140, 231, 255, 0.16);
+}
+
+.circle-two {
+  width: 95px;
+  height: 95px;
+  right: 5px;
+  bottom: 10px;
+  background: rgba(145, 124, 255, 0.12);
+}
+
+.sms-art-card {
+  position: absolute;
+  right: 15px;
+  top: 58px;
+
+  width: 235px;
+  padding: 15px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+
+  border-radius: 17px;
+
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
+  animation: floatingCard 4s ease-in-out infinite;
+}
+
+@keyframes floatingCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.sms-art-icon {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background: rgba(94, 225, 255, 0.14);
+  color: #7ce8ff;
+}
+
+.sms-art-card div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sms-art-card strong {
+  color: white;
+  font-size: 13px;
+}
+
+.sms-art-card span {
+  margin-top: 3px;
+  color: #a9bad6;
+  font-size: 10px;
+}
+
+.sms-art-card > svg {
+  color: #69e1a9;
+}
+
+
+/* =========================================================
+   SUCCESS
+   ========================================================= */
+
+.sms-success-message {
+  margin-top: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 13px 15px;
+
+  border-radius: 15px;
+
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+
+  animation: complaintsPageIn 0.3s ease;
+}
+
+.sms-success-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: #d1fae5;
+  color: #059669;
+}
+
+.sms-success-message div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sms-success-message strong {
+  font-size: 12px;
+}
+
+.sms-success-message span {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.sms-success-message button {
+  border: 0;
+  background: transparent;
+  color: #65a30d;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.sms-complaint-stats {
+  margin-top: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.sms-stat-card {
+  min-height: 86px;
+  padding: 17px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: var(--complaints-card, #ffffff);
+  border: 1px solid var(--complaints-border, #e4e9f1);
+  border-radius: 17px;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.sms-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: #b8c8e5;
+  box-shadow: 0 12px 30px rgba(24, 44, 82, 0.08);
+}
+
+.sms-stat-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+}
+
+.sms-stat-icon.blue {
+  background: #eaf2ff;
+  color: #2563eb;
+}
+
+.sms-stat-icon.amber {
+  background: #fff6dd;
+  color: #d97706;
+}
+
+.sms-stat-icon.violet {
+  background: #f1ecff;
+  color: #7c3aed;
+}
+
+.sms-stat-icon.green {
+  background: #e5faf0;
+  color: #059669;
+}
+
+.sms-stat-card div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.sms-stat-card span {
+  color: #7b879b;
+  font-size: 11px;
+}
+
+.sms-stat-card strong {
+  margin-top: 2px;
+  color: var(--complaints-heading, #182338);
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.sms-complaints-toolbar {
+  margin-top: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sms-complaints-toolbar h3 {
+  margin: 0;
+  color: var(--complaints-heading, #172033);
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+
+.sms-complaints-toolbar p {
+  margin: 5px 0 0;
+  color: var(--complaints-muted, #7b879b);
+  font-size: 12px;
+}
+
+.sms-new-complaint-button {
+  border: 0;
+  border-radius: 13px;
+  padding: 11px 15px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 9px 20px rgba(37, 99, 235, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sms-new-complaint-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 25px rgba(37, 99, 235, 0.28);
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+.sms-complaint-filters {
+  margin-top: 17px;
+
+  display: flex;
+  gap: 7px;
+
+  overflow-x: auto;
+  padding-bottom: 3px;
+}
+
+.sms-filter {
+  border: 1px solid var(--complaints-border, #e4e9f1);
+  background: var(--complaints-card, white);
+  color: var(--complaints-muted, #68758a);
+
+  border-radius: 999px;
+  padding: 7px 11px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sms-filter span {
+  min-width: 19px;
+  height: 19px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--complaints-soft, #f1f4f8);
+  font-size: 9px;
+}
+
+.sms-filter:hover {
+  border-color: #aabbd7;
+}
+
+.sms-filter.active {
+  background: #172554;
+  border-color: #172554;
+  color: white;
+}
+
+.sms-filter.active span {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.sms-complaints-loading {
+  min-height: 230px;
+  margin-top: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background: var(--complaints-card, white);
+  border: 1px solid var(--complaints-border, #e4e9f1);
+  border-radius: 20px;
+}
+
+.sms-complaints-loading strong {
+  margin-top: 9px;
+  color: var(--complaints-heading, #172033);
+  font-size: 13px;
+}
+
+.sms-complaints-loading span {
+  margin-top: 4px;
+  color: var(--complaints-muted, #7b879b);
+  font-size: 11px;
+}
+
+.sms-loading-spinner {
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.sms-empty-complaints {
+  margin-top: 18px;
+  padding: 45px 25px;
+
+  text-align: center;
+
+  background: var(--complaints-card, white);
+  border: 1px solid var(--complaints-border, #e4e9f1);
+  border-radius: 20px;
+}
+
+.sms-empty-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #e9f9f1;
+  color: #059669;
+}
+
+.sms-empty-complaints h3 {
+  margin: 0;
+  color: var(--complaints-heading, #172033);
+  font-size: 17px;
+}
+
+.sms-empty-complaints p {
+  max-width: 480px;
+  margin: 7px auto 0;
+
+  color: var(--complaints-muted, #7b879b);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.sms-empty-button {
+  margin-top: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  border: 0;
+  border-radius: 11px;
+
+  padding: 10px 14px;
+
+  background: #2563eb;
+  color: white;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   COMPLAINT CARDS
+   ========================================================= */
+
+.sms-complaint-list {
+  margin-top: 18px;
+
+  display: grid;
+  gap: 12px;
+}
+
+.sms-complaint-card {
+  position: relative;
+
+  padding: 18px;
+
+  background: var(--complaints-card, white);
+  border: 1px solid var(--complaints-border, #e4e9f1);
+  border-radius: 18px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.sms-complaint-card:hover {
+  transform: translateY(-2px);
+  border-color: #9db5dc;
+  box-shadow: 0 15px 35px rgba(27, 49, 89, 0.08);
+}
+
+.sms-complaint-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.sms-complaint-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #42628f;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.sms-complaint-category span {
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #edf4ff;
+  color: #2563eb;
+}
+
+.sms-complaint-date {
+  color: var(--complaints-muted, #8a95a8);
+  font-size: 10px;
+}
+
+.sms-complaint-main {
+  margin-top: 13px;
+}
+
+.sms-complaint-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sms-complaint-title-row h3 {
+  flex: 1;
+
+  margin: 0;
+
+  color: var(--complaints-heading, #182338);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.sms-complaint-arrow {
+  color: #9aa8bd;
+  transition: transform 0.2s ease;
+}
+
+.sms-complaint-card:hover .sms-complaint-arrow {
+  transform: translateX(3px);
+}
+
+.sms-complaint-main p {
+  margin: 6px 0 0;
+
+  color: var(--complaints-muted, #68758a);
+
+  font-size: 12px;
+  line-height: 1.65;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.sms-complaint-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  border-top: 1px solid var(--complaints-border, #edf0f5);
+}
+
+.sms-complaint-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sms-complaint-status,
+.sms-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  border-radius: 999px;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sms-complaint-status.open {
+  color: #1d4ed8;
+  background: #eaf2ff;
+}
+
+.sms-complaint-status.progress {
+  color: #a16207;
+  background: #fff6d9;
+}
+
+.sms-complaint-status.resolved {
+  color: #047857;
+  background: #e7f9ef;
+}
+
+.sms-priority.high {
+  color: #b91c1c;
+  background: #feecec;
+}
+
+.sms-priority.medium {
+  color: #a16207;
+  background: #fff6dd;
+}
+
+.sms-priority.low {
+  color: #64748b;
+  background: #f1f4f7;
+}
+
+.sms-resolution-label {
+  color: #059669;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.sms-resolution-preview {
+  margin-top: 12px;
+  padding: 10px 12px;
+
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+
+  border-radius: 11px;
+
+  background: #eefbf5;
+  border: 1px solid #d1fae5;
+
+  color: #166534;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.sms-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(5, 12, 27, 0.64);
+  backdrop-filter: blur(10px);
+
+  animation: modalFade 0.2s ease;
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.sms-complaint-modal,
+.sms-detail-modal {
+  width: 100%;
+  max-width: 590px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: var(--complaints-modal, #ffffff);
+  border: 1px solid var(--complaints-border, #e1e7f0);
+
+  border-radius: 22px;
+
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+
+  animation: modalUp 0.25s ease;
+}
+
+@keyframes modalUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sms-modal-header {
+  padding: 20px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--complaints-border, #edf0f5);
+}
+
+.sms-modal-header > div:first-child {
+  display: flex;
+  gap: 11px;
+}
+
+.sms-modal-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #eaf2ff;
+  color: #2563eb;
+}
+
+.sms-modal-header h3 {
+  margin: 1px 0 3px;
+
+  color: var(--complaints-heading, #172033);
+  font-size: 17px;
+}
+
+.sms-modal-header p {
+  margin: 0;
+  color: var(--complaints-muted, #7b879b);
+  font-size: 11px;
+}
+
+.sms-modal-close {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: var(--complaints-soft, #f4f6f9);
+  color: #8290a4;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.sms-modal-close:hover {
+  background: #feecec;
+  color: #dc2626;
+}
+
+.sms-form-error {
+  margin: 15px 20px 0;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  padding: 11px;
+
+  color: #b91c1c;
+  background: #fff0f0;
+  border: 1px solid #fecaca;
+
+  border-radius: 11px;
+
+  font-size: 11px;
+}
+
+.sms-complaint-form {
+  padding: 20px;
+}
+
+.sms-form-group {
+  margin-bottom: 15px;
+}
+
+.sms-form-group label {
+  display: block;
+  margin-bottom: 6px;
+
+  color: var(--complaints-heading, #27344c);
+
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.sms-form-group label span {
+  color: #ef4444;
+  margin-left: 3px;
+}
+
+.sms-form-group input,
+.sms-form-group select,
+.sms-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid var(--complaints-input-border, #d8e0eb);
+  border-radius: 11px;
+
+  padding: 11px 12px;
+
+  background: var(--complaints-input, #fbfcfe);
+  color: var(--complaints-heading, #182338);
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sms-form-group textarea {
+  resize: vertical;
+  min-height: 115px;
+  line-height: 1.6;
+}
+
+.sms-form-group input::placeholder,
+.sms-form-group textarea::placeholder {
+  color: #9ba7b8;
+}
+
+.sms-form-group input:focus,
+.sms-form-group select:focus,
+.sms-form-group textarea:focus {
+  border-color: #4f7eea;
+  box-shadow: 0 0 0 3px rgba(79, 126, 234, 0.12);
+}
+
+.sms-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.sms-form-info {
+  padding: 10px 11px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  color: var(--complaints-muted, #64748b);
+  background: var(--complaints-soft, #f4f7fa);
+
+  border-radius: 11px;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.sms-modal-actions {
+  margin-top: 18px;
+  padding-top: 15px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  border-top: 1px solid var(--complaints-border, #edf0f5);
+}
+
+.sms-cancel-button,
+.sms-submit-button {
+  border: 0;
+  border-radius: 10px;
+
+  padding: 10px 14px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.sms-cancel-button {
+  background: var(--complaints-soft, #f2f4f7);
+  color: var(--complaints-muted, #64748b);
+}
+
+.sms-submit-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.20);
+}
+
+.sms-submit-button:disabled,
+.sms-cancel-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   DETAIL MODAL
+   ========================================================= */
+
+.sms-detail-modal {
+  max-width: 540px;
+}
+
+.sms-detail-header {
+  padding: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+
+  border-bottom: 1px solid var(--complaints-border, #edf0f5);
+}
+
+.sms-detail-category {
+  color: #4f7eea;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sms-detail-header h3 {
+  margin: 6px 0 4px;
+
+  color: var(--complaints-heading, #172033);
+  font-size: 20px;
+}
+
+.sms-detail-header p {
+  margin: 0;
+  color: var(--complaints-muted, #8994a7);
+  font-size: 10px;
+}
+
+.sms-detail-status-row {
+  padding: 15px 20px;
+
+  display: flex;
+  gap: 7px;
+
+  border-bottom: 1px solid var(--complaints-border, #edf0f5);
+}
+
+.sms-detail-description {
+  margin: 18px 20px;
+
+  padding: 15px;
+
+  background: var(--complaints-soft, #f5f7fa);
+  border: 1px solid var(--complaints-border, #e8edf3);
+
+  border-radius: 13px;
+
+  color: var(--complaints-text, #46536a);
+
+  font-size: 12px;
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+}
+
+.sms-detail-resolution {
+  margin: 0 20px;
+
+  padding: 14px;
+
+  display: flex;
+  gap: 10px;
+
+  background: #eafaf2;
+  border: 1px solid #c8f0dc;
+
+  border-radius: 13px;
+}
+
+.sms-resolution-icon {
+  color: #059669;
+}
+
+.sms-detail-resolution strong {
+  color: #166534;
+  font-size: 11px;
+}
+
+.sms-detail-resolution p {
+  margin: 4px 0 0;
+  color: #26734d;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.sms-detail-footer {
+  padding: 16px 20px;
+
+  display: flex;
+  justify-content: flex-end;
+
+  border-top: 1px solid var(--complaints-border, #edf0f5);
+}
+
+
+/* =========================================================
+   DARK MODE
+   Matches the SocietySphere dashboard theme.
+   ========================================================= */
+
+.sms-dark .sms-complaints-page {
+  --complaints-card: #111c2a;
+  --complaints-modal: #101b29;
+  --complaints-border: #26364b;
+  --complaints-heading: #edf4ff;
+  --complaints-text: #c5d1e0;
+  --complaints-muted: #8797ad;
+  --complaints-soft: #172435;
+  --complaints-input: #0d1724;
+  --complaints-input-border: #2c4058;
+}
+
+.sms-dark .sms-stat-card:hover,
+.sms-dark .sms-complaint-card:hover {
+  border-color: #3e638e;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+.sms-dark .sms-stat-icon.blue {
+  background: rgba(45, 111, 230, 0.14);
+  color: #69a1ff;
+}
+
+.sms-dark .sms-stat-icon.amber {
+  background: rgba(234, 164, 48, 0.13);
+  color: #f5bd5d;
+}
+
+.sms-dark .sms-stat-icon.violet {
+  background: rgba(137, 105, 245, 0.14);
+  color: #b49aff;
+}
+
+.sms-dark .sms-stat-icon.green {
+  background: rgba(35, 190, 125, 0.13);
+  color: #5de0a7;
+}
+
+.sms-dark .sms-complaint-category span {
+  background: rgba(56, 120, 230, 0.14);
+  color: #70a8ff;
+}
+
+.sms-dark .sms-filter.active {
+  background: #e9f1ff;
+  border-color: #e9f1ff;
+  color: #15233a;
+}
+
+.sms-dark .sms-filter.active span {
+  background: #d9e7ff;
+  color: #31517f;
+}
+
+.sms-dark .sms-complaint-status.open {
+  background: rgba(49, 112, 225, 0.15);
+  color: #79adff;
+}
+
+.sms-dark .sms-complaint-status.progress {
+  background: rgba(226, 163, 44, 0.14);
+  color: #f4c66b;
+}
+
+.sms-dark .sms-complaint-status.resolved {
+  background: rgba(33, 184, 119, 0.14);
+  color: #61e2aa;
+}
+
+.sms-dark .sms-priority.high {
+  background: rgba(220, 66, 66, 0.14);
+  color: #ff8f8f;
+}
+
+.sms-dark .sms-priority.medium {
+  background: rgba(220, 158, 48, 0.14);
+  color: #f1c36a;
+}
+
+.sms-dark .sms-priority.low {
+  background: #1b2939;
+  color: #91a0b4;
+}
+
+.sms-dark .sms-resolution-preview {
+  background: rgba(26, 164, 104, 0.09);
+  border-color: rgba(55, 205, 143, 0.18);
+  color: #75d9a8;
+}
+
+.sms-dark .sms-empty-icon {
+  background: rgba(35, 190, 125, 0.10);
+  color: #5de0a7;
+}
+
+.sms-dark .sms-success-message {
+  background: rgba(29, 145, 94, 0.12);
+  border-color: rgba(62, 210, 145, 0.20);
+  color: #7de0ae;
+}
+
+.sms-dark .sms-success-icon {
+  background: rgba(62, 210, 145, 0.13);
+  color: #65dfaa;
+}
+
+.sms-dark .sms-form-error {
+  background: rgba(220, 66, 66, 0.10);
+  border-color: rgba(255, 100, 100, 0.20);
+  color: #ff9999;
+}
+
+.sms-dark .sms-form-group input,
+.sms-dark .sms-form-group select,
+.sms-dark .sms-form-group textarea {
+  color-scheme: dark;
+}
+
+.sms-dark .sms-form-info {
+  color: #8fa0b5;
+}
+
+.sms-dark .sms-detail-description {
+  color: #b7c5d6;
+}
+
+.sms-dark .sms-detail-resolution {
+  background: rgba(30, 165, 106, 0.10);
+  border-color: rgba(50, 210, 140, 0.18);
+}
+
+.sms-dark .sms-detail-resolution strong {
+  color: #72dca7;
+}
+
+.sms-dark .sms-detail-resolution p {
+  color: #88cdaa;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+  .sms-complaint-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sms-complaints-hero-art {
+    opacity: 0.65;
+  }
+}
+
+@media (max-width: 720px) {
+  .sms-complaints-hero {
+    padding: 25px;
+    min-height: auto;
+  }
+
+  .sms-complaints-hero-art {
+    display: none;
+  }
+
+  .sms-complaint-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sms-complaints-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sms-new-complaint-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .sms-complaints-hero {
+    border-radius: 18px;
+    padding: 21px;
+  }
+
+  .sms-complaints-hero h2 {
+    font-size: 29px;
+  }
+
+  .sms-complaint-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .sms-modal-overlay {
+    padding: 10px;
+  }
+
+  .sms-complaint-modal,
+  .sms-detail-modal {
+    border-radius: 18px;
+  }
+
+  .sms-complaint-card {
+    padding: 15px;
+  }
+
+  .sms-complaint-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,1505 @@
+.sms-login-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #f6f8f5;
+  color: #17211c;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+.sms-login-dark {
+  background: #07111a;
+  color: #e8f0f3;
+}
+
+.sms-login-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    #edf6f2 0%,
+    #f7f5ed 58%,
+    #dce8d9 100%
+  );
+}
+
+.sms-login-dark .sms-login-scene {
+  background: linear-gradient(
+    180deg,
+    #07111a 0%,
+    #0a1620 58%,
+    #10232b 100%
+  );
+}
+
+/* =========================
+   SKY
+========================= */
+
+.sms-sky-glow {
+  position: absolute;
+  width: 560px;
+  height: 560px;
+  right: -170px;
+  top: -250px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 158, 11, 0.16),
+    transparent 68%
+  );
+}
+
+.sms-login-dark .sms-sky-glow {
+  background: radial-gradient(
+    circle,
+    rgba(13, 148, 136, 0.16),
+    transparent 68%
+  );
+}
+
+.sms-moon {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  right: 14%;
+  top: 12%;
+  border-radius: 50%;
+  background: #fff4c7;
+  box-shadow: 0 0 55px rgba(255, 220, 130, 0.25);
+}
+
+.sms-login-dark .sms-moon {
+  background: #d7f3ec;
+  box-shadow: 0 0 55px rgba(94, 234, 212, 0.13);
+}
+
+/* =========================
+   CLOUDS
+========================= */
+
+.sms-cloud {
+  position: absolute;
+  width: 170px;
+  height: 28px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.65);
+  filter: blur(2px);
+  animation: smsCloud 18s linear infinite;
+}
+
+.sms-cloud::before,
+.sms-cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.sms-cloud::before {
+  width: 55px;
+  height: 55px;
+  left: 28px;
+  bottom: 0;
+}
+
+.sms-cloud::after {
+  width: 70px;
+  height: 70px;
+  right: 28px;
+  bottom: 0;
+}
+
+.sms-login-dark .sms-cloud {
+  background: rgba(100, 130, 138, 0.1);
+}
+
+.sms-cloud-one {
+  top: 20%;
+  left: -190px;
+}
+
+.sms-cloud-two {
+  top: 31%;
+  left: -280px;
+  animation-duration: 25s;
+  animation-delay: 5s;
+  transform: scale(0.7);
+}
+
+@keyframes smsCloud {
+  to {
+    transform: translateX(calc(100vw + 500px));
+  }
+}
+
+/* =========================
+   HILLS
+========================= */
+
+.sms-hill {
+  position: absolute;
+  bottom: 9%;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.sms-hill-back {
+  width: 120%;
+  height: 230px;
+  left: -10%;
+  background: #cdddc9;
+}
+
+.sms-hill-front {
+  width: 130%;
+  height: 155px;
+  left: -15%;
+  bottom: 2%;
+  background: #a9c29f;
+}
+
+.sms-login-dark .sms-hill-back {
+  background: #10252a;
+}
+
+.sms-login-dark .sms-hill-front {
+  background: #102d2c;
+}
+
+/* =========================
+   ROAD
+========================= */
+
+.sms-road {
+  position: absolute;
+  bottom: -12%;
+  left: 43%;
+  width: 18%;
+  height: 48%;
+  background: #d8d2c5;
+  transform: perspective(300px) rotateX(25deg);
+  border-radius: 50% 50% 0 0;
+}
+
+.sms-login-dark .sms-road {
+  background: #16272b;
+}
+
+/* =========================
+   HOUSE
+========================= */
+
+.sms-house {
+  position: absolute;
+  right: 19%;
+  bottom: 15%;
+  width: 170px;
+  height: 145px;
+  filter: drop-shadow(0 20px 22px rgba(0, 0, 0, 0.12));
+  animation: smsHouseFloat 6s ease-in-out infinite;
+}
+
+.sms-house-roof {
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 200px;
+  height: 75px;
+  background: #7c5741;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.sms-login-dark .sms-house-roof {
+  background: #274c4b;
+}
+
+.sms-house-body {
+  position: absolute;
+  left: 15px;
+  top: 56px;
+  width: 140px;
+  height: 88px;
+  background: #f1e7d5;
+  border: 4px solid #8a7258;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px;
+}
+
+.sms-login-dark .sms-house-body {
+  background: #172d31;
+  border-color: #37605e;
+}
+
+.sms-house-body span {
+  background: #e2a957;
+  border: 2px solid #7b654e;
+}
+
+.sms-login-dark .sms-house-body span {
+  background: #6bb5a7;
+  border-color: #30524f;
+}
+
+.sms-house-door {
+  position: absolute;
+  bottom: 0;
+  left: 67px;
+  width: 38px;
+  height: 54px;
+  background: #76563e;
+  border: 3px solid #5c4434;
+}
+
+.sms-login-dark .sms-house-door {
+  background: #1e3c3d;
+  border-color: #294f4d;
+}
+
+.sms-house-light {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffd879;
+  left: 81px;
+  top: 88px;
+  box-shadow: 0 0 18px #ffd879;
+  animation: smsLight 2.8s ease-in-out infinite;
+}
+
+/* =========================
+   TREES
+========================= */
+
+.sms-tree {
+  position: absolute;
+  bottom: 12%;
+  width: 74px;
+  height: 180px;
+  z-index: 2;
+  animation: smsTree 5s ease-in-out infinite;
+}
+
+.sms-tree::before {
+  content: "";
+  position: absolute;
+  left: 32px;
+  bottom: 0;
+  width: 12px;
+  height: 100px;
+  background: #6c513d;
+  border-radius: 8px;
+}
+
+.sms-tree i,
+.sms-tree b,
+.sms-tree em {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: #5e8060;
+  box-shadow: inset -7px -8px 0 rgba(0, 0, 0, 0.07);
+}
+
+.sms-tree i {
+  width: 74px;
+  height: 74px;
+  top: 10px;
+  left: 0;
+}
+
+.sms-tree b {
+  width: 64px;
+  height: 64px;
+  top: 48px;
+  left: 12px;
+}
+
+.sms-tree em {
+  width: 55px;
+  height: 55px;
+  top: 80px;
+  left: 3px;
+}
+
+.sms-login-dark .sms-tree i,
+.sms-login-dark .sms-tree b,
+.sms-login-dark .sms-tree em {
+  background: #285450;
+}
+
+.sms-tree-one {
+  left: 8%;
+  transform: scale(1.1);
+}
+
+.sms-tree-two {
+  left: 27%;
+  bottom: 9%;
+  transform: scale(0.72);
+  animation-delay: 1s;
+}
+
+.sms-tree-three {
+  right: 6%;
+  bottom: 11%;
+  transform: scale(0.9);
+  animation-delay: 2s;
+}
+
+.sms-tree-four {
+  right: 29%;
+  bottom: 8%;
+  transform: scale(0.58);
+  animation-delay: 1.5s;
+}
+
+@keyframes smsTree {
+  0%,
+  100% {
+    transform: translateY(0) scale(var(--s, 1));
+  }
+
+  50% {
+    transform: translateY(-5px) scale(var(--s, 1));
+  }
+}
+
+@keyframes smsHouseFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes smsLight {
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 8px #ffd879;
+  }
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.sms-login-topbar,
+.sms-login-main,
+.sms-login-footer {
+  position: relative;
+  z-index: 5;
+}
+
+.sms-login-topbar {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sms-login-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #17211c;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.sms-login-dark .sms-login-brand {
+  color: #f1f7f8;
+}
+
+.sms-login-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #0d766d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.sms-login-dark .sms-login-brand-icon {
+  background: #0f766e;
+  color: #eafffa;
+}
+
+.sms-login-theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(40, 60, 55, 0.15);
+  background: rgba(255, 255, 255, 0.72);
+  color: #17211c;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: 0.25s;
+}
+
+.sms-login-dark .sms-login-theme-toggle {
+  background: rgba(18, 32, 42, 0.85);
+  color: #f1f7f8;
+  border-color: rgba(120, 160, 170, 0.16);
+}
+
+.sms-login-theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.sms-login-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  padding: 35px 28px 70px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 460px);
+  align-items: center;
+  gap: 90px;
+  flex: 1;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.sms-login-intro {
+  max-width: 560px;
+}
+
+.sms-login-intro-badge {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(35, 65, 55, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: #4e665d;
+  font-size: 12px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.sms-login-dark .sms-login-intro-badge {
+  background: rgba(18, 32, 42, 0.75);
+  border-color: rgba(120, 160, 170, 0.16);
+  color: #a9bec5;
+}
+
+.sms-login-intro h1 {
+  margin: 20px 0 0;
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+  font-weight: 700;
+  color: #17211c;
+}
+
+.sms-login-dark .sms-login-intro h1 {
+  color: #f1f7f8;
+}
+
+.sms-login-intro h1 span {
+  color: #0d9488;
+}
+
+.sms-login-dark .sms-login-intro h1 span {
+  color: #5eead4;
+}
+
+.sms-login-intro > p {
+  max-width: 500px;
+  margin: 24px 0 0;
+  color: #5e7068;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.sms-login-dark .sms-login-intro > p {
+  color: #a9bec5;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.sms-login-features {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.sms-login-features > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sms-login-features > div > span {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(35, 65, 55, 0.14);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #0d766e;
+}
+
+.sms-login-dark .sms-login-features > div > span {
+  background: rgba(18, 32, 42, 0.8);
+  border-color: rgba(120, 160, 170, 0.16);
+  color: #5eead4;
+}
+
+.sms-login-features strong {
+  display: block;
+  color: #25332d;
+  font-size: 13px;
+}
+
+.sms-login-dark .sms-login-features strong {
+  color: #e5eef1;
+}
+
+.sms-login-features small {
+  display: block;
+  margin-top: 2px;
+  color: #77877f;
+  font-size: 12px;
+}
+
+.sms-login-dark .sms-login-features small {
+  color: #89a0a8;
+}
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.sms-login-wrapper {
+  width: 100%;
+}
+
+.sms-login-card {
+  width: 100%;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(35, 65, 55, 0.14);
+  border-radius: 24px;
+  box-shadow: 0 25px 70px rgba(35, 60, 50, 0.13);
+  backdrop-filter: blur(18px);
+}
+
+.sms-login-dark .sms-login-card {
+  background: linear-gradient(
+    145deg,
+    rgba(18, 32, 42, 0.94),
+    rgba(12, 25, 34, 0.96)
+  );
+  border-color: rgba(120, 160, 170, 0.16);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+}
+
+.sms-login-card-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 26px;
+}
+
+.sms-login-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: #0d9488;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(13, 148, 136, 0.2);
+}
+
+.sms-login-dark .sms-login-icon {
+  background: linear-gradient(135deg, #0f766e, #0d9488);
+}
+
+.sms-login-card-header h2 {
+  margin: 0;
+  color: #17211c;
+  font-size: 22px;
+}
+
+.sms-login-dark .sms-login-card-header h2 {
+  color: #f1f7f8;
+}
+
+.sms-login-card-header p {
+  margin: 4px 0 0;
+  color: #71827a;
+  font-size: 13px;
+}
+
+.sms-login-dark .sms-login-card-header p {
+  color: #a9bec5;
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.sms-login-alert {
+  display: flex;
+  gap: 9px;
+  padding: 12px 13px;
+  margin-bottom: 17px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.sms-login-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.18);
+  color: #946b1d;
+}
+
+.sms-login-error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  color: #b53b3b;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.sms-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sms-login-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: #34423c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sms-login-dark .sms-login-field label {
+  color: #c8d7dc;
+}
+
+.sms-login-input-wrap {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid rgba(35, 65, 55, 0.15);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.78);
+  transition: 0.2s;
+}
+
+.sms-login-dark .sms-login-input-wrap {
+  background: rgba(25, 42, 51, 0.72);
+  border-color: rgba(135, 175, 185, 0.22);
+}
+
+.sms-login-input-wrap:focus-within {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.sms-login-input-wrap > svg {
+  color: #82928a;
+}
+
+.sms-login-input-wrap input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent !important;
+  color: #17211c !important;
+  font-size: 13px;
+  box-shadow: none !important;
+}
+
+.sms-login-dark .sms-login-input-wrap input {
+  color: #f1f7f8 !important;
+}
+
+.sms-login-input-wrap input::placeholder {
+  color: #99a59f;
+}
+
+.sms-password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: #82928a;
+  cursor: pointer;
+}
+
+/* =========================
+   SUBMIT
+========================= */
+
+.sms-login-submit {
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #0f766e, #0d9488);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(13, 148, 136, 0.18);
+  transition: 0.2s;
+}
+
+.sms-login-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(13, 148, 136, 0.25);
+}
+
+.sms-login-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =========================
+   DEMO ACCOUNTS
+========================= */
+
+.sms-demo-section {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(35, 65, 55, 0.12);
+}
+
+.sms-login-dark .sms-demo-section {
+  border-color: rgba(120, 160, 170, 0.16);
+}
+
+.sms-demo-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+}
+
+.sms-demo-heading span {
+  height: 1px;
+  flex: 1;
+  background: rgba(35, 65, 55, 0.12);
+}
+
+.sms-login-dark .sms-demo-heading span {
+  background: rgba(120, 160, 170, 0.16);
+}
+
+.sms-demo-heading p {
+  margin: 0;
+  color: #7b8983;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.sms-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.sms-demo-card {
+  min-height: 58px;
+  border: 1px solid rgba(35, 65, 55, 0.12);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #53635b;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  transition: 0.2s;
+}
+
+.sms-login-dark .sms-demo-card {
+  background: rgba(25, 42, 51, 0.72);
+  border-color: rgba(120, 160, 170, 0.16);
+  color: #a9bec5;
+}
+
+.sms-demo-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+  color: #0d766e;
+}
+
+.sms-login-dark .sms-demo-card:hover {
+  background: rgba(39, 59, 68, 0.72);
+  color: #5eead4;
+}
+
+/* =========================
+   REGISTER
+========================= */
+
+.sms-login-register {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 23px;
+  font-size: 12px;
+  color: #77877f;
+}
+
+.sms-login-dark .sms-login-register {
+  color: #89a0a8;
+}
+
+.sms-login-register a {
+  color: #0d766e;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sms-login-dark .sms-login-register a {
+  color: #5eead4;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.sms-login-footer {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px 28px 25px;
+  display: flex;
+  justify-content: space-between;
+  color: #7d8984;
+  font-size: 10px;
+  border-top: 1px solid rgba(35, 65, 55, 0.12);
+}
+
+.sms-login-dark .sms-login-footer {
+  color: #718991;
+  border-color: rgba(120, 160, 170, 0.16);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .sms-login-main {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 650px;
+  }
+
+  .sms-login-intro {
+    text-align: center;
+    margin: auto;
+  }
+
+  .sms-login-intro-badge {
+    margin: auto;
+  }
+
+  .sms-login-features {
+    text-align: left;
+  }
+
+  .sms-house {
+    right: 10%;
+    transform: scale(0.8);
+  }
+
+  .sms-tree-three {
+    right: -10%;
+  }
+}
+
+@media (max-width: 600px) {
+  .sms-login-topbar {
+    padding: 18px;
+  }
+
+  .sms-login-main {
+    padding: 25px 18px 45px;
+  }
+
+  .sms-login-intro h1 {
+    font-size: 44px;
+  }
+
+  .sms-login-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .sms-demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-login-footer {
+    padding: 18px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sms-house {
+    right: -5%;
+    bottom: 10%;
+    opacity: 0.5;
+  }
+
+  .sms-tree-one {
+    left: -12%;
+  }
+
+  .sms-tree-two {
+    left: 10%;
+  }
+}
+
+/* =========================================================
+   SOCIETY COMMUNITY SCENE
+   Visual-only UI section
+   ========================================================= */
+
+.society-scene {
+  position: relative;
+  width: 100%;
+  height: 285px;
+  margin-top: 34px;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(19, 40, 52, 0.96) 0%,
+      rgba(18, 48, 52, 0.92) 55%,
+      rgba(12, 35, 37, 0.98) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 45px rgba(0, 0, 0, 0.18);
+}
+
+/* subtle moon / glow */
+
+.society-scene::before {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  right: 55px;
+  top: 28px;
+  border-radius: 50%;
+  background: rgba(112, 227, 216, 0.08);
+  filter: blur(1px);
+}
+
+/* =========================================================
+   DISTANT BUILDINGS
+   ========================================================= */
+
+.scene-buildings {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 108px;
+  height: 90px;
+  opacity: 0.65;
+}
+
+.building {
+  position: absolute;
+  bottom: 0;
+  background: rgba(48, 73, 77, 0.75);
+  border-radius: 4px 4px 0 0;
+  padding: 9px;
+}
+
+.building span {
+  display: inline-block;
+  width: 7px;
+  height: 9px;
+  margin: 4px;
+  border-radius: 1px;
+  background: rgba(115, 215, 205, 0.22);
+}
+
+.building-one {
+  width: 68px;
+  height: 65px;
+  left: 12%;
+}
+
+.building-two {
+  width: 85px;
+  height: 82px;
+  left: 35%;
+}
+
+.building-three {
+  width: 65px;
+  height: 57px;
+  right: 14%;
+}
+
+/* =========================================================
+   PARK
+   ========================================================= */
+
+.scene-park {
+  position: absolute;
+  left: 23%;
+  bottom: 82px;
+  width: 54%;
+  height: 115px;
+  border-radius: 50% 50% 12px 12px;
+  background: rgba(50, 103, 83, 0.42);
+}
+
+.scene-park::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 14px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(76, 145, 111, 0.18);
+}
+
+/* =========================================================
+   TREES
+   ========================================================= */
+
+.park-tree {
+  position: absolute;
+  bottom: 15px;
+  width: 45px;
+  height: 90px;
+}
+
+.tree-trunk {
+  position: absolute;
+  width: 8px;
+  height: 38px;
+  bottom: 0;
+  left: 18px;
+  border-radius: 5px;
+  background: #795548;
+}
+
+.tree-crown {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  left: 0;
+  top: 4px;
+  border-radius: 50%;
+  background: #4d8874;
+  box-shadow:
+    -15px 10px 0 -5px #447965,
+    14px 12px 0 -4px #568f79;
+}
+
+.tree-one {
+  left: 8%;
+  transform: scale(0.82);
+}
+
+.tree-two {
+  left: 47%;
+  transform: scale(1.05);
+}
+
+.tree-three {
+  right: 7%;
+  transform: scale(0.9);
+}
+
+/* =========================================================
+   PARK BENCH
+   ========================================================= */
+
+.park-bench {
+  position: absolute;
+  bottom: 23px;
+  left: 43%;
+  width: 55px;
+  height: 28px;
+}
+
+.park-bench::before,
+.park-bench::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 55px;
+  height: 5px;
+  border-radius: 4px;
+  background: #876f55;
+}
+
+.park-bench::before {
+  top: 4px;
+}
+
+.park-bench::after {
+  top: 14px;
+}
+
+.park-bench span {
+  position: absolute;
+  width: 4px;
+  height: 14px;
+  bottom: 0;
+  background: #604b3d;
+}
+
+.park-bench span:first-child {
+  left: 9px;
+}
+
+.park-bench span:last-child {
+  right: 9px;
+}
+
+/* =========================================================
+   HOUSES
+   ========================================================= */
+
+.scene-house {
+  position: absolute;
+  bottom: 86px;
+  width: 85px;
+  height: 70px;
+}
+
+.house-one {
+  left: 8%;
+}
+
+.house-two {
+  right: 9%;
+}
+
+.house-roof {
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 101px;
+  height: 35px;
+  background: #344c4c;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.house-body {
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+  width: 71px;
+  height: 47px;
+  background: #314447;
+  border-radius: 3px 3px 0 0;
+}
+
+.house-window {
+  position: absolute;
+  top: 12px;
+  width: 15px;
+  height: 13px;
+  border-radius: 2px;
+  background: #82d5ca;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08);
+}
+
+.house-window:first-child {
+  left: 10px;
+}
+
+.house-window:nth-child(2) {
+  right: 10px;
+}
+
+.house-door {
+  position: absolute;
+  bottom: 0;
+  left: 29px;
+  width: 16px;
+  height: 29px;
+  border-radius: 3px 3px 0 0;
+  background: #87684f;
+}
+
+/* =========================================================
+   ROAD
+   ========================================================= */
+
+.scene-road {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: -42px;
+  height: 108px;
+  border-radius: 50% 50% 0 0;
+  background: #182b30;
+  transform: perspective(200px) rotateX(8deg);
+}
+
+.road-line {
+  position: absolute;
+  top: 36px;
+  width: 45px;
+  height: 4px;
+  border-radius: 10px;
+  background: rgba(216, 197, 143, 0.7);
+}
+
+.line-one {
+  left: 25%;
+}
+
+.line-two {
+  left: 47%;
+}
+
+.line-three {
+  left: 69%;
+}
+
+/* =========================================================
+   SOCIETY GATE
+   ========================================================= */
+
+.society-gate {
+  position: absolute;
+  left: 50%;
+  bottom: 64px;
+  width: 105px;
+  height: 55px;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.gate-post {
+  position: absolute;
+  bottom: 0;
+  width: 7px;
+  height: 43px;
+  border-radius: 4px;
+  background: #a7cbb6;
+}
+
+.left-post {
+  left: 8px;
+}
+
+.right-post {
+  right: 8px;
+}
+
+.gate-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 105px;
+  height: 23px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c78f68;
+  box-shadow: 0 6px 15px rgba(199, 143, 104, 0.16);
+}
+
+.gate-bar span {
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+
+/* =========================================================
+   STREET LIGHTS
+   ========================================================= */
+
+.street-light {
+  position: absolute;
+  bottom: 74px;
+  width: 18px;
+  height: 65px;
+  z-index: 4;
+}
+
+.light-one {
+  left: 27%;
+}
+
+.light-two {
+  right: 25%;
+}
+
+.light-pole {
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+  width: 3px;
+  height: 53px;
+  border-radius: 4px;
+  background: #6f746e;
+}
+
+.lamp {
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  width: 11px;
+  height: 8px;
+  border-radius: 7px 7px 3px 3px;
+  background: #e5d69a;
+  box-shadow:
+    0 0 10px rgba(229, 214, 154, 0.45),
+    0 0 25px rgba(229, 214, 154, 0.14);
+}
+
+/* =========================================================
+   SMALL FLOATING ANIMATION
+   ========================================================= */
+
+.society-scene .park-tree {
+  animation: gentleTreeFloat 5s ease-in-out infinite;
+}
+
+.society-scene .tree-two {
+  animation-delay: 0.8s;
+}
+
+.society-scene .tree-three {
+  animation-delay: 1.5s;
+}
+
+@keyframes gentleTreeFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.9);
+  }
+
+  50% {
+    transform: translateY(-3px) scale(0.92);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .society-scene {
+    height: 250px;
+  }
+
+  .scene-house {
+    transform: scale(0.85);
+  }
+
+  .scene-park {
+    left: 18%;
+    width: 64%;
+  }
+
+  .society-gate {
+    transform: translateX(-50%) scale(0.9);
+  }
+}
+
+@media (max-width: 640px) {
+  .society-scene {
+    height: 220px;
+    margin-top: 24px;
+  }
+
+  .scene-buildings {
+    bottom: 85px;
+  }
+
+  .scene-house {
+    bottom: 70px;
+    transform: scale(0.7);
+  }
+
+  .scene-park {
+    bottom: 65px;
+    height: 95px;
+  }
+
+  .park-tree {
+    transform: scale(0.75);
+  }
+
+  .society-gate {
+    bottom: 54px;
+    transform: translateX(-50%) scale(0.75);
+  }
+
+  .street-light {
+    bottom: 58px;
+    transform: scale(0.75);
+  }
+
+  .scene-road {
+    bottom: -55px;
+  }
+}
+
+

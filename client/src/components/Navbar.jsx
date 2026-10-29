@@ -61,10 +61,13 @@ const Navbar = () => {
           { name: 'Dashboard', path: '/admin', icon: Home },
           { name: 'Complaints', path: '/admin/complaints', icon: AlertCircle },
           { name: 'Notices', path: '/admin/notices', icon: FileText },
+          { name: 'Bills', path: '/admin/bills', icon: CreditCard },
+          { name: 'Visitors', path: '/admin/visitors', icon: Users },
         ];
       case 'security':
         return [
           { name: 'Gate Checkpoint', path: '/security', icon: Shield },
+          { name: 'Visitor Desk', path: '/security/visitors', icon: Users },
         ];
       case 'resident':
       default:
@@ -72,6 +75,8 @@ const Navbar = () => {
           { name: 'Dashboard', path: '/resident', icon: Home },
           { name: 'Complaints', path: '/resident/complaints', icon: AlertCircle },
           { name: 'Notices', path: '/resident/notices', icon: FileText },
+          { name: 'My Bills', path: '/resident/bills', icon: CreditCard },
+          { name: 'Visitors', path: '/resident/visitors', icon: Users },
         ];
     }
   };

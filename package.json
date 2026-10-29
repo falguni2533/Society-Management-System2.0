@@ -1,0 +1,13 @@
+{
+  "name": "society-management-system-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Society Management System - MERN Stack",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed",
+    "test:auth": "cd server && node test-auth.js",
+    "test:phase2a": "cd server && node test-phase2a.js"
+  }
+}

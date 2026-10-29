@@ -1,0 +1,1104 @@
+/* =========================================================
+   SOCIETYSPHERE MAIN LAYOUT
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+.sms-app {
+  --sidebar-width: 228px;
+
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   LIGHT THEME
+   ========================================================= */
+
+.sms-app.sms-light {
+  --app-bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --border: #dbe3ee;
+  --text: #172033;
+  --text-soft: #64748b;
+  --text-muted: #94a3b8;
+
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e1e8f0;
+
+  --blue: #2563eb;
+  --blue-soft: #eff6ff;
+
+  background: var(--app-bg);
+  color: var(--text);
+}
+
+
+/* =========================================================
+   DARK THEME
+   ========================================================= */
+
+.sms-app.sms-dark {
+  --app-bg: #070b11;
+  --surface: #0c1521;
+  --surface-soft: #101b29;
+  --border: #26364a;
+  --text: #f8fafc;
+  --text-soft: #9aaabd;
+  --text-muted: #718096;
+
+  --sidebar-bg: #080c12;
+  --sidebar-border: #202b3a;
+
+  --blue: #3b82f6;
+  --blue-soft: #101f3d;
+
+  background: var(--app-bg);
+  color: var(--text);
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sms-sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: var(--sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--sidebar-bg);
+
+  border-right: 1px solid var(--sidebar-border);
+
+  z-index: 1000;
+
+  transition:
+    width 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.sms-sidebar-closed {
+  width: 0;
+
+  border-right: none;
+
+  transform: translateX(-100%);
+}
+
+
+.sms-sidebar-open {
+  transform: translateX(0);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.sms-brand {
+  min-height: 88px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 15px 14px;
+
+  border-bottom: 1px solid
+    var(--sidebar-border);
+}
+
+
+.sms-brand-mark {
+  width: 39px;
+  height: 39px;
+
+  flex: 0 0 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  color: white;
+
+  box-shadow:
+    0 8px 20px
+      rgba(37, 99, 235, 0.2);
+}
+
+
+.sms-brand-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sms-brand-name {
+  color: var(--text);
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  line-height: 1.2;
+}
+
+
+.sms-brand-subtitle {
+  margin-top: 3px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+
+  line-height: 1.4;
+}
+
+
+.sms-mobile-close {
+  width: 32px;
+  height: 32px;
+
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 32px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: var(--text-soft);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.sms-mobile-close:hover {
+  background: var(--blue-soft);
+
+  color: var(--blue);
+}
+
+
+/* =========================================================
+   SOCIETY CARD
+   ========================================================= */
+
+.sms-society-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 15px 13px;
+
+  padding: 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  background: var(--surface-soft);
+}
+
+
+.sms-society-icon {
+  width: 32px;
+  height: 32px;
+
+  flex: 0 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: var(--blue-soft);
+
+  color: var(--blue);
+}
+
+
+.sms-society-card > div:nth-child(2) {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sms-society-label {
+  margin-bottom: 4px;
+
+  color: var(--text-muted);
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+.sms-society-card strong {
+  overflow: hidden;
+
+  color: var(--text);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.sms-society-card small {
+  margin-top: 3px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+}
+
+
+.sms-online-dot {
+  width: 7px;
+  height: 7px;
+
+  margin-left: auto;
+
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+
+  background: #10b981;
+
+  box-shadow:
+    0 0 0 3px
+      rgba(16, 185, 129, 0.12);
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.sms-navigation {
+  padding: 0 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.sms-nav-section {
+  padding: 12px 8px 6px;
+
+  color: var(--text-muted);
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+
+  text-transform: uppercase;
+}
+
+
+.sms-nav-link {
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 9px;
+
+  border: 1px solid transparent;
+
+  border-radius: 9px;
+
+  color: var(--text-soft);
+
+  text-decoration: none;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.sms-nav-link:hover {
+  background: var(--blue-soft);
+
+  border-color:
+    rgba(59, 130, 246, 0.16);
+
+  color: var(--blue);
+
+  transform: translateX(2px);
+}
+
+
+.sms-nav-active {
+  background: var(--blue-soft);
+
+  border-color: var(--blue);
+
+  color: var(--blue);
+
+  box-shadow:
+    inset 3px 0 0 var(--blue);
+}
+
+
+.sms-nav-icon {
+  width: 23px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 23px;
+}
+
+
+.sms-nav-name {
+  flex: 1;
+}
+
+
+.sms-nav-arrow {
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+   ========================================================= */
+
+.sms-sidebar-bottom {
+  margin-top: auto;
+
+  padding: 13px;
+
+  border-top: 1px solid
+    var(--sidebar-border);
+}
+
+
+.sms-secondary-link {
+  width: 100%;
+
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 8px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: var(--text-soft);
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.sms-secondary-link:hover {
+  background: var(--blue-soft);
+
+  color: var(--blue);
+}
+
+
+.sms-secondary-icon {
+  width: 23px;
+
+  display: flex;
+  justify-content: center;
+}
+
+
+.sms-sidebar-divider {
+  height: 1px;
+
+  margin: 10px 4px;
+
+  background: var(--border);
+}
+
+
+.sms-user-card {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 6px 5px 10px;
+}
+
+
+.sms-user-avatar {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+
+.sms-user-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sms-user-info strong {
+  overflow: hidden;
+
+  color: var(--text);
+
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.sms-user-info span {
+  margin-top: 2px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+}
+
+
+.sms-logout-button {
+  width: 100%;
+
+  min-height: 36px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 5px;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--text-soft);
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+
+.sms-logout-button:hover {
+  color: #ef4444;
+}
+
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.sms-main {
+  min-width: 0;
+
+  min-height: 100vh;
+
+  width: 100%;
+
+  margin-left: 0;
+
+  transition:
+    margin-left 0.25s ease,
+    width 0.25s ease;
+}
+
+
+.sms-sidebar-visible .sms-main {
+  margin-left: var(--sidebar-width);
+
+  width: calc(
+    100% - var(--sidebar-width)
+  );
+}
+
+
+.sms-sidebar-hidden .sms-main {
+  margin-left: 0;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.sms-topbar {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 0 18px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: var(--surface);
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+
+.sms-topbar-left {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.sms-menu-button {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--surface-soft);
+
+  color: var(--text-soft);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.sms-menu-button:hover {
+  background: var(--blue-soft);
+
+  border-color: var(--blue);
+
+  color: var(--blue);
+}
+
+
+.sms-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+}
+
+
+.sms-breadcrumb strong {
+  color: var(--text);
+
+  font-weight: 700;
+}
+
+
+.sms-topbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.sms-icon-button {
+  position: relative;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--surface-soft);
+
+  color: var(--text-soft);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.sms-icon-button:hover {
+  background: var(--blue-soft);
+
+  border-color: var(--blue);
+
+  color: var(--blue);
+}
+
+
+.sms-notification-dot {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #ef4444;
+}
+
+
+.sms-top-user {
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 3px 8px 3px 4px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--surface-soft);
+}
+
+
+.sms-top-avatar {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+
+.sms-top-user-info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.sms-top-user-info strong {
+  color: var(--text);
+
+  font-size: 10px;
+}
+
+
+.sms-top-user-info span {
+  margin-top: 2px;
+
+  color: var(--text-muted);
+
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.sms-content {
+  min-height: calc(100vh - 64px);
+
+  background: var(--app-bg);
+
+  transition:
+    background 0.25s ease;
+}
+
+
+.sms-content-inner {
+  width: 100%;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 26px 30px 45px;
+}
+
+
+.sms-page-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+
+.sms-eyebrow {
+  color: var(--blue);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+
+.sms-page-heading h1 {
+  margin: 5px 0 0;
+
+  color: var(--text);
+
+  font-size: 30px;
+
+  line-height: 1.2;
+
+  font-weight: 750;
+
+  letter-spacing: -0.6px;
+}
+
+
+.sms-page-heading p {
+  margin: 6px 0 0;
+
+  color: var(--text-soft);
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.sms-heading-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 8px 11px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 999px;
+
+  background: var(--surface);
+
+  color: var(--text-soft);
+
+  font-size: 10px;
+
+  white-space: nowrap;
+}
+
+
+.sms-status-pulse {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #10b981;
+
+  box-shadow:
+    0 0 0 4px
+      rgba(16, 185, 129, 0.1);
+}
+
+
+.sms-page-content {
+  width: 100%;
+}
+
+
+/* =========================================================
+   MOBILE OVERLAY
+   ========================================================= */
+
+.sms-sidebar-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  z-index: 999;
+
+  backdrop-filter: blur(2px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .sms-sidebar {
+    width: 250px;
+
+    transform: translateX(-100%);
+  }
+
+
+  .sms-sidebar-open {
+    transform: translateX(0);
+  }
+
+
+  .sms-sidebar-closed {
+    width: 250px;
+
+    transform: translateX(-100%);
+  }
+
+
+  .sms-main,
+  .sms-sidebar-visible .sms-main,
+  .sms-sidebar-hidden .sms-main {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+
+  .sms-content-inner {
+    padding: 24px 20px 40px;
+  }
+
+
+  .sms-mobile-close {
+    display: flex;
+  }
+
+}
+
+
+@media (min-width: 901px) {
+
+  .sms-sidebar-overlay {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .sms-top-user-info {
+    display: none;
+  }
+
+
+  .sms-top-user {
+    padding-right: 4px;
+  }
+
+
+  .sms-page-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .sms-heading-status {
+    align-self: flex-start;
+  }
+
+
+  .sms-page-heading h1 {
+    font-size: 26px;
+  }
+
+
+  .sms-content-inner {
+    padding: 20px 14px 35px;
+  }
+
+}
+
+
+@media (max-width: 430px) {
+
+  .sms-topbar {
+    padding: 0 10px;
+  }
+
+
+  .sms-breadcrumb {
+    font-size: 10px;
+  }
+
+}
+

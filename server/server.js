@@ -9,7 +9,9 @@ const errorHandler = require('./middleware/errorMiddleware');
 dotenv.config();
 
 // Connect to MongoDB
-connectDB();
+if (process.env.NODE_ENV !== 'test') {
+  connectDB();
+}
 
 const app = express();
 
@@ -57,6 +59,8 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/complaints', require('./routes/complaintRoutes'));
 app.use('/api/notices', require('./routes/noticeRoutes'));
+app.use('/api/bills', require('./routes/billRoutes'));
+app.use('/api/visitors', require('./routes/visitorRoutes'));
 
 // 404 Route Handler
 app.use('*', (req, res) => {

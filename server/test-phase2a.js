@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 const http = require('http');
 const app = require('./server');
 
@@ -43,6 +44,8 @@ const makeRequest = (path, method = 'GET', body = null, token = null) => {
   });
 };
 
+const { setupTestDatabase, teardownTestDatabase } = require('./test-helper');
+
 async function runPhase2ATests(serverInstance) {
   console.log('🧪 Starting Phase 2A (Complaints & Notices) Automated Verification Tests...\n');
   let passed = 0;
@@ -59,6 +62,7 @@ async function runPhase2ATests(serverInstance) {
   }
 
   try {
+    await setupTestDatabase();
     // 1. Authenticate Admin and Residents
     const adminLogin = await makeRequest('/auth/login', 'POST', {
       email: 'admin@society.com',
@@ -276,6 +280,7 @@ async function runPhase2ATests(serverInstance) {
 
     console.log(`\n📊 Phase 2A Test Summary: ${passed} Passed, ${failed} Failed\n`);
     serverInstance.close();
+    await teardownTestDatabase();
     if (failed === 0) {
       console.log('🎉 ALL PHASE 2A COMPLAINTS & NOTICES TESTS PASSED SUCCESSFULLY!');
       process.exit(0);
@@ -285,6 +290,7 @@ async function runPhase2ATests(serverInstance) {
   } catch (error) {
     console.error('❌ Test execution error:', error);
     serverInstance.close();
+    await teardownTestDatabase();
     process.exit(1);
   }
 }
